@@ -11,6 +11,8 @@ import {
     StatusBar, ImageBackground, ActivityIndicator, TouchableOpacity,
     FlatList,
 } from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const Quotes = () => {
 
@@ -42,34 +44,54 @@ const Quotes = () => {
                     {key: 'Php'}, {key: 'Hadoop'}, {key: 'Sap'},
                     {key: 'Python'}, {key: 'Ajax'}, {key: 'C++'},
                     {key: 'Ruby'}, {key: 'Rails'}, {key: '.Net'},
-                    {key: 'Perl'}, {key: 'Sap'}, {key: 'Python'},
-                    {key: 'Ajax'}, {key: 'C++'}, {key: 'Ruby'},
-                    {key: 'Rails'}, {key: '.Net'}, {key: 'Perl'},
+                    {key: 'Perl'},
                 ]}
                 renderItem={({item}) =>(
                     <View style={{flex: 1, flexDirection: 'row', backgroundColor: '#0b1224',justifyContent: 'center',
                         alignItems: 'stretch',padding:5}}>
-                        <View style={{flexDirection: 'column',flex:1,paddingLeft:10,paddingRight:5,justifyContent:'center'}}>
+                        <View style={{flexDirection: 'column',flex:0.5,justifyContent: 'center',
+                            alignItems: 'center'}}>
                             {/*<Text style={{color: 'white'}}>{item.key}</Text>*/}
                             <Text style={{color: 'white',fontWeight:'bold',fontSize:16}}>AUCO45</Text>
                             <Text style={{color: 'white',fontSize:12}}>Spread 3</Text>
                             <Text style={{color: 'white',fontSize:12}}>18:53:30</Text>
                         </View>
-                        <View style={{flexDirection: 'row',flex:1,paddingRight:2,paddingLeft:2,justifyContent:'center'}}>
-                            <View style={{flexDirection: 'column',paddingLeft:5,paddingRight:5,justifyContent:'center'}}>
-                                <Text style={{color: 'red',fontSize:20}}>1.08049</Text>
-                                <Text style={{color: 'red',fontSize:12}}>1.08026</Text>
+                        <View style={{flexDirection: 'row',flex:1.3,justifyContent: 'center',
+                            alignItems: 'center'}}>
+                            <View style={{flexDirection: 'column',justifyContent:'center'}}>
+                                <View style={{flexDirection: 'row', alignItems: 'flex-start'}}>
+                                    <Text style={{fontSize: 20, lineHeight: 30,color:'red'}}>1.08</Text>
+                                    <Text style={{fontSize: 25, lineHeight: 30,color:'red'}}>04</Text>
+                                    <Text style={{fontSize: 11, lineHeight: 18,color:'red'}}>9</Text>
+                                </View>
+                                <View style={{flexDirection:'row'}}>
+                                    <Entypo
+                                        name="arrow-long-down" size={15}
+                                        color="red"/>
+                                    <Text style={{color: 'red',fontSize:12}}>1.08026</Text>
+                                </View>
+
                             </View>
                             <View style={{flexDirection: 'column',paddingLeft:5,paddingRight:5,justifyContent:'center'}}>
-                                <Text style={{color: 'red',fontSize:20}}>1.08049</Text>
-                                <Text style={{color: 'green',fontSize:12}}>1.08026</Text>
+                                <View style={{flexDirection: 'row', alignItems: 'flex-start'}}>
+                                    <Text style={{fontSize: 20, lineHeight: 30,color:'red'}}>1.08</Text>
+                                    <Text style={{fontSize: 25, lineHeight: 30,color:'red'}}>05</Text>
+                                    <Text style={{fontSize: 11, lineHeight: 18,color:'red'}}>2</Text>
+                                </View>
+                                <View style={{flexDirection:'row'}}>
+                                    <Entypo
+                                        name="arrow-long-up" size={15}
+                                        color="green"/>
+                                    <Text style={{color: 'green',fontSize:12}}>1.08026</Text>
+                                </View>
                             </View>
                         </View>
-                        <View style={{flexDirection:'row',flex:3,justifyContent:'center'}}>
-                            <View style={{width:120,height:80,backgroundColor:'#192535',borderRadius:10,margin:2}}>
+                        <View style={{flexDirection:'row',flex:2,justifyContent: 'center',
+                            alignItems: 'center'}}>
+                            <View style={{width:'40%',height:80,backgroundColor:'#192535',borderRadius:10,margin:2}}>
                                 <Text style={{color: 'white',paddingLeft:8,paddingTop:8}}>Price</Text>
                             </View>
-                            <View style={{width:170,height:80,backgroundColor:'#192535',borderRadius:10,margin:2}}>
+                            <View style={{width:'55%',height:80,backgroundColor:'#192535',borderRadius:10,margin:2}}>
                                 <Text style={{color: 'white',paddingLeft:8,paddingTop:8}}>Remarks</Text>
                             </View>
                         </View>
