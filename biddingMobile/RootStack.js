@@ -3,6 +3,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import Login from './src/screens/Login';
 // import Home from './src/screens/Home';
 import SwiperComponent from './src/screens/SwiperComponent';
+import Quotes from './src/screens/Quotes';
 
 const StackNavigator = createStackNavigator({
 

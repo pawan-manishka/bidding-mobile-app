@@ -5,7 +5,7 @@ import {
     Dimensions,
     StyleSheet,
     Image,
-    TouchableOpacity,
+    TouchableOpacity, StatusBar,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import * as Animatable from 'react-native-animatable';
@@ -44,6 +44,7 @@ export default class SwiperComponent extends React.Component {
 
 
                 <View style={styles.slide}>
+                    <StatusBar backgroundColor="#1a2435" barStyle="light-content"/>
                     <View style={styles.header}>
                         <Image
                             source={require('../asset/SmartAuction.png')}

@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image,
+import {
+    View, Text, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar,
 } from 'react-native';
 export default class Login extends React.Component {
     render() {
         return (
             <View style={styles.container} >
-
+                <StatusBar backgroundColor="#1a2435" barStyle="light-content"/>
                 <TouchableOpacity onPress={() =>
                     this.props.navigation.navigate('SwiperComponent')
                 } style={styles.login1}>
