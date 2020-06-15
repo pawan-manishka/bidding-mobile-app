@@ -116,7 +116,7 @@
 
 
 import React from 'react';
-import RootStack from './RootStack';
+import RootStack from './src/navigation/RootStack';
 export default class App extends React.Component {
     render() {
         return <RootStack/>;

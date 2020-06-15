@@ -122,7 +122,7 @@ export default class SwiperComponent extends React.Component {
                                     useNativeDriver>
                                     <TouchableOpacity
                                         onPress={() =>
-                                            this.props.navigation.navigate('LoginScreen')
+                                            this.props.navigation.navigate('QuotesScreen')
                                         }
                                         style={[
                                             styles.button,

@@ -8,7 +8,8 @@ import {
     TouchableHighlight,
     Image,
     Alert,
-    StatusBar, ImageBackground, ActivityIndicator, TouchableOpacity
+    StatusBar, ImageBackground, ActivityIndicator, TouchableOpacity,
+    FlatList,
 } from 'react-native';
 
 const Quotes = () => {
@@ -17,17 +18,70 @@ const Quotes = () => {
     const [UserName, setUserName] = useState('testextra2');
     const [Password, setPassword] = useState('test123');
     const [Progressbar, setProgressbar] = useState(false);
-    const [Errormessage,setErrorMessage] = useState('');
+    const [Errormessage, setErrorMessage] = useState('');
+
+
+    function renderSeparator() {
+        return (
+            <View
+                style={{
+                    height: 1,
+                    width: '100%',
+                    backgroundColor: 'black',
+                }}
+            />
+        );
+    };
 
 
     return (
-        <View style={styles.container}>
-            <StatusBar backgroundColor="#1a2435" barStyle="light-content"/>
+        <View style={{width:'100%'}}>
+            <FlatList
+                data={[
+                    {key: 'Android'}, {key: 'iOS'}, {key: 'Java'}, {key: 'Swift'},
+                    {key: 'Php'}, {key: 'Hadoop'}, {key: 'Sap'},
+                    {key: 'Python'}, {key: 'Ajax'}, {key: 'C++'},
+                    {key: 'Ruby'}, {key: 'Rails'}, {key: '.Net'},
+                    {key: 'Perl'}, {key: 'Sap'}, {key: 'Python'},
+                    {key: 'Ajax'}, {key: 'C++'}, {key: 'Ruby'},
+                    {key: 'Rails'}, {key: '.Net'}, {key: 'Perl'},
+                ]}
+                renderItem={({item}) =>(
+                    <View style={{flex: 1, flexDirection: 'row', backgroundColor: '#0b1224',justifyContent: 'center',
+                        alignItems: 'stretch',padding:5}}>
+                        <View style={{flexDirection: 'column',flex:1,paddingLeft:10,paddingRight:5,justifyContent:'center'}}>
+                            {/*<Text style={{color: 'white'}}>{item.key}</Text>*/}
+                            <Text style={{color: 'white',fontWeight:'bold',fontSize:16}}>AUCO45</Text>
+                            <Text style={{color: 'white',fontSize:12}}>Spread 3</Text>
+                            <Text style={{color: 'white',fontSize:12}}>18:53:30</Text>
+                        </View>
+                        <View style={{flexDirection: 'row',flex:1,paddingRight:2,paddingLeft:2,justifyContent:'center'}}>
+                            <View style={{flexDirection: 'column',paddingLeft:5,paddingRight:5,justifyContent:'center'}}>
+                                <Text style={{color: 'red',fontSize:20}}>1.08049</Text>
+                                <Text style={{color: 'red',fontSize:12}}>1.08026</Text>
+                            </View>
+                            <View style={{flexDirection: 'column',paddingLeft:5,paddingRight:5,justifyContent:'center'}}>
+                                <Text style={{color: 'red',fontSize:20}}>1.08049</Text>
+                                <Text style={{color: 'green',fontSize:12}}>1.08026</Text>
+                            </View>
+                        </View>
+                        <View style={{flexDirection:'row',flex:3,justifyContent:'center'}}>
+                            <View style={{width:120,height:80,backgroundColor:'#192535',borderRadius:10,margin:2}}>
+                                <Text style={{color: 'white',paddingLeft:8,paddingTop:8}}>Price</Text>
+                            </View>
+                            <View style={{width:170,height:80,backgroundColor:'#192535',borderRadius:10,margin:2}}>
+                                <Text style={{color: 'white',paddingLeft:8,paddingTop:8}}>Remarks</Text>
+                            </View>
+                        </View>
 
+                    </View>
+                    )}
+                ItemSeparatorComponent={renderSeparator}
+            />
         </View>
     );
 
-}
+};
 
 const styles = StyleSheet.create({
     progress: {
@@ -40,15 +94,16 @@ const styles = StyleSheet.create({
         top: 0,
         bottom: 0,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     }
     ,
     container: {
         flex: 1,
+        width:'100%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#524fe3',
-        flexDirection: 'column'
+        backgroundColor: 'white',
+        flexDirection: 'column',
     },
     container1: {
         flex: 1,
@@ -64,20 +119,20 @@ const styles = StyleSheet.create({
         height: 50,
         marginBottom: 20,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     inputs: {
         height: 57,
         marginLeft: '10%',
         borderColor: '#a3addf',
         flex: 1,
-        color: 'white'
+        color: 'white',
     },
     inputIcon: {
         width: 30,
         height: 30,
         marginLeft: 15,
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     buttonContainer: {
         height: 45,
@@ -91,7 +146,7 @@ const styles = StyleSheet.create({
     loginButton: {
         width: 160,
         height: 50,
-        backgroundColor: "#f1f3f4",
+        backgroundColor: '#f1f3f4',
     },
     loginText: {
         fontSize: 16,
@@ -107,13 +162,13 @@ const styles = StyleSheet.create({
         width: 210,
         height: 110,
         marginTop: '14%',
-        marginBottom: '1%'
+        marginBottom: '1%',
     },
     linearGradient: {
         flex: 1,
         paddingLeft: 15,
         paddingRight: 15,
-        borderRadius: 5
+        borderRadius: 5,
     },
 });
 
