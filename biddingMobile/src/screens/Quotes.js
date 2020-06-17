@@ -1,4 +1,4 @@
-import React, {useContext, useState,useRef} from 'react';
+import React, {useContext, useState, useRef} from 'react';
 //import {Context as AuthContext} from "../context/AuthContext";
 import {
     StyleSheet,
@@ -16,13 +16,9 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Main from '../navigation/RootStack';
 import SignatureCapture from 'react-native-signature-capture';
+import RNTesseractOcr from 'react-native-tesseract-ocr';
 
 const Quotes = () => {
-
-    //const {state, signIn} = useContext(AuthContext);
-    //let signComponent= null;
-    let signComponent = React.createRef();
-
 
     function renderSeparator() {
         return (
@@ -36,23 +32,88 @@ const Quotes = () => {
         );
     };
 
-    function resetSign() {
-        //console.log("function call: "+signComponent.current.resetImage())
-        signComponent.current.resetImage();
+    const data = [
+        {key: 'Android'}, {key: 'iOS'}, {key: 'Java'}, {key: 'Swift'},
+        {key: 'Php'}, {key: 'Hadoop'}, {key: 'Sap'},
+        {key: 'Python'}, {key: 'Ajax'}, {key: 'C++'},
+        {key: 'Ruby'}, {key: 'Rails'}, {key: '.Net'},
+        {key: 'Perl'},
+    ];
+
+    const arrLength = data.length;
+    const [priceRefs, setpriceRefs] = React.useState([]);
+    const [remarkRefs, setremarkRefs] = React.useState([]);
+
+    // const [showtext, setshowtext] = React.useState(true);
+
+    const tessOptions = {
+        whitelist: '^[0-9]+$',
+        blacklist: '\'!"#$%&/()={}[]+*-_:;<>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+    };
+
+    React.useEffect(() => {
+        // add or remove refs
+        setpriceRefs(priceRefs => (
+            Array(arrLength).fill().map((_, i) => priceRefs[i] || React.createRef())
+        ));
+    }, [arrLength]);
+
+    React.useEffect(() => {
+        // add or remove refs
+        setremarkRefs(remarkRefs => (
+            Array(arrLength).fill().map((_, i) => remarkRefs[i] || React.createRef())
+        ));
+    }, [arrLength]);
+
+    function resetPrice(index) {
+        //console.log("function call: "+priceRefs[index].current)
+        priceRefs[index].current.resetImage();
+    }
+
+    function resetRemarks(index) {
+        remarkRefs[index].current.resetImage();
+    }
+
+    function savePrice(index) {
+        priceRefs[index].current.saveImage();
+    }
+
+    function saveRemarks(index) {
+        remarkRefs[index].current.saveImage();
+    }
+
+    function onSavePrice(result) {
+        //result.encoded - for the base64 encoded png
+        //result.pathName - for the file path name
+        console.log(result.pathName);
+        RNTesseractOcr.recognize(result.pathName, 'LANG_ENGLISH', tessOptions)
+            .then((result) => {
+                //this.setState({ ocrResult: result });
+                //this.setState({text: result})
+                alert(result);
+                console.log('OCR Result: ', result);
+            })
+            .catch((err) => {
+                console.log('OCR Error: ', err);
+            })
+            .done();
+
+    }
+
+    function onDraggedPrice(index) {
+        console.log('price dragged on index: ' + index);
+    }
+
+    function onDraggedRemarks(index) {
+        console.log('remarks dragged on index: ' + index);
     }
 
 
     return (
         <View style={{width: '100%'}}>
             <FlatList
-                data={[
-                    {key: 'Android'}, {key: 'iOS'}, {key: 'Java'}, {key: 'Swift'},
-                    {key: 'Php'}, {key: 'Hadoop'}, {key: 'Sap'},
-                    {key: 'Python'}, {key: 'Ajax'}, {key: 'C++'},
-                    {key: 'Ruby'}, {key: 'Rails'}, {key: '.Net'},
-                    {key: 'Perl'},
-                ]}
-                renderItem={({item}) => (
+                data={data}
+                renderItem={({item, index}) => (
                     <View style={{
                         flex: 1, flexDirection: 'row', backgroundColor: '#0b1224', justifyContent: 'center',
                         alignItems: 'stretch', padding: 5,
@@ -109,90 +170,106 @@ const Quotes = () => {
                         }}>
                             <View style={{
                                 width: '40%',
-                                height: 80,
+                                height: 85,
                                 backgroundColor: '#192535',
                                 borderRadius: 10,
                                 margin: 2,
                             }}>
                                 <Text style={{color: 'white', paddingLeft: 8, paddingTop: 2}}>Price</Text>
-                                <SignatureCapture
-                                    style={{height: 35,marginLeft: 5,marginRight: 5,}}
-                                    ref={signComponent}
-                                    // onSaveEvent={this._onSaveEvent}
-                                    // onDragEvent={this._onDragEvent}
-                                    saveImageFileInExtStorage={true}
-                                    showNativeButtons={false}
-                                    showTitleLabel={false}
-                                    viewMode={"portrait"}
-                                    backgroundColor={'#192535'}
-                                    strokeColor="white"
-                                    maxStrokeWidth={0.1}
-                                />
-                                <View style={{
-                                    flexDirection: 'row',
-                                    justifyContent:'flex-end',
-                                    marginTop:2
-                                }}>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.button,
-                                            {
-                                                borderColor: 'green',
-                                                borderWidth: 1,
-                                                borderRadius: 50,
-                                                width: 20,
-                                                height: 20,
-                                                marginLeft: 5,
-                                                marginRight: 5
-                                            },
-                                        ]}>
-                                        <MaterialIcons name='done' size={18}
-                                                       color="green"/>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        onPress={() => { resetSign() } }
-                                        style={[
-                                            styles.button,
-                                            {
-                                                borderColor: 'red',
-                                                borderWidth: 1,
-                                                borderRadius: 50,
-                                                width: 20,
-                                                height: 20,
-                                                marginLeft: 5,
-                                                marginRight: 5
-                                            },
-                                        ]}>
-                                        <MaterialIcons name='clear' size={18}
-                                                       color="red"/>
-                                    </TouchableOpacity>
-                                </View>
+                                {/*{showtext ?*/}
+                                {/*    <View>*/}
+                                        <SignatureCapture
+                                            style={{height: 40, marginLeft: 5, marginRight: 5}}
+                                            ref={priceRefs[index]}
+                                            onSaveEvent={onSavePrice}
+                                            onDragEvent={() => onDraggedPrice(index)}
+                                            saveImageFileInExtStorage={true}
+                                            showNativeButtons={false}
+                                            showTitleLabel={false}
+                                            viewMode={'portrait'}
+                                            backgroundColor={'#192535'}
+                                            strokeColor="white"
+                                            maxStrokeWidth={1}
+                                        />
+
+                                        <View style={{
+                                            flexDirection: 'row',
+                                            justifyContent: 'flex-end',
+                                            marginTop: 2,
+                                        }}>
+                                            <TouchableOpacity
+                                                onPress={() => {
+                                                    savePrice(index);
+                                                }}
+                                                style={[
+                                                    styles.button,
+                                                    {
+                                                        borderColor: 'green',
+                                                        borderWidth: 1,
+                                                        borderRadius: 50,
+                                                        width: 20,
+                                                        height: 20,
+                                                        marginLeft: 5,
+                                                        marginRight: 5,
+                                                    },
+                                                ]}>
+                                                <MaterialIcons name='done' size={18}
+                                                               color="green"/>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity
+                                                onPress={() => {
+                                                    resetPrice(index);
+                                                }}
+                                                style={[
+                                                    styles.button,
+                                                    {
+                                                        borderColor: 'red',
+                                                        borderWidth: 1,
+                                                        borderRadius: 50,
+                                                        width: 20,
+                                                        height: 20,
+                                                        marginLeft: 5,
+                                                        marginRight: 5,
+                                                    },
+                                                ]}>
+                                                <MaterialIcons name='clear' size={18}
+                                                               color="red"/>
+                                            </TouchableOpacity>
+                                        </View>
+                                    {/*</View>*/}
+                                    {/*: <Text style={{*/}
+                                    {/*    color: 'white',*/}
+                                    {/*}}>100</Text>*/}
+                                {/*}*/}
                             </View>
                             <View style={{
                                 width: '55%',
-                                height: 80,
+                                height: 85,
                                 backgroundColor: '#192535',
                                 borderRadius: 10,
                                 margin: 2,
                             }}>
                                 <Text style={{color: 'white', paddingLeft: 8, paddingTop: 2}}>Remarks</Text>
                                 <SignatureCapture
-                                    style={{height: 35,marginLeft: 5,marginRight: 5,}}
-                                    //ref={signComponent}
+                                    style={{height: 40, marginLeft: 5, marginRight: 5}}
+                                    ref={remarkRefs[index]}
                                     // onSaveEvent={this._onSaveEvent}
-                                    // onDragEvent={this._onDragEvent}
+                                    onDragEvent={() => onDraggedRemarks(index)}
                                     saveImageFileInExtStorage={true}
                                     showNativeButtons={false}
                                     showTitleLabel={false}
-                                    viewMode={"portrait"}
+                                    viewMode={'portrait'}
                                     backgroundColor={'#192535'}
                                     strokeColor="white"
                                     maxStrokeWidth={0.1}
                                 />
                                 <View style={{
-                                    flexDirection: 'row',justifyContent:'flex-end',marginTop:2
+                                    flexDirection: 'row', justifyContent: 'flex-end', marginTop: 2,
                                 }}>
                                     <TouchableOpacity
+                                        onPress={() => {
+                                            saveRemarks(index);
+                                        }}
                                         style={[
                                             styles.button,
                                             {
@@ -202,13 +279,16 @@ const Quotes = () => {
                                                 width: 20,
                                                 height: 20,
                                                 marginLeft: 5,
-                                                marginRight: 5
+                                                marginRight: 5,
                                             },
                                         ]}>
                                         <MaterialIcons name='done' size={18}
                                                        color="green"/>
                                     </TouchableOpacity>
                                     <TouchableOpacity
+                                        onPress={() => {
+                                            resetRemarks(index);
+                                        }}
                                         style={[
                                             styles.button,
                                             {
@@ -218,7 +298,7 @@ const Quotes = () => {
                                                 width: 20,
                                                 height: 20,
                                                 marginLeft: 5,
-                                                marginRight: 5
+                                                marginRight: 5,
                                             },
                                         ]}>
                                         <MaterialIcons name='clear' size={18}
