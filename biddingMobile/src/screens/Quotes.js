@@ -1,4 +1,4 @@
-import React, {useContext, useState, useRef} from 'react';
+import React, {useContext, useState, useRef, useReducer} from 'react';
 //import {Context as AuthContext} from "../context/AuthContext";
 import {
     StyleSheet,
@@ -17,6 +17,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Main from '../navigation/RootStack';
 import SignatureCapture from 'react-native-signature-capture';
 import RNTesseractOcr from 'react-native-tesseract-ocr';
+import index from 'react-native-swiper/src';
 
 const Quotes = () => {
 
@@ -44,10 +45,13 @@ const Quotes = () => {
     const [priceRefs, setpriceRefs] = React.useState([]);
     const [remarkRefs, setremarkRefs] = React.useState([]);
 
-    // const [showtext, setshowtext] = React.useState(true);
+    const [showtext, setshowtext] = React.useState(true);
+    const [price, setprice] = React.useState([]);
+    const [priceIndex, setpriceIndex] = React.useState('');
+    //const [showT, setshowT] = React.useState([]);
 
     const tessOptions = {
-        whitelist: '^[0-9]+$',
+
         blacklist: '\'!"#$%&/()={}[]+*-_:;<>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
     };
 
@@ -65,6 +69,35 @@ const Quotes = () => {
         ));
     }, [arrLength]);
 
+    const [showT, dispatch] = useReducer((showT, {type, value}) => {
+        switch (type) {
+            case 'add':
+                return [...showT, value];
+            case 'remove':
+                return showT.filter((_, index) => index !== value);
+            case 'change':
+                console.log('changed array: ' + JSON.stringify(value));
+                return value;
+            default:
+                return showT;
+        }
+    }, []);
+
+    React.useEffect(() => {
+        // add or remove refs
+        // dispatch({type: "add", value: (showT => (
+        //         Array(arrLength).fill().map((_, i) => showT[i] || {val: true})
+        //     ))})
+
+        Array(arrLength).fill().map((_, i) => {
+            showT[i] || dispatch({type: 'add', value: {price: 0, val: true}});
+        });
+
+    }, [arrLength]);
+
+    console.log('array values: ' + JSON.stringify(showT));
+
+
     function resetPrice(index) {
         //console.log("function call: "+priceRefs[index].current)
         priceRefs[index].current.resetImage();
@@ -76,10 +109,21 @@ const Quotes = () => {
 
     function savePrice(index) {
         priceRefs[index].current.saveImage();
+        setpriceIndex(index);
     }
 
     function saveRemarks(index) {
         remarkRefs[index].current.saveImage();
+    }
+
+    function reDraw(index) {
+        let items = [...showT];
+        let item = {...showT[index]};
+        console.log('index val: ', item.val);
+        item.val = true;
+        //item.price = result;
+        items[index] = item;
+        dispatch({type: 'change', value: items});
     }
 
     function onSavePrice(result) {
@@ -90,8 +134,18 @@ const Quotes = () => {
             .then((result) => {
                 //this.setState({ ocrResult: result });
                 //this.setState({text: result})
-                alert(result);
+                //alert(result);
+                //price.push(result);
+                console.log(priceIndex);
+                let items = [...showT];
+                let item = {...showT[priceIndex]};
+                console.log('index val: ', item.val);
+                item.val = false;
+                item.price = result;
+                items[priceIndex] = item;
+                dispatch({type: 'change', value: items});
                 console.log('OCR Result: ', result);
+                console.log('showT array: ', showT[priceIndex]);
             })
             .catch((err) => {
                 console.log('OCR Error: ', err);
@@ -112,74 +166,47 @@ const Quotes = () => {
     return (
         <View style={{width: '100%'}}>
             <FlatList
-                data={data}
+                data={showT}
                 renderItem={({item, index}) => (
                     <View style={{
                         flex: 1, flexDirection: 'row', backgroundColor: '#0b1224', justifyContent: 'center',
-                        alignItems: 'stretch', padding: 5,
+                        alignItems: 'stretch', padding: 2,
                     }}>
                         <View style={{
-                            flexDirection: 'column', flex: 0.5, justifyContent: 'center',
+                            flexDirection: 'column', flex: 0.6, justifyContent: 'center',
                             alignItems: 'center',
                         }}>
                             {/*<Text style={{color: 'white'}}>{item.key}</Text>*/}
-                            <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16}}>AUCO45</Text>
-                            <Text style={{color: 'white', fontSize: 12}}>Spread 3</Text>
-                            <Text style={{color: 'white', fontSize: 12}}>18:53:30</Text>
+                            <Text style={{color: 'red', fontWeight: 'bold', fontSize: 20}}>0235</Text>
+                            <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>MS00U34</Text>
+                            <Text style={{color: 'green', fontSize: 15}}>OPABC</Text>
                         </View>
                         <View style={{
-                            flexDirection: 'row', flex: 1.3, justifyContent: 'center',
+                            flexDirection: 'column', flex: 0.6, justifyContent: 'center',
                             alignItems: 'center',
                         }}>
-                            <View style={{flexDirection: 'column', justifyContent: 'center'}}>
-                                <View style={{flexDirection: 'row', alignItems: 'flex-start'}}>
-                                    <Text style={{fontSize: 20, lineHeight: 30, color: 'red'}}>1.08</Text>
-                                    <Text style={{fontSize: 25, lineHeight: 30, color: 'red'}}>04</Text>
-                                    <Text style={{fontSize: 11, lineHeight: 18, color: 'red'}}>9</Text>
-                                </View>
-                                <View style={{flexDirection: 'row'}}>
-                                    <Entypo
-                                        name="arrow-long-down" size={15}
-                                        color="red"/>
-                                    <Text style={{color: 'red', fontSize: 12}}>1.08026</Text>
-                                </View>
 
-                            </View>
-                            <View style={{
-                                flexDirection: 'column',
-                                paddingLeft: 5,
-                                paddingRight: 5,
-                                justifyContent: 'center',
-                            }}>
-                                <View style={{flexDirection: 'row', alignItems: 'flex-start'}}>
-                                    <Text style={{fontSize: 20, lineHeight: 30, color: 'red'}}>1.08</Text>
-                                    <Text style={{fontSize: 25, lineHeight: 30, color: 'red'}}>05</Text>
-                                    <Text style={{fontSize: 11, lineHeight: 18, color: 'red'}}>2</Text>
-                                </View>
-                                <View style={{flexDirection: 'row'}}>
-                                    <Entypo
-                                        name="arrow-long-up" size={15}
-                                        color="green"/>
-                                    <Text style={{color: 'green', fontSize: 12}}>1.08026</Text>
-                                </View>
-                            </View>
+                            <Text style={{fontSize: 18, color: 'red', fontWeight: 'bold'}}>20 B</Text>
+                            <Text style={{fontSize: 15, color: 'green'}}>26.00</Text>
+                            <Text style={{fontSize: 20, color: 'green'}}>260.00 Kg</Text>
+
                         </View>
                         <View style={{
                             flexDirection: 'row', flex: 2, justifyContent: 'center',
                             alignItems: 'center',
                         }}>
                             <View style={{
-                                width: '40%',
-                                height: 85,
+                                width: '42%',
+                                height: 105,
                                 backgroundColor: '#192535',
                                 borderRadius: 10,
-                                margin: 2,
+                                margin: 1,
                             }}>
                                 <Text style={{color: 'white', paddingLeft: 8, paddingTop: 2}}>Price</Text>
-                                {/*{showtext ?*/}
-                                {/*    <View>*/}
+                                {showT[index].val ?
+                                    <View>
                                         <SignatureCapture
-                                            style={{height: 40, marginLeft: 5, marginRight: 5}}
+                                            style={{height: 60, marginLeft: 5, marginRight: 5}}
                                             ref={priceRefs[index]}
                                             onSaveEvent={onSavePrice}
                                             onDragEvent={() => onDraggedPrice(index)}
@@ -236,22 +263,50 @@ const Quotes = () => {
                                                                color="red"/>
                                             </TouchableOpacity>
                                         </View>
-                                    {/*</View>*/}
-                                    {/*: <Text style={{*/}
-                                    {/*    color: 'white',*/}
-                                    {/*}}>100</Text>*/}
-                                {/*}*/}
+                                    </View>
+                                    : <View style={{
+                                        flexDirection: 'row',
+                                        height: 60,
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                    }}><Text style={{
+                                        color: 'white',
+                                        fontSize: 20,
+                                    }}>{item.price}</Text>
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                reDraw(index);
+                                            }}
+                                            style={[
+                                                styles.button,
+                                                {
+                                                    borderColor: 'white',
+                                                    borderWidth: 1,
+                                                    borderRadius: 50,
+                                                    width: 25,
+                                                    height: 25,
+                                                    marginLeft: 25,
+                                                    marginRight: 5,
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center'
+                                                },
+                                            ]}>
+                                            <AntDesign name='edit' size={18}
+                                                       color="white"/>
+                                        </TouchableOpacity>
+                                    </View>
+                                }
                             </View>
                             <View style={{
                                 width: '55%',
-                                height: 85,
+                                height: 105,
                                 backgroundColor: '#192535',
                                 borderRadius: 10,
                                 margin: 2,
                             }}>
                                 <Text style={{color: 'white', paddingLeft: 8, paddingTop: 2}}>Remarks</Text>
                                 <SignatureCapture
-                                    style={{height: 40, marginLeft: 5, marginRight: 5}}
+                                    style={{height: 60, marginLeft: 5, marginRight: 5}}
                                     ref={remarkRefs[index]}
                                     // onSaveEvent={this._onSaveEvent}
                                     onDragEvent={() => onDraggedRemarks(index)}
@@ -310,6 +365,7 @@ const Quotes = () => {
 
                     </View>
                 )}
+                keyExtractor={(item, index) => index.toString()}
                 ItemSeparatorComponent={renderSeparator}
             />
         </View>
