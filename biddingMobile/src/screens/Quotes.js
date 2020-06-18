@@ -23,13 +23,21 @@ const Quotes = () => {
 
     function renderSeparator() {
         return (
+            <View style={{
+                justifyContent:'center',
+                alignItems:'center',
+                flex:1
+            }}>
             <View
                 style={{
                     height: 1,
-                    width: '100%',
-                    backgroundColor: 'black',
+                    width: '90%',
+                    justifyContent:'center',
+                    alignItems:'center',
+                    backgroundColor: '#1f2837',
                 }}
             />
+            </View>
         );
     };
 
@@ -51,8 +59,8 @@ const Quotes = () => {
     //const [showT, setshowT] = React.useState([]);
 
     const tessOptions = {
-
-        blacklist: '\'!"#$%&/()={}[]+*-_:;<>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+        // whitelist: '^[0-9]*$',
+        blacklist: '\'!,."#$%&/()={}[]+*-_:;<>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
     };
 
     React.useEffect(() => {
@@ -164,7 +172,7 @@ const Quotes = () => {
 
 
     return (
-        <View style={{width: '100%'}}>
+        <View style={{width: '100%',backgroundColor:'#0b1224'}}>
             <FlatList
                 data={showT}
                 renderItem={({item, index}) => (
@@ -173,22 +181,22 @@ const Quotes = () => {
                         alignItems: 'stretch', padding: 2,
                     }}>
                         <View style={{
-                            flexDirection: 'column', flex: 0.6, justifyContent: 'center',
+                            flexDirection: 'column', flex: 0.7, justifyContent: 'center',
                             alignItems: 'center',
                         }}>
                             {/*<Text style={{color: 'white'}}>{item.key}</Text>*/}
-                            <Text style={{color: 'red', fontWeight: 'bold', fontSize: 20}}>0235</Text>
-                            <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>MS00U34</Text>
-                            <Text style={{color: 'green', fontSize: 15}}>OPABC</Text>
+                            <Text style={{color: 'red', fontWeight: 'bold', fontSize: 18}}>0235</Text>
+                            <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16}}>MS00U34</Text>
+                            <Text style={{color: 'green', fontSize: 13}}>OPABC</Text>
                         </View>
                         <View style={{
-                            flexDirection: 'column', flex: 0.6, justifyContent: 'center',
+                            flexDirection: 'column', flex: 0.7, justifyContent: 'center',
                             alignItems: 'center',
                         }}>
 
-                            <Text style={{fontSize: 18, color: 'red', fontWeight: 'bold'}}>20 B</Text>
-                            <Text style={{fontSize: 15, color: 'green'}}>26.00</Text>
-                            <Text style={{fontSize: 20, color: 'green'}}>260.00 Kg</Text>
+                            <Text style={{fontSize: 16, color: 'red', fontWeight: 'bold'}}>20 B</Text>
+                            <Text style={{fontSize: 13, color: 'green'}}>26.00</Text>
+                            <Text style={{fontSize: 16, color: 'green'}}>260.00 Kg</Text>
 
                         </View>
                         <View style={{
@@ -196,7 +204,7 @@ const Quotes = () => {
                             alignItems: 'center',
                         }}>
                             <View style={{
-                                width: '42%',
+                                width: '65%',
                                 height: 105,
                                 backgroundColor: '#192535',
                                 borderRadius: 10,
@@ -271,8 +279,16 @@ const Quotes = () => {
                                         alignItems: 'center',
                                     }}><Text style={{
                                         color: 'white',
+                                        textAlign:'center',
                                         fontSize: 20,
+                                        flex:5
                                     }}>{item.price}</Text>
+                                        <View style={{
+                                            flex:3,
+                                            height:60,
+                                            justifyContent:'center',
+                                            alignItems:'center'
+                                        }}>
                                         <TouchableOpacity
                                             onPress={() => {
                                                 reDraw(index);
@@ -285,7 +301,6 @@ const Quotes = () => {
                                                     borderRadius: 50,
                                                     width: 25,
                                                     height: 25,
-                                                    marginLeft: 25,
                                                     marginRight: 5,
                                                     justifyContent: 'center',
                                                     alignItems: 'center'
@@ -294,11 +309,12 @@ const Quotes = () => {
                                             <AntDesign name='edit' size={18}
                                                        color="white"/>
                                         </TouchableOpacity>
+                                        </View>
                                     </View>
                                 }
                             </View>
                             <View style={{
-                                width: '55%',
+                                width: '35%',
                                 height: 105,
                                 backgroundColor: '#192535',
                                 borderRadius: 10,
