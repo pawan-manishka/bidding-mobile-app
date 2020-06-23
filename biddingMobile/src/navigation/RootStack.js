@@ -5,6 +5,9 @@ import Login from '../screens/Login';
 import SwiperComponent from '../screens/SwiperComponent';
 import Quotes from '../screens/Quotes';
 //import BottomTabs from './BottomTabs';
+import {Provider as CatalogProvider} from "../context/CatalogContext";
+import React from "react";
+import {setNavigator} from "../navigationRef";
 
 const StackNavigator = createStackNavigator({
 
@@ -48,4 +51,13 @@ const Main = createSwitchNavigator({
     // },
 });
 
-export default createAppContainer(Main);
+const App = createAppContainer(Main);
+export default () => {
+    return (
+        <CatalogProvider>
+            <App ref={(navigator) => {
+                setNavigator(navigator)
+            }}/>
+        </CatalogProvider>
+    )
+};
