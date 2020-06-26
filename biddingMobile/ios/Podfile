@@ -44,8 +44,8 @@ def flipper_post_install(installer)
   end
 end
 
-target 'biddingMobile' do
-  # Pods for biddingMobile
+target 'azureadb2c' do
+  # Pods for azureadb2c
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -77,7 +77,7 @@ target 'biddingMobile' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  target 'biddingMobileTests' do
+  target 'azureadb2cTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -94,10 +94,10 @@ target 'biddingMobile' do
   end
 end
 
-target 'biddingMobile-tvOS' do
-  # Pods for biddingMobile-tvOS
+target 'azureadb2c-tvOS' do
+  # Pods for azureadb2c-tvOS
 
-  target 'biddingMobile-tvOSTests' do
+  target 'azureadb2c-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

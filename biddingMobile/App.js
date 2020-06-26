@@ -1,114 +1,127 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import React, { Component } from 'react';
+import { UIManager, LayoutAnimation, Alert } from 'react-native';
+import { authorize, refresh, revoke } from 'react-native-app-auth';
+import { Page, Button, ButtonContainer, Form, Heading } from './components';
 
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+UIManager.setLayoutAnimationEnabledExperimental &&
+UIManager.setLayoutAnimationEnabledExperimental(true);
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const App: () => React$Node = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
+type State = {
+  hasLoggedInOnce: boolean,
+  accessToken: ?string,
+  accessTokenExpirationDate: ?string,
+  refreshToken: ?string
 };
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
+console.disableYellowBox = true;
 
-export default App;
+const config = {
+  issuer: 'https://oklob2ctest.onmicrosoft.com.b2clogin.com/52eb8007-baf7-4f96-9b52-a0b8e79ad06b/v2.0/',
+  clientId: 'eb4d6883-4d04-43b9-946d-e86a288df4bc',
+  // redirectUrl: 'urn.ietf.wg.oauth.2.0.oob://oauthredirect',
+  redirectUrl: 'com.azureadb2c://callback',
+  additionalParameters: {},
+  scopes: ['openid', 'eb4d6883-4d04-43b9-946d-e86a288df4bc', 'offline_access'],
+
+  serviceConfiguration: {
+    authorizationEndpoint: 'https://oklob2ctest.b2clogin.com/oklob2ctest.onmicrosoft.com/B2C_1_SISU_AuctionPlatform/oauth2/v2.0/authorize',
+    tokenEndpoint: 'https://oklob2ctest.b2clogin.com/oklob2ctest.onmicrosoft.com/B2C_1_SISU_AuctionPlatform/oauth2/v2.0/token',
+    revocationEndpoint: 'https://oklob2ctest.b2clogin.com/oklob2ctest.onmicrosoft.com/B2C_1_SISU_AuctionPlatform/oauth2/v2.0//logout'
+  }
+};
+
+export default class App extends Component<{}, State> {
+  state = {
+    hasLoggedInOnce: false,
+    accessToken: '',
+    accessTokenExpirationDate: '',
+    refreshToken: ''
+  };
+
+  animateState(nextState: $Shape<State>, delay: number = 0) {
+    setTimeout(() => {
+      this.setState(() => {
+        LayoutAnimation.easeInEaseOut();
+        return nextState;
+      });
+    }, delay);
+  }
+
+  authorize = async () => {
+    try {
+      const authState = await authorize(config);
+      this.animateState(
+          {
+            hasLoggedInOnce: true,
+            accessToken: authState.accessToken,
+            accessTokenExpirationDate: authState.accessTokenExpirationDate,
+            refreshToken: authState.refreshToken
+          },
+          500
+      );
+    } catch (error) {
+      Alert.alert('Failed to log in', error.message);
+    }
+  };
+
+  refresh = async () => {
+    try {
+      const authState = await refresh(config, {
+        refreshToken: this.state.refreshToken
+      });
+
+      this.animateState({
+        accessToken: authState.accessToken || this.state.accessToken,
+        accessTokenExpirationDate:
+            authState.accessTokenExpirationDate || this.state.accessTokenExpirationDate,
+        refreshToken: authState.refreshToken || this.state.refreshToken
+      });
+    } catch (error) {
+      Alert.alert('Failed to refresh token', error.message);
+    }
+  };
+
+  revoke = async () => {
+    try {
+      await revoke(config, {
+        tokenToRevoke: this.state.accessToken,
+        sendClientId: true
+      });
+      this.animateState({
+        accessToken: '',
+        accessTokenExpirationDate: '',
+        refreshToken: ''
+      });
+    } catch (error) {
+      Alert.alert('Failed to revoke token', error.message);
+    }
+  };
+
+  render() {
+    const { state } = this;
+    return (
+        <Page>
+          {!!state.accessToken ? (
+              <Form>
+                <Form.Label>accessToken</Form.Label>
+                <Form.Value>{state.accessToken}</Form.Value>
+                <Form.Label>accessTokenExpirationDate</Form.Label>
+                <Form.Value>{state.accessTokenExpirationDate}</Form.Value>
+                <Form.Label>refreshToken</Form.Label>
+                <Form.Value>{state.refreshToken}</Form.Value>
+              </Form>
+          ) : (
+              <Heading>{state.hasLoggedInOnce ? 'Goodbye.' : 'Hello, stranger.'}</Heading>
+          )}
+
+          <ButtonContainer>
+            {!state.accessToken && (
+                <Button onPress={this.authorize} text="Login" color="#DA2536" />
+            )}
+            {!!state.refreshToken && <Button onPress={this.refresh} text="Refresh" color="#24C2CB" />}
+            {!!state.accessToken && <Button onPress={this.revoke} text="Logout" color="#EF525B" />}
+          </ButtonContainer>
+        </Page>
+    );
+  }
+}

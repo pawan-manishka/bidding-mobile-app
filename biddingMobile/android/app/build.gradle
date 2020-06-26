@@ -129,7 +129,10 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.biddingmobile"
+    manifestPlaceholders = [
+          appAuthRedirectScheme: 'com.azureadb2c'
+        ]
+        applicationId "com.azureadb2c"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
