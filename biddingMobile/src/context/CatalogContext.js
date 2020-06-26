@@ -22,7 +22,7 @@ const getPublishedCatalogs = dispatch => async () => {
     try {
         const response = await biddingAPI.get('/CatalogsManager/published-catalogs', config);
         dispatch({type: 'get_published_catalogs', payload: response.data});
-        console.log("catalogs :"+response.data);
+        //console.log("catalogs :"+response.data);
     } catch (e) {
         console.log(e)
     }

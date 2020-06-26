@@ -18,18 +18,18 @@ const StackNavigator = createStackNavigator({
         },
     },
 
-    HomeScreen: {
-        screen: Login,
-        navigationOptions: {
-            headerShown: false,
-        },
-    },
-    QuotesScreen: {
-        screen: Quotes,
-        navigationOptions: {
-            headerShown: false,
-        },
-    },
+    // HomeScreen: {
+    //     screen: Login,
+    //     navigationOptions: {
+    //         headerShown: false,
+    //     },
+    // },
+    // QuotesScreen: {
+    //     screen: Quotes,
+    //     navigationOptions: {
+    //         headerShown: false,
+    //     },
+    // },
 });
 
 // const Stack = createStackNavigator(
