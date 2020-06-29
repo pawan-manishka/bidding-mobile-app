@@ -30,9 +30,9 @@ const getPublishedCatalogs = dispatch => async () => {
 
 const getItemsByCatalog = dispatch => async ({id}) => {
     try {
-        console.log(id);
+        console.log("passed id: "+id);
         const response = await biddingAPI.get('/CatalogsManager/get-items-by-catalog/'+id);
-        dispatch({type: 'get_items_by_catalog', payload: response.data});
+        dispatch({type: 'get_items_by_catalog', payload: response.data.data});
 
     } catch (e) {
         console.log(e)
