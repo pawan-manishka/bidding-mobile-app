@@ -7,6 +7,10 @@ const CatalogReducer = (state, action) => {
             return {...state, CatalogList: action.payload};
         case 'get_items_by_catalog':
             return {...state, ItemsByCatalog: action.payload};
+        case 'get_post_buy_out_price_status':
+            return {...state, PostBuyOutPriceStatus: action.payload};
+        case 'clear_post_buy_out_price_status':
+            return {...state, PostBuyOutPriceStatus: ""};
         default:
             return state;
     }
@@ -31,7 +35,7 @@ const getPublishedCatalogs = dispatch => async () => {
 const getItemsByCatalog = dispatch => async ({id}) => {
     try {
         console.log("passed id: "+id);
-        const response = await biddingAPI.get('/CatalogsManager/get-items-by-catalog/'+id);
+        const response = await biddingAPI.get('/CatalogsManager/get-items-by-catalog/'+id+'?page=1&size=15&ignorePaging=false');
         dispatch({type: 'get_items_by_catalog', payload: response.data.data});
 
     } catch (e) {
@@ -39,14 +43,32 @@ const getItemsByCatalog = dispatch => async ({id}) => {
     }
 };
 
+const updatePriceByID = dispatch => async ({id,BuyOutPrice}) => {
+    try {
+        console.log("passed id: "+id);
+        const response = await biddingAPI.post('/CatalogsManager/'+id+'/update-item-pricing',{BuyOutPrice});
+        dispatch({type: 'get_post_buy_out_price_status', payload: response.status});
+
+    } catch (e) {
+        console.log(e)
+    }
+};
+
+const clearupdatePriceByIDStatus = dispatch => () => {
+    dispatch({type: "clear_post_buy_out_price_status"});
+};
+
 export const {Provider, Context} = CreateDataContext(
     CatalogReducer,
     {
         getPublishedCatalogs,
-        getItemsByCatalog
+        getItemsByCatalog,
+        updatePriceByID,
+        clearupdatePriceByIDStatus
     },
     {
         CatalogList: [],
         ItemsByCatalog: [],
+        PostBuyOutPriceStatus:""
     }
 );
