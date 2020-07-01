@@ -1,5 +1,4 @@
 import React, {useContext, useState, useRef, useReducer} from 'react';
-//import {Context as AuthContext} from "../context/AuthContext";
 import {
     StyleSheet,
     Text,
@@ -13,29 +12,28 @@ import {
     Animated
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Main from '../navigation/RootStack';
 import SignatureCapture from 'react-native-signature-capture';
 import RNTesseractOcr from 'react-native-tesseract-ocr';
-import index from 'react-native-swiper/src';
 import {Dropdown} from 'react-native-material-dropdown';
 import {Context as CatalogContext} from "../context/CatalogContext";
 import CirclesLoader from "react-native-indicator/lib/loader/CirclesLoader";
 import TextLoader from "react-native-indicator/lib/loader/TextLoader";
 import {DotsLoader} from "react-native-indicator";
+import Entypo from 'react-native-vector-icons/Entypo';
+import index from 'react-native-swiper/src';
 
 const Quotes2 = () => {
 
-        const {state: {CatalogList, ItemsByCatalog,PostBuyOutPriceStatus}, getPublishedCatalogs, getItemsByCatalog,updatePriceByID,clearupdatePriceByIDStatus} = useContext(CatalogContext);
+        const {state: {CatalogList, ItemsByCatalog, PostBuyOutPriceStatus}, getPublishedCatalogs, getItemsByCatalog, updatePriceByID, clearupdatePriceByIDStatus} = useContext(CatalogContext);
         const [priceRefs, setpriceRefs] = React.useState([]);
         const [priceIndex, setpriceIndex] = React.useState('');
         const [ItemID, setItemID] = React.useState('');
 
-    const tessOptions = {
-        // whitelist: '^[0-9]*$',
-        blacklist: '\'!,."#$%&/()={}[]+*-_:;<>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
-    };
+        const tessOptions = {
+            // whitelist: '^[0-9]*$',
+            blacklist: '\'!,."#$%&/()={}[]+*-_:;<>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+        };
 
         React.useEffect(() => {
             // add or remove refs
@@ -105,7 +103,7 @@ const Quotes2 = () => {
             //     ))})
 
             Array(25).fill().map((_, i) => {
-                showT[i] || dispatch({type: 'add', value: {price: 0, val: true,status:false}});
+                showT[i] || dispatch({type: 'add', value: {price: 0, val: true, status: false}});
             });
 
         }, [25]);
@@ -115,7 +113,7 @@ const Quotes2 = () => {
             priceRefs[index].current.resetImage();
         }
 
-        function savePrice(index,id) {
+        function savePrice(index, id) {
             priceRefs[index].current.saveImage();
             //showT[index].succes = true
             setpriceIndex(index);
@@ -166,7 +164,7 @@ const Quotes2 = () => {
                     item.price = result;
                     items[priceIndex] = item;
                     dispatch({type: 'change', value: items});
-                    updatePriceByID({id:ItemID,BuyOutPrice:result})
+                    updatePriceByID({id: ItemID, BuyOutPrice: result})
                     console.log('OCR Result: ', result);
                     console.log('showT array: ', showT[priceIndex]);
                 })
@@ -199,11 +197,11 @@ const Quotes2 = () => {
                         <View style={{flex: 1, marginBottom: 15, marginRight: 20, backgroundColor: '#0b1224'}}>
                             <Dropdown
                                 pickerStyle={{marginTop: 50}}
-                                textColor='red'
-                                itemColor='red'
+                                textColor='#489fdd'
+                                itemColor='#489fdd'
                                 selectedItemColor='green'
                                 baseColor='white'
-                                label='Select Auction'
+                                label='Select Catalog :'
                                 data={catalogs_array}
                                 onChangeText={(value => onChangeHandler(value))}
                             />
@@ -221,8 +219,8 @@ const Quotes2 = () => {
                                 alignItems: 'center', display: 'flex',
                                 paddingBottom: 300
                             }}>
-                                <CirclesLoader color='red'/>
-                                <TextLoader textStyle={{color: 'red'}} text="Loading"/>
+                                <CirclesLoader color='#489fdd'/>
+                                <TextLoader textStyle={{marginTop: '1%', color: '#489fdd'}} text="Loading"/>
                             </View>
                             : null}
                         {ItemsByCatalog.length === 0 ?
@@ -234,7 +232,7 @@ const Quotes2 = () => {
                                 alignItems: 'center', display: 'flex',
                                 paddingBottom: 300
                             }}>
-                                <Text style={{color: 'red'}}>No Record Found...</Text>
+                                <Text style={{color: '#489fdd'}}>No Records Found ...</Text>
                             </View>
                             : null}
                         <FlatList
@@ -246,7 +244,7 @@ const Quotes2 = () => {
                                     alignItems: 'stretch', padding: 2,
                                 }}>
                                     <View style={{
-                                        flexDirection: 'column', flex: 1, justifyContent: 'center',
+                                        flexDirection: 'column', flex: 1.2, justifyContent: 'center',
                                         alignItems: 'center',
                                     }}>
                                         {/*<Text style={{color: 'white'}}>{item.key}</Text>*/}
@@ -254,15 +252,16 @@ const Quotes2 = () => {
                                             style={{
                                                 color: 'red',
                                                 fontWeight: 'bold',
-                                                fontSize: 16
-                                            }}>{item.InvoiceNumber}</Text>
+                                                fontSize: 18
+                                            }}>{item.ItemNumber}</Text>
                                         <Text style={{
                                             color: 'white',
-                                            fontWeight: 'bold',
+                                            // fontWeight: 'bold',
                                             fontSize: 12
-                                        }}>{item.ItemName}</Text>
-                                        <Text style={{color: 'green', fontSize: 13}}>{item.ItemId}</Text>
+                                        }}>{item.BrandName}</Text>
+                                        <Text style={{color: 'green', fontSize: 14}}>{item.ItemCode}</Text>
                                     </View>
+
                                     <View style={{
                                         flexDirection: 'column', flex: 1.2, justifyContent: 'center',
                                         alignItems: 'center',
@@ -270,133 +269,157 @@ const Quotes2 = () => {
 
                                         <Text
                                             style={{
-                                                fontSize: 16,
+                                                fontSize: 17,
                                                 color: 'red',
                                                 fontWeight: 'bold'
-                                            }}>{item.UnitTypeName}</Text>
-                                        <Text style={{fontSize: 13, color: 'green'}}>{item.PerUnitWeight + " Kg"}</Text>
-                                        <Text style={{fontSize: 16, color: 'green'}}>{item.TotalWeight + " Kg"}</Text>
+                                            }}>{item.ItemType}</Text>
+                                        <Text style={{fontSize: 13, color: 'green'}}>{item.NetWeight + " Kg"}</Text>
+                                        <Text style={{fontSize: 17, color: 'green'}}>{item.TotalWeight + " Kg"}</Text>
 
                                     </View>
+
                                     <View style={{
                                         flexDirection: 'row', flex: 2, justifyContent: 'center',
                                         alignItems: 'center',
                                     }}>
                                         <View style={{
-                                            width: '100%',
-                                            height: 105,
-                                            backgroundColor: '#192535',
-                                            borderRadius: 10,
-                                            margin: 1,
+                                            flexDirection: 'column', flex: 1.2,
                                         }}>
-                                            <View style={{
-                                                flexDirection: 'row', alignItems: 'center',
-                                            }}>
                                             <Text style={{color: 'white', paddingLeft: 8, paddingTop: 2}}>Price</Text>
-                                                {/*{showT[index].success ? <Text style={{color:'green'}}>success</Text> : <Text style={{color:'red'}}>failed</Text>}*/}
-                                            </View>
-                                            {showT[index].val ?
-                                                <View>
-                                                    <SignatureCapture
-                                                        style={{height: 60, marginLeft: 5, marginRight: 5}}
-                                                        ref={priceRefs[index]}
-                                                        onSaveEvent={onSavePrice}
-                                                        onDragEvent={() => onDraggedPrice(index)}
-                                                        saveImageFileInExtStorage={true}
-                                                        showNativeButtons={false}
-                                                        showTitleLabel={false}
-                                                        viewMode={'portrait'}
-                                                        backgroundColor={'#192535'}
-                                                        strokeColor="white"
-                                                        maxStrokeWidth={1}
-                                                    />
+                                            <View style={{
+                                                width: '100%',
+                                                height: 100,
+                                                backgroundColor: '#1a2332',
+                                                borderRadius: 10,
+                                                margin: 1,
+                                            }}>
+                                                <View style={{
+                                                    flexDirection: 'row', alignItems: 'center',
+                                                }}>
+                                                    {/*{showT[index].success ? <Text style={{color:'green'}}>success</Text> : <Text style={{color:'red'}}>failed</Text>}*/}
+                                                </View>
+                                                {showT[index].val ?
+                                                    <View>
+                                                        <SignatureCapture
+                                                            style={{height: 96, margin: 2}}
+                                                            ref={priceRefs[index]}
+                                                            onSaveEvent={onSavePrice}
+                                                            onDragEvent={() => onDraggedPrice(index)}
+                                                            saveImageFileInExtStorage={true}
+                                                            showNativeButtons={false}
+                                                            showTitleLabel={false}
+                                                            viewMode={'portrait'}
+                                                            backgroundColor={'#1a2332'}
+                                                            strokeColor="white"
+                                                            maxStrokeWidth={1}
+                                                        />
 
+
+                                                    </View>
+                                                    :
                                                     <View style={{
                                                         flexDirection: 'row',
-                                                        justifyContent: 'flex-end',
-                                                        marginTop: 2,
-                                                    }}>
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                savePrice(index,item.ItemId);
-                                                            }}
-                                                            style={[
-                                                                styles.button,
-                                                                {
-                                                                    borderColor: 'green',
-                                                                    borderWidth: 1,
-                                                                    borderRadius: 50,
-                                                                    width: 20,
-                                                                    height: 20,
-                                                                    marginLeft: 5,
-                                                                    marginRight: 5,
-                                                                },
-                                                            ]}>
-                                                            <MaterialIcons name='done' size={18}
-                                                                           color="green"/>
-                                                        </TouchableOpacity>
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                resetPrice(index);
-                                                            }}
-                                                            style={[
-                                                                styles.button,
-                                                                {
-                                                                    borderColor: 'red',
-                                                                    borderWidth: 1,
-                                                                    borderRadius: 50,
-                                                                    width: 20,
-                                                                    height: 20,
-                                                                    marginLeft: 5,
-                                                                    marginRight: 5,
-                                                                },
-                                                            ]}>
-                                                            <MaterialIcons name='clear' size={18}
-                                                                           color="red"/>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                </View>
-                                                : <View style={{
-                                                    flexDirection: 'row',
-                                                    height: 60,
-                                                    justifyContent: 'center',
-                                                    alignItems: 'center',
-                                                }}><Text style={{
-                                                    color: 'white',
-                                                    textAlign: 'center',
-                                                    fontSize: 20,
-                                                    flex: 5
-                                                }}>{showT[index].price}</Text>
-                                                    <View style={{
-                                                        flex: 3,
-                                                        height: 60,
+                                                        height: 100,
                                                         justifyContent: 'center',
-                                                        alignItems: 'center'
+                                                        alignItems: 'center',
                                                     }}>
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                reDraw(index);
-                                                            }}
-                                                            style={[
-                                                                styles.button,
-                                                                {
-                                                                    borderColor: 'white',
-                                                                    borderWidth: 1,
-                                                                    borderRadius: 50,
-                                                                    width: 25,
-                                                                    height: 25,
-                                                                    marginRight: 5,
-                                                                    justifyContent: 'center',
-                                                                    alignItems: 'center'
-                                                                },
-                                                            ]}>
-                                                            <AntDesign name='edit' size={18}
-                                                                       color="white"/>
-                                                        </TouchableOpacity>
+                                                        <Text style={{
+                                                            color: 'white',
+                                                            textAlign: 'center',
+                                                            fontSize: 20,
+                                                            flex: 5
+                                                        }}>{showT[index].price}</Text>
+                                                        <View style={{
+                                                            flex: 3,
+                                                            height: 60,
+                                                            justifyContent: 'center',
+                                                            alignItems: 'center'
+                                                        }}>
+                                                            <TouchableOpacity
+                                                                onPress={() => {
+                                                                    reDraw(index);
+                                                                }}
+                                                                style={[
+                                                                    styles.button,
+                                                                    {
+                                                                        borderColor: 'white',
+                                                                        borderWidth: 1,
+                                                                        borderRadius: 50,
+                                                                        width: 25,
+                                                                        height: 25,
+                                                                        marginRight: 5,
+                                                                        justifyContent: 'center',
+                                                                        alignItems: 'center'
+                                                                    },
+                                                                ]}>
+                                                                <AntDesign name='edit' size={18}
+                                                                           color="white"/>
+                                                            </TouchableOpacity>
+                                                        </View>
                                                     </View>
-                                                </View>
-                                            }
+                                                }
+                                            </View>
                                         </View>
+
+                                    </View>
+                                    <View style={{
+                                        flexDirection: 'column', flex: 1, justifyContent: 'center',
+                                        alignItems: 'center',
+                                    }}>
+
+                                        {showT[index].val ?
+                                            <View style={{
+                                                flexDirection: 'row',
+                                                justifyContent: 'flex-end',
+                                                marginTop: 2,
+                                            }}>
+                                                <TouchableOpacity
+                                                    onPress={() => {
+                                                        savePrice(index, item.ItemId);
+                                                    }}
+                                                    style={[
+                                                        styles.button,
+                                                        {
+                                                            borderColor: 'green',
+                                                            borderWidth: 1,
+                                                            borderRadius: 50,
+                                                            width: 24,
+                                                            height: 24,
+                                                            marginLeft: 5,
+                                                            marginRight: 5,
+                                                        },
+                                                    ]}>
+                                                    <MaterialIcons name='done' size={22}
+                                                                   color="green"/>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity
+                                                    onPress={() => {
+                                                        resetPrice(index);
+                                                    }}
+                                                    style={[
+                                                        styles.button,
+                                                        {
+                                                            borderColor: 'red',
+                                                            borderWidth: 1,
+                                                            borderRadius: 50,
+                                                            width: 24,
+                                                            height: 24,
+                                                            marginLeft: 5,
+                                                            marginRight: 5,
+                                                        },
+                                                    ]}>
+                                                    <MaterialIcons name='clear' size={22}
+                                                                   color="red"/>
+                                                </TouchableOpacity>
+                                            </View>
+                                            :
+                                            <View style={{
+                                                flexDirection: 'row',
+                                                justifyContent: 'flex-end',
+                                                marginTop: 2,
+                                            }}>
+                                                <Text style={{fontSize: 14, color: '#489fdd'}}> Saved</Text>
+                                            </View>}
                                     </View>
 
                                 </View>
