@@ -51,6 +51,7 @@ const updatePriceByID = dispatch => async ({id,BuyOutPrice}) => {
 
     } catch (e) {
         console.log(e)
+        dispatch({type: 'get_post_buy_out_price_status', payload: 400});
     }
 };
 

@@ -29,6 +29,8 @@ const Quotes2 = () => {
         const [priceRefs, setpriceRefs] = React.useState([]);
         const [priceIndex, setpriceIndex] = React.useState('');
         const [ItemID, setItemID] = React.useState('');
+        const [go, setgo] = React.useState(false);
+        const [go2, setgo2] = React.useState(false);
 
         const tessOptions = {
             // whitelist: '^[0-9]*$',
@@ -71,6 +73,7 @@ const Quotes2 = () => {
         const onChangeHandler = (value) => {
             console.log(`Selected value: ${value}`);
             getItemsByCatalog({id: value})
+            setgo(true)
             // renderData()
         };
 
@@ -88,45 +91,81 @@ const Quotes2 = () => {
             }
         }, []);
 
+    if (ItemsByCatalog.length>0 && go){
+        setgo(false)
+        let value=[]
+        ItemsByCatalog.map((item, index) => {
+            // Only do this if items have no stable IDs
 
-        React.useEffect(() => {
-            // add or remove refs
-            setpriceRefs(priceRefs => (
-                Array(25).fill().map((_, i) => priceRefs[i] || React.createRef())
-            ));
-        }, [25]);
+            //console.log("index: " + index)<Text
+            const value = {
+                idIndex: index, ref: React.createRef(),price: 0, val: true,Id: item.Id, ItemNumber: item.ItemNumber,
+                BrandName: item.BrandName, ItemCode: item.ItemCode, ItemType: item.ItemType,
+                NetWeight: item.NetWeight, TotalWeight: item.TotalWeight, status: 0
+            }
+            dispatch({type: 'add', value: value})
+            // console.log("value array: " + JSON.stringify(value))
+            //value.push(value2)
+        })
+        //dispatch({type: 'add', value: value})
+        // console.log("showT array: " + JSON.stringify(showT))
+        //console.log("value array: " + JSON.stringify(value))
+    }
 
-        React.useEffect(() => {
-            // add or remove refs
-            // dispatch({type: "add", value: (showT => (
-            //         Array(arrLength).fill().map((_, i) => showT[i] || {val: true})
-            //     ))})
+    //console.log("showT array: " + JSON.stringify(showT))
 
-            Array(25).fill().map((_, i) => {
-                showT[i] || dispatch({type: 'add', value: {price: 0, val: true, status: false}});
-            });
 
-        }, [25]);
+        // React.useEffect(() => {
+        //     // add or remove refs
+        //     setpriceRefs(priceRefs => (
+        //         Array(25).fill().map((_, i) => priceRefs[i] || React.createRef())
+        //     ));
+        // }, [25]);
+
+        // React.useEffect(() => {
+        //     // add or remove refs
+        //     // dispatch({type: "add", value: (showT => (
+        //     //         Array(arrLength).fill().map((_, i) => showT[i] || {val: true})
+        //     //     ))})
+        //
+        //     Array(25).fill().map((_, i) => {
+        //         showT[i] || dispatch({type: 'add', value: {price: 0, val: true, status: false}});
+        //     });
+        //
+        // }, [25]);
 
         function resetPrice(index) {
             //console.log("function call: "+priceRefs[index].current)
-            priceRefs[index].current.resetImage();
+            showT[index].ref.current.resetImage();
         }
 
         function savePrice(index, id) {
-            priceRefs[index].current.saveImage();
+            showT[index].ref.current.saveImage();
             //showT[index].succes = true
             setpriceIndex(index);
             setItemID(id)
+            setgo2(true);
         }
 
-        // if (PostBuyOutPriceStatus === 200){
-        //     clearupdatePriceByIDStatus();
-        //     let items = [...showT];
-        //     let item = {...showT[index]};
-        //     item.status = true;
-        //     items[index] = item;
-        //     dispatch({type: 'change', value: items});
+        if (PostBuyOutPriceStatus === 200 && PostBuyOutPriceStatus !== "" && go2) {
+            setgo2(false)
+            let items = [...showT];
+            let item = {...showT[priceIndex]};
+            item.status = PostBuyOutPriceStatus;
+            items[priceIndex] = item;
+            dispatch({type: 'change', value: items});
+            clearupdatePriceByIDStatus();
+
+        }else if (PostBuyOutPriceStatus !== 200 && PostBuyOutPriceStatus !== "" && go2){
+            setgo2(false)
+            let items = [...showT];
+            let item = {...showT[priceIndex]};
+            item.status = PostBuyOutPriceStatus;
+            items[priceIndex] = item;
+            dispatch({type: 'change', value: items});
+            clearupdatePriceByIDStatus();
+        }
+    //console.log("show t status: "+showT[priceIndex].status)
         // }else if (PostBuyOutPriceStatus === 400 || PostBuyOutPriceStatus === 404) {
         //     clearupdatePriceByIDStatus();
         //     let items = [...showT];
@@ -237,7 +276,7 @@ const Quotes2 = () => {
                             : null}
                         <FlatList
                             contentContainerStyle={{paddingBottom: 40}}
-                            data={ItemsByCatalog}
+                            data={showT}
                             renderItem={({item, index}) => (
                                 <View style={{
                                     flex: 1, flexDirection: 'row', backgroundColor: '#0b1224', justifyContent: 'center',
@@ -298,11 +337,11 @@ const Quotes2 = () => {
                                                 }}>
                                                     {/*{showT[index].success ? <Text style={{color:'green'}}>success</Text> : <Text style={{color:'red'}}>failed</Text>}*/}
                                                 </View>
-                                                {showT[index].val ?
+                                                {item.val ?
                                                     <View>
                                                         <SignatureCapture
                                                             style={{height: 96, margin: 2}}
-                                                            ref={priceRefs[index]}
+                                                            ref={item.ref}
                                                             onSaveEvent={onSavePrice}
                                                             onDragEvent={() => onDraggedPrice(index)}
                                                             saveImageFileInExtStorage={true}
@@ -328,7 +367,7 @@ const Quotes2 = () => {
                                                             textAlign: 'center',
                                                             fontSize: 20,
                                                             flex: 5
-                                                        }}>{showT[index].price}</Text>
+                                                        }}>{item.price}</Text>
                                                         <View style={{
                                                             flex: 3,
                                                             height: 60,
@@ -367,7 +406,7 @@ const Quotes2 = () => {
                                         alignItems: 'center',
                                     }}>
 
-                                        {showT[index].val ?
+                                        {item.val ?
                                             <View style={{
                                                 flexDirection: 'row',
                                                 justifyContent: 'flex-end',
@@ -375,7 +414,7 @@ const Quotes2 = () => {
                                             }}>
                                                 <TouchableOpacity
                                                     onPress={() => {
-                                                        savePrice(index, item.ItemId);
+                                                        savePrice(index, item.Id);
                                                     }}
                                                     style={[
                                                         styles.button,
@@ -412,14 +451,20 @@ const Quotes2 = () => {
                                                                    color="red"/>
                                                 </TouchableOpacity>
                                             </View>
-                                            :
+                                            : item.status === 200 ?
                                             <View style={{
                                                 flexDirection: 'row',
                                                 justifyContent: 'flex-end',
                                                 marginTop: 2,
                                             }}>
                                                 <Text style={{fontSize: 14, color: '#489fdd'}}> Saved</Text>
-                                            </View>}
+                                            </View> : item.status !== 200 ? <View style={{
+                                                    flexDirection: 'row',
+                                                    justifyContent: 'flex-end',
+                                                    marginTop: 2,
+                                                }}>
+                                                    <Text style={{fontSize: 14, color: 'red'}}>Failed</Text>
+                                                </View> : null}
                                     </View>
 
                                 </View>
