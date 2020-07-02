@@ -203,15 +203,15 @@ const Quotes = () => {
                 <View style={{width: '100%', backgroundColor: '#0b1224',flexDirection:'row',display:'flex',justifyContent:'center',alignItems:'center',marginLeft:10,marginRight:10}}>
                     {/*<Text style={{color:'white',fontSize: 18,fontWeight: 'bold'}}>Catalogs: </Text>*/}
                     <View style={{ flex: 1,marginBottom:15,marginRight:20 }}>
-                    <Dropdown
-                        pickerStyle={{marginTop:50}}
-                        textColor='red'
-                        itemColor='red'
-                        selectedItemColor='green'
-                        baseColor='red'
-                        label='Select catalog'
-                        data={catalogs_array}
-                    />
+                        <Dropdown
+                            pickerStyle={{marginTop:50}}
+                            textColor='red'
+                            itemColor='red'
+                            selectedItemColor='green'
+                            baseColor='red'
+                            label='Select catalog'
+                            data={catalogs_array}
+                        />
                     </View>
                 </View>
                 <FlatList
