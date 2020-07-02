@@ -22,6 +22,9 @@ import TextLoader from "react-native-indicator/lib/loader/TextLoader";
 import {DotsLoader} from "react-native-indicator";
 import Entypo from 'react-native-vector-icons/Entypo';
 import index from 'react-native-swiper/src';
+import { utils } from '@react-native-firebase/app';
+import vision from '@react-native-firebase/ml-vision';
+
 
 const Quotes2 = () => {
 
@@ -219,6 +222,30 @@ const Quotes2 = () => {
 
         }
 
+
+    async function processDocument(result) {
+        const processed = await vision().textRecognizerProcessImage(
+            result.pathName,
+        );
+        console.log(result.pathName);
+        console.log('Found text in document: ', processed.text);
+
+        let items = [...showT];
+        let item = {...showT[priceIndex]};
+        console.log('index val: ', item.val);
+        item.val = false;
+        let filtord = processed.text.replace(/[^0-9]/g, '')
+        item.price = filtord;
+        items[priceIndex] = item;
+        dispatch({type: 'change', value: items});
+
+        processed.blocks.forEach((block) => {
+            console.log('Found block with text: ', block.text);
+            console.log('Confidence in block: ', block.confidence);
+            console.log('Languages found in block: ', block.recognizedLanguages);
+        });
+    }
+
         function onDraggedPrice(index) {
             console.log('price dragged on index: ' + index);
         }
@@ -347,7 +374,7 @@ const Quotes2 = () => {
                                                         <SignatureCapture
                                                             style={{height: 96, margin: 2}}
                                                             ref={item.ref}
-                                                            onSaveEvent={onSavePrice}
+                                                            onSaveEvent={processDocument}
                                                             onDragEvent={() => onDraggedPrice(index)}
                                                             saveImageFileInExtStorage={true}
                                                             showNativeButtons={false}

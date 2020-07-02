@@ -130,13 +130,14 @@ android {
 
     defaultConfig {
     manifestPlaceholders = [
-              appAuthRedirectScheme: 'com.azureadb2c'
-            ]
+                  appAuthRedirectScheme: 'com.azureadb2c'
+                ]
         applicationId "com.biddingmobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -153,6 +154,13 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+
+        release {
+                      storeFile file('shan.keystore')
+                      storePassword 'password123'
+                      keyAlias 'your_key_alias'
+                      keyPassword 'password123'
+                    }
     }
     buildTypes {
         debug {
@@ -197,6 +205,9 @@ dependencies {
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.0.0'
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
     }
@@ -226,3 +237,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "118773773303",
+    "firebase_url": "https://reactfiresig.firebaseio.com",
+    "project_id": "reactfiresig",
+    "storage_bucket": "reactfiresig.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:118773773303:android:76152d58a0bf89713434f2",
+        "android_client_info": {
+          "package_name": "com.biddingmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "118773773303-kl6f6uvjpenkqdftehtbedsifso1lath.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLT24EsXI7cGZnHO6V0oKPaJPFz4y1w6w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "118773773303-kl6f6uvjpenkqdftehtbedsifso1lath.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
