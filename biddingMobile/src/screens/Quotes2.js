@@ -32,9 +32,14 @@ const Quotes2 = () => {
         const [go, setgo] = React.useState(false);
         const [go2, setgo2] = React.useState(false);
 
+        // const tessOptions = {
+        //     // whitelist: '^[0-9]*$',
+        //     blacklist: '\'!,."#$%&/()={}[]+*-_:;<>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+        // };
+
         const tessOptions = {
-            // whitelist: '^[0-9]*$',
-            blacklist: '\'!,."#$%&/()={}[]+*-_:;<>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+            whitelist: "0123456789",
+            blacklist: "!?@#$%&*()<>_-+=/:;'\"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
         };
 
         React.useEffect(() => {
@@ -91,28 +96,28 @@ const Quotes2 = () => {
             }
         }, []);
 
-    if (ItemsByCatalog.length>0 && go){
-        setgo(false)
-        let value=[]
-        ItemsByCatalog.map((item, index) => {
-            // Only do this if items have no stable IDs
+        if (ItemsByCatalog.length > 0 && go) {
+            setgo(false)
+            let value = []
+            ItemsByCatalog.map((item, index) => {
+                // Only do this if items have no stable IDs
 
-            //console.log("index: " + index)<Text
-            const value = {
-                idIndex: index, ref: React.createRef(),price: 0, val: true,Id: item.Id, ItemNumber: item.ItemNumber,
-                BrandName: item.BrandName, ItemCode: item.ItemCode, ItemType: item.ItemType,
-                NetWeight: item.NetWeight, TotalWeight: item.TotalWeight, status: 0
-            }
-            dispatch({type: 'add', value: value})
-            // console.log("value array: " + JSON.stringify(value))
-            //value.push(value2)
-        })
-        //dispatch({type: 'add', value: value})
-        // console.log("showT array: " + JSON.stringify(showT))
-        //console.log("value array: " + JSON.stringify(value))
-    }
+                //console.log("index: " + index)<Text
+                const value = {
+                    idIndex: index, ref: React.createRef(), price: 0, val: true, Id: item.Id, ItemNumber: item.ItemNumber,
+                    BrandName: item.BrandName, ItemCode: item.ItemCode, ItemType: item.ItemType,
+                    NetWeight: item.NetWeight, TotalWeight: item.TotalWeight, status: 0
+                }
+                dispatch({type: 'add', value: value})
+                // console.log("value array: " + JSON.stringify(value))
+                //value.push(value2)
+            })
+            //dispatch({type: 'add', value: value})
+            // console.log("showT array: " + JSON.stringify(showT))
+            //console.log("value array: " + JSON.stringify(value))
+        }
 
-    //console.log("showT array: " + JSON.stringify(showT))
+        //console.log("showT array: " + JSON.stringify(showT))
 
 
         // React.useEffect(() => {
@@ -156,7 +161,7 @@ const Quotes2 = () => {
             dispatch({type: 'change', value: items});
             clearupdatePriceByIDStatus();
 
-        }else if (PostBuyOutPriceStatus !== 200 && PostBuyOutPriceStatus !== "" && go2){
+        } else if (PostBuyOutPriceStatus !== 200 && PostBuyOutPriceStatus !== "" && go2) {
             setgo2(false)
             let items = [...showT];
             let item = {...showT[priceIndex]};
@@ -165,7 +170,7 @@ const Quotes2 = () => {
             dispatch({type: 'change', value: items});
             clearupdatePriceByIDStatus();
         }
-    //console.log("show t status: "+showT[priceIndex].status)
+        //console.log("show t status: "+showT[priceIndex].status)
         // }else if (PostBuyOutPriceStatus === 400 || PostBuyOutPriceStatus === 404) {
         //     clearupdatePriceByIDStatus();
         //     let items = [...showT];
@@ -452,18 +457,12 @@ const Quotes2 = () => {
                                                 </TouchableOpacity>
                                             </View>
                                             : item.status === 200 ?
-                                            <View style={{
-                                                flexDirection: 'row',
-                                                justifyContent: 'flex-end',
-                                                marginTop: 2,
-                                            }}>
-                                                <Text style={{fontSize: 14, color: '#489fdd'}}> Saved</Text>
-                                            </View> : item.status !== 200 ? <View style={{
+                                                <View style={{
                                                     flexDirection: 'row',
                                                     justifyContent: 'flex-end',
                                                     marginTop: 2,
                                                 }}>
-                                                    <Text style={{fontSize: 14, color: 'red'}}>Failed</Text>
+                                                    <Text style={{fontSize: 14, color: '#489fdd'}}> Saved</Text>
                                                 </View> : null}
                                     </View>
 
