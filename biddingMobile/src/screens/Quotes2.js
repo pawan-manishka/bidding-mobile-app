@@ -9,7 +9,10 @@ import {
     Alert,
     StatusBar, ImageBackground, ActivityIndicator, TouchableOpacity,
     FlatList,
-    Animated
+    Animated,
+    ToastAndroid,
+    Platform,
+    AlertIOS,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -230,14 +233,24 @@ const Quotes2 = () => {
         console.log(result.pathName);
         console.log('Found text in document: ', processed.text);
 
-        let items = [...showT];
-        let item = {...showT[priceIndex]};
-        console.log('index val: ', item.val);
-        item.val = false;
         let filtord = processed.text.replace(/[^0-9]/g, '')
-        item.price = filtord;
-        items[priceIndex] = item;
-        dispatch({type: 'change', value: items});
+        if (filtord === ''){
+            if (Platform.OS === 'android') {
+                ToastAndroid.show("Cannot identify the price. Please try again!", ToastAndroid.SHORT)
+            } else {
+                AlertIOS.alert("Cannot identify the price. Please try again!");
+            }
+        }else {
+
+            let items = [...showT];
+            let item = {...showT[priceIndex]};
+            console.log('index val: ', item.val);
+            item.val = false;
+            item.price = filtord;
+            items[priceIndex] = item;
+            dispatch({type: 'change', value: items});
+            updatePriceByID({id: ItemID, BuyOutPrice: filtord})
+        }
 
         processed.blocks.forEach((block) => {
             console.log('Found block with text: ', block.text);
