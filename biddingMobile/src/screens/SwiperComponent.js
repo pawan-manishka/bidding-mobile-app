@@ -11,6 +11,8 @@ import Swiper from 'react-native-swiper';
 import * as Animatable from 'react-native-animatable';
 import {authorize} from "react-native-app-auth";
 import AsyncStorage from '@react-native-community/async-storage';
+import CirclesLoader from "react-native-indicator/lib/loader/CirclesLoader";
+import TextLoader from "react-native-indicator/lib/loader/TextLoader";
 
 const config = {
     issuer: 'https://oklob2ctest.onmicrosoft.com.b2clogin.com/52eb8007-baf7-4f96-9b52-a0b8e79ad06b/v2.0/',
@@ -36,6 +38,7 @@ const SwiperComponent = ({navigation}) => {
     const [animation_signup, setanimation_signup] = useState(null);
     const [animation_login, setanimation_login] = useState(null);
     const [show, setshow] = useState(false);
+    const [hide, sethide] = useState(false);
 
     // const token = AsyncStorage.getItem('token');
     // if (token){
@@ -55,8 +58,15 @@ const SwiperComponent = ({navigation}) => {
 
         } catch (error) {
             Alert.alert('Failed to log in', error.message);
+            sethide(false);
+            setshow(true)
         }
     };
+
+    function hideLogin(){
+        sethide(!hide);
+        authorized();
+    }
 
     function onIndexChanged(index) {
         if (index === 1) {
@@ -128,7 +138,7 @@ const SwiperComponent = ({navigation}) => {
                         <Text style={styles.text}>
                             Smart Auction app facilitate more conveinient bidding for your lives
                         </Text>
-                        {show ? (
+                        {show && hide === false ? (
                             <View style={{flexDirection: 'row'}}>
                                 <Animatable.View
                                     animation={animation_signup}
@@ -157,7 +167,7 @@ const SwiperComponent = ({navigation}) => {
                                     duration={1500}
                                     useNativeDriver>
                                     <TouchableOpacity
-                                        onPress={()=> authorized()}
+                                        onPress={()=> hideLogin()}
                                         style={[
                                             styles.button,
                                             {
@@ -171,7 +181,10 @@ const SwiperComponent = ({navigation}) => {
                                     </TouchableOpacity>
                                 </Animatable.View>
                             </View>
-                        ) : null}
+                        ) : show && hide ? <View style={{height:50,flexDirection: 'column',justifyContent:'center',alignItems:'center',marginTop: '5%'}}>
+                            <CirclesLoader color='#489fdd'/>
+                            <TextLoader textStyle={{color: '#489fdd'}} text="Signing In"/>
+                        </View>: null}
                     </View>
                 </View>
 
