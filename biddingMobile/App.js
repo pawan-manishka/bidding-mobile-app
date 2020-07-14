@@ -21,7 +21,7 @@ const config = {
   // redirectUrl: 'urn.ietf.wg.oauth.2.0.oob://oauthredirect',
   redirectUrl: 'com.azureadb2c://callback',
   additionalParameters: {},
-  scopes: ['openid', 'eb4d6883-4d04-43b9-946d-e86a288df4bc', 'offline_access'],
+  scopes: ['https://oklob2ctest.onmicrosoft.com/146ac18c-69ac-48bf-a9d6-cea3fc04c31d/Auction.Read'],
 
   serviceConfiguration: {
     authorizationEndpoint: 'https://oklob2ctest.b2clogin.com/oklob2ctest.onmicrosoft.com/B2C_1_SISU_AuctionPlatform/oauth2/v2.0/authorize',
@@ -49,7 +49,10 @@ export default class App extends Component<{}, State> {
 
   authorize = async () => {
     try {
+      console.log("First >>",config)
       const authState = await authorize(config);
+        Alert.alert("TOKEN >>",authState.accessToken);
+      console.log("TOKEN >>",authState.accessToken)
       this.animateState(
           {
             hasLoggedInOnce: true,
