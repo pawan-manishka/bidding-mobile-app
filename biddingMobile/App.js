@@ -31,100 +31,72 @@ const config = {
 };
 
 export default class App extends Component<{}, State> {
-  state = {
-    hasLoggedInOnce: false,
-    accessToken: '',
-    accessTokenExpirationDate: '',
-    refreshToken: ''
-  };
-
-  animateState(nextState: $Shape<State>, delay: number = 0) {
-    setTimeout(() => {
-      this.setState(() => {
-        LayoutAnimation.easeInEaseOut();
-        return nextState;
-      });
-    }, delay);
-  }
-
-  authorize = async () => {
-    try {
-      console.log("First >>",config)
-      const authState = await authorize(config);
-        Alert.alert("TOKEN >>",authState.accessToken);
-      console.log("TOKEN >>",authState.accessToken)
-      this.animateState(
-          {
-            hasLoggedInOnce: true,
-            accessToken: authState.accessToken,
-            accessTokenExpirationDate: authState.accessTokenExpirationDate,
-            refreshToken: authState.refreshToken
-          },
-          500
-      );
-    } catch (error) {
-      Alert.alert('Failed to log in', error.message);
-    }
-  };
-
-  refresh = async () => {
-    try {
-      const authState = await refresh(config, {
-        refreshToken: this.state.refreshToken
-      });
-
-      this.animateState({
-        accessToken: authState.accessToken || this.state.accessToken,
-        accessTokenExpirationDate:
-            authState.accessTokenExpirationDate || this.state.accessTokenExpirationDate,
-        refreshToken: authState.refreshToken || this.state.refreshToken
-      });
-    } catch (error) {
-      Alert.alert('Failed to refresh token', error.message);
-    }
-  };
-
-  revoke = async () => {
-    try {
-      await revoke(config, {
-        tokenToRevoke: this.state.accessToken,
-        sendClientId: true
-      });
-      this.animateState({
+    state = {
+        hasLoggedInOnce: false,
         accessToken: '',
         accessTokenExpirationDate: '',
         refreshToken: ''
-      });
-    } catch (error) {
-      Alert.alert('Failed to revoke token', error.message);
+    };
+
+    animateState(nextState: $Shape<State>, delay: number = 0) {
+        setTimeout(() => {
+            this.setState(() => {
+                LayoutAnimation.easeInEaseOut();
+                return nextState;
+            });
+        }, delay);
     }
-  };
 
-  render() {
-    const { state } = this;
-    return (
-        <Page>
-          {!!state.accessToken ? (
-              <Form>
-                <Form.Label>accessToken</Form.Label>
-                <Form.Value>{state.accessToken}</Form.Value>
-                <Form.Label>accessTokenExpirationDate</Form.Label>
-                <Form.Value>{state.accessTokenExpirationDate}</Form.Value>
-                <Form.Label>refreshToken</Form.Label>
-                <Form.Value>{state.refreshToken}</Form.Value>
-              </Form>
-          ) : (
-              <Heading>{state.hasLoggedInOnce ? 'Goodbye.' : 'Hello, stranger.'}</Heading>
-          )}
+    authorize = async () => {
+        try {
+            console.log("First >>", config)
+            const authState = await authorize(config);
+            Alert.alert("TOKEN >>", authState.accessToken);
+            console.log("TOKEN >>", authState.accessToken)
+            this.animateState(
+                {
+                    hasLoggedInOnce: true,
+                    accessToken: authState.accessToken,
+                    accessTokenExpirationDate: authState.accessTokenExpirationDate,
+                    refreshToken: authState.refreshToken
+                },
+                500
+            );
+        } catch (error) {
+            Alert.alert('Failed to log in', error.message);
+        }
+    };
 
-          <ButtonContainer>
-            {!state.accessToken && (
-                <Button onPress={this.authorize} text="Login" color="#DA2536" />
-            )}
-            {!!state.refreshToken && <Button onPress={this.refresh} text="Refresh" color="#24C2CB" />}
-            {!!state.accessToken && <Button onPress={this.revoke} text="Logout" color="#EF525B" />}
-          </ButtonContainer>
-        </Page>
-    );
-  }
+    refresh = async () => {
+        try {
+            const authState = await refresh(config, {
+                refreshToken: this.state.refreshToken
+            });
+
+            this.animateState({
+                accessToken: authState.accessToken || this.state.accessToken,
+                accessTokenExpirationDate:
+                authState.accessTokenExpirationDate || this.state.accessTokenExpirationDate,
+                refreshToken: authState.refreshToken || this.state.refreshToken
+            });
+        } catch (error) {
+            Alert.alert('Failed to refresh token', error.message);
+        }
+    };
+
+    revoke = async () => {
+        try {
+            await revoke(config, {
+                tokenToRevoke: this.state.accessToken,
+                sendClientId: true
+            });
+            this.animateState({
+                accessToken: '',
+                accessTokenExpirationDate: '',
+                refreshToken: ''
+            });
+        } catch (error) {
+            Alert.alert('Failed to revoke token', error.message);
+        }
+    }
 }
