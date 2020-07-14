@@ -103,7 +103,7 @@ const SwiperComponent = ({navigation}) => {
                         <Text style={styles.title}>Welcome to{'\n'}Smart Auction</Text>
 
                         <Text style={styles.text}>
-                            Smart Auction app facilitate more conveinient bidding for your lives
+                            Smart Auction app facilitate more convenient bidding for your lives
                         </Text>
                     </View>
                 </View>
@@ -136,7 +136,7 @@ const SwiperComponent = ({navigation}) => {
                     <View style={styles.footer}>
                         <Text style={styles.title}> Let's Start</Text>
                         <Text style={styles.text}>
-                            Smart Auction app facilitate more conveinient bidding for your lives
+                            Smart Auction app facilitate more convenient bidding for your lives
                         </Text>
                         {show && hide === false ? (
                             <View style={{flexDirection: 'row'}}>
@@ -181,9 +181,10 @@ const SwiperComponent = ({navigation}) => {
                                     </TouchableOpacity>
                                 </Animatable.View>
                             </View>
-                        ) : show && hide ? <View style={{height:50,flexDirection: 'column',justifyContent:'center',alignItems:'center',marginTop: '5%'}}>
+                        ) : show && hide ?
+                            <View style={{height:50,flexDirection: 'column',justifyContent:'center',alignItems:'center',marginTop: '6%'}}>
                             <CirclesLoader color='#489fdd'/>
-                            <TextLoader textStyle={{color: '#489fdd'}} text="Signing In"/>
+                            <TextLoader textStyle={{marginTop:'1%',color: '#489fdd'}} text="Signing In"/>
                         </View>: null}
                     </View>
                 </View>
