@@ -322,11 +322,11 @@ const Quotes2 = () => {
                                 data={catalogs_array}
                                 onChangeText={(value => onChangeHandler(value))}
                             />
-                            <View style={{flexDirection: 'row', display: 'flex', paddingTop: '1%', paddingBottom: '1%'}}>
+                            <View style={{flexDirection: 'row', display: 'flex', paddingTop: '2%', paddingBottom: '2%'}}>
                                 <Text
                                     style={{
-                                        color: '#fff',
-                                        fontSize: 18
+                                        color: '#dfdfdf',
+                                        fontSize: 16
                                     }}>Canvas</Text>
                                 <View>
                                     <Switch
@@ -339,9 +339,9 @@ const Quotes2 = () => {
                                 </View>
                                 <Text
                                     style={{
-                                        color: '#fff',
-                                        fontSize: 18
-                                    }}>EditText</Text>
+                                        color: '#dfdfdf',
+                                        fontSize: 16
+                                    }}>Text Input</Text>
                             </View>
                         </View>
                     </View>
@@ -426,7 +426,7 @@ const Quotes2 = () => {
                                             <Text style={{color: 'white', paddingLeft: 8, paddingTop: 2}}>Price</Text>
                                             <View style={isEnabled ? {
                                                 width: '100%',
-                                                height: 60,
+                                                height: 65,
                                                 backgroundColor: '#1a2332',
                                                 borderRadius: 10,
                                                 margin: 1,
@@ -450,7 +450,7 @@ const Quotes2 = () => {
                                                                 placeholder='Enter your price'
                                                                 placeholderTextColor = "#7f7f7f"
                                                                 keyboardType='numeric'
-                                                                style={{height: 60,color:'white',fontSize: 17,textAlign:'center'}}
+                                                                style={{height: 65,color:'white',fontSize: 17,textAlign:'center'}}
                                                             /></View> :
                                                             <SignatureCapture
                                                                 style={{height: 96, margin: 2}}
