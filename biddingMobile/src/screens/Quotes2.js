@@ -152,7 +152,11 @@ const Quotes2 = () => {
 
         function resetPrice(index) {
             //console.log("function call: "+priceRefs[index].current)
-            showT[index].ref.current.resetImage();
+            if (isEnabled){
+                //setpriceET("");
+            }else {
+                showT[index].ref.current.resetImage();
+            }
         }
 
         function savePrice(index, id) {
@@ -175,6 +179,7 @@ const Quotes2 = () => {
 
         if (PostBuyOutPriceStatus === 200 && PostBuyOutPriceStatus !== "" && go2) {
             setgo2(false)
+            setpriceET("");
             let items = [...showT];
             let item = {...showT[priceIndex]};
             item.status = PostBuyOutPriceStatus;
@@ -242,14 +247,22 @@ const Quotes2 = () => {
 
         function savePriceEditText(value,id,index){
             console.log('price value: ', value);
-            let items = [...showT];
-            let item = {...showT[index]};
-            console.log('index val: ', item.val);
-            item.val = false;
-            item.price = value;
-            items[index] = item;
-            dispatch({type: 'change', value: items});
-            updatePriceByID({id: id, BuyOutPrice: value})
+            if (value === '') {
+                if (Platform.OS === 'android') {
+                    ToastAndroid.show("Please enter the price!", ToastAndroid.SHORT)
+                } else {
+                    AlertIOS.alert("Please enter the price!");
+                }
+            } else {
+                let items = [...showT];
+                let item = {...showT[index]};
+                console.log('index val: ', item.val);
+                item.val = false;
+                item.price = value;
+                items[index] = item;
+                dispatch({type: 'change', value: items});
+                updatePriceByID({id: id, BuyOutPrice: value})
+            }
         }
 
 
@@ -553,6 +566,7 @@ const Quotes2 = () => {
                                                     onPress={() => {
                                                         resetPrice(index);
                                                     }}
+                                                    disabled={isEnabled}
                                                     style={[
                                                         styles.button,
                                                         {
