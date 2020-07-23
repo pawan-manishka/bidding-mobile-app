@@ -15,6 +15,7 @@ import {
     AlertIOS,
     Switch, PermissionsAndroid
 } from 'react-native';
+import { Chevron } from 'react-native-shapes';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import SignatureCapture from 'react-native-signature-capture';
@@ -28,6 +29,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import index from 'react-native-swiper/src';
 import {utils} from '@react-native-firebase/app';
 import vision from '@react-native-firebase/ml-vision';
+import RNPickerSelect from 'react-native-picker-select';
 
 
 const Quotes2 = () => {
@@ -81,14 +83,15 @@ const Quotes2 = () => {
         let catalogs_array = [];
 
         CatalogList.map((item, index) => (
-            catalogs_array.push({value: item.Id+" - "+item.Name})
+            catalogs_array.push({value: item.Id, label: item.Name})
         ))
 
         //console.log('items by catalog catalog list: ' + ItemsByCatalog.length)
         console.log('update price status: ' + PostBuyOutPriceStatus)
         const onChangeHandler = (value) => {
+            //let filtered = photoTypes.filter(ex => ex.photo_type === photoval);
             console.log(`Selected value: ${value}`);
-            getItemsByCatalog({id: value.substring(0,4)})
+            getItemsByCatalog({id: value})
             setgo(true)
             // renderData()
         };
@@ -326,6 +329,12 @@ const Quotes2 = () => {
         }
     };
 
+    const placeholder = {
+        label: 'Select Catalog..',
+        value: null,
+        color: '#9EA0A4',
+    };
+
         return (
             <View style={{width: '100%', backgroundColor: '#0b1224'}}>
                 <StatusBar backgroundColor="#1a2435" barStyle="light-content"/>
@@ -348,16 +357,21 @@ const Quotes2 = () => {
                             backgroundColor: '#0b1224',
                             flexDirection: 'column',
                         }}>
-                            <Dropdown
-                                pickerStyle={{marginTop: 50}}
-                                textColor='#489fdd'
-                                itemColor='#489fdd'
-                                selectedItemColor='green'
-                                baseColor='white'
-                                label='Select Catalog :'
-                                data={catalogs_array}
-                                onChangeText={(value => onChangeHandler(value))}
+                            <RNPickerSelect
+                                placeholder={placeholder}
+                                items={catalogs_array}
+                                onValueChange={(value) => onChangeHandler(value)}
+                                style={pickerSelectStyles}
+                                // Icon={() => {
+                                //     return <View><Chevron size={1.5} color="gray" /></View>;
+                                // }}
+                                useNativeAndroidPickerStyle={false}
                             />
+                            {/*<RNPickerSelect*/}
+                            {/*    onValueChange={(value) => onChangeHandler(value)}*/}
+                            {/*    useNativeAndroidPickerStyle*/}
+                            {/*    items={catalogs_array}*/}
+                            {/*/>*/}
                             <View style={{flexDirection: 'row', display: 'flex', paddingTop: '2%', paddingBottom: '2%'}}>
                                 <Text
                                     style={{
@@ -715,6 +729,31 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         paddingRight: 15,
         borderRadius: 5,
+    },
+});
+
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+        marginTop:15,
+        fontSize: 16,
+        paddingVertical: 12,
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: 'white',
+        borderRadius: 4,
+        color: 'white',
+        paddingRight: 30, // to ensure the text is never behind the icon
+    },
+    inputAndroid: {
+        marginTop:15,
+        fontSize: 16,
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        borderWidth: 0.5,
+        borderColor: 'white',
+        borderRadius: 8,
+        color: 'white',
+        paddingRight: 30, // to ensure the text is never behind the icon
     },
 });
 
