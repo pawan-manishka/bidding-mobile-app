@@ -13,6 +13,7 @@ import {
     ToastAndroid,
     Platform,
     AlertIOS,
+    Switch
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -25,7 +26,7 @@ import TextLoader from "react-native-indicator/lib/loader/TextLoader";
 import {DotsLoader} from "react-native-indicator";
 import Entypo from 'react-native-vector-icons/Entypo';
 import index from 'react-native-swiper/src';
-import { utils } from '@react-native-firebase/app';
+import {utils} from '@react-native-firebase/app';
 import vision from '@react-native-firebase/ml-vision';
 
 
@@ -34,9 +35,13 @@ const Quotes2 = () => {
         const {state: {CatalogList, ItemsByCatalog, PostBuyOutPriceStatus}, getPublishedCatalogs, getItemsByCatalog, updatePriceByID, clearupdatePriceByIDStatus} = useContext(CatalogContext);
         const [priceRefs, setpriceRefs] = React.useState([]);
         const [priceIndex, setpriceIndex] = React.useState('');
+        const [priceET, setpriceET] = React.useState('');
         const [ItemID, setItemID] = React.useState('');
         const [go, setgo] = React.useState(false);
         const [go2, setgo2] = React.useState(false);
+
+        const [isEnabled, setIsEnabled] = useState(false);
+        const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
         // const tessOptions = {
         //     // whitelist: '^[0-9]*$',
@@ -151,11 +156,21 @@ const Quotes2 = () => {
         }
 
         function savePrice(index, id) {
-            showT[index].ref.current.saveImage();
+            console.log('id of correct: '+id)
+            console.log('index of correct: '+index)
+            if (isEnabled){
+                savePriceEditText(priceET,id,index)
+                setpriceIndex(index);
+                setItemID(id)
+                setgo2(true);
+            }else {
+                showT[index].ref.current.saveImage();
+                setpriceIndex(index);
+                setItemID(id)
+                setgo2(true);
+            }
             //showT[index].succes = true
-            setpriceIndex(index);
-            setItemID(id)
-            setgo2(true);
+
         }
 
         if (PostBuyOutPriceStatus === 200 && PostBuyOutPriceStatus !== "" && go2) {
@@ -225,39 +240,51 @@ const Quotes2 = () => {
 
         }
 
-
-    async function processDocument(result) {
-        const processed = await vision().textRecognizerProcessImage(
-            result.pathName,
-        );
-        console.log(result.pathName);
-        console.log('Found text in document: ', processed.text);
-
-        let filtord = processed.text.replace(/[^0-9]/g, '')
-        if (filtord === ''){
-            if (Platform.OS === 'android') {
-                ToastAndroid.show("Cannot identify the price. Please try again!", ToastAndroid.SHORT)
-            } else {
-                AlertIOS.alert("Cannot identify the price. Please try again!");
-            }
-        }else {
-
+        function savePriceEditText(value,id,index){
+            console.log('price value: ', value);
             let items = [...showT];
-            let item = {...showT[priceIndex]};
+            let item = {...showT[index]};
             console.log('index val: ', item.val);
             item.val = false;
-            item.price = filtord;
-            items[priceIndex] = item;
+            item.price = value;
+            items[index] = item;
             dispatch({type: 'change', value: items});
-            updatePriceByID({id: ItemID, BuyOutPrice: filtord})
+            updatePriceByID({id: id, BuyOutPrice: value})
         }
 
-        processed.blocks.forEach((block) => {
-            console.log('Found block with text: ', block.text);
-            console.log('Confidence in block: ', block.confidence);
-            console.log('Languages found in block: ', block.recognizedLanguages);
-        });
-    }
+
+        async function processDocument(result) {
+            const processed = await vision().textRecognizerProcessImage(
+                result.pathName,
+            );
+            console.log(result.pathName);
+            console.log('Found text in document: ', processed.text);
+
+            let filtord = processed.text.replace(/[^0-9]/g, '')
+            if (filtord === '') {
+                if (Platform.OS === 'android') {
+                    ToastAndroid.show("Cannot identify the price. Please try again!", ToastAndroid.SHORT)
+                } else {
+                    AlertIOS.alert("Cannot identify the price. Please try again!");
+                }
+            } else {
+
+                let items = [...showT];
+                let item = {...showT[priceIndex]};
+                console.log('index val: ', item.val);
+                item.val = false;
+                item.price = filtord;
+                items[priceIndex] = item;
+                dispatch({type: 'change', value: items});
+                updatePriceByID({id: ItemID, BuyOutPrice: filtord})
+            }
+
+            processed.blocks.forEach((block) => {
+                console.log('Found block with text: ', block.text);
+                console.log('Confidence in block: ', block.confidence);
+                console.log('Languages found in block: ', block.recognizedLanguages);
+            });
+        }
 
         function onDraggedPrice(index) {
             console.log('price dragged on index: ' + index);
@@ -278,7 +305,13 @@ const Quotes2 = () => {
                         marginRight: 10
                     }}>
                         {/*<Text style={{color:'white',fontSize: 18,fontWeight: 'bold'}}>Catalogs: </Text>*/}
-                        <View style={{flex: 1, marginBottom: 15, marginRight: 20, backgroundColor: '#0b1224'}}>
+                        <View style={{
+                            flex: 1,
+                            marginBottom: 15,
+                            marginRight: 20,
+                            backgroundColor: '#0b1224',
+                            flexDirection: 'column',
+                        }}>
                             <Dropdown
                                 pickerStyle={{marginTop: 50}}
                                 textColor='#489fdd'
@@ -289,6 +322,27 @@ const Quotes2 = () => {
                                 data={catalogs_array}
                                 onChangeText={(value => onChangeHandler(value))}
                             />
+                            <View style={{flexDirection: 'row', display: 'flex', paddingTop: '1%', paddingBottom: '1%'}}>
+                                <Text
+                                    style={{
+                                        color: '#fff',
+                                        fontSize: 18
+                                    }}>Canvas</Text>
+                                <View>
+                                    <Switch
+                                        trackColor={{false: "#2b5f84", true: "#005900"}}
+                                        thumbColor={isEnabled ? "green" : "#489fdd"}
+                                        ios_backgroundColor="#3e3e3e"
+                                        onValueChange={toggleSwitch}
+                                        value={isEnabled}
+                                    />
+                                </View>
+                                <Text
+                                    style={{
+                                        color: '#fff',
+                                        fontSize: 18
+                                    }}>EditText</Text>
+                            </View>
                         </View>
                     </View>
                     <View style={{
@@ -370,7 +424,13 @@ const Quotes2 = () => {
                                             flexDirection: 'column', flex: 1.2,
                                         }}>
                                             <Text style={{color: 'white', paddingLeft: 8, paddingTop: 2}}>Price</Text>
-                                            <View style={{
+                                            <View style={isEnabled ? {
+                                                width: '100%',
+                                                height: 60,
+                                                backgroundColor: '#1a2332',
+                                                borderRadius: 10,
+                                                margin: 1,
+                                            } : {
                                                 width: '100%',
                                                 height: 100,
                                                 backgroundColor: '#1a2332',
@@ -384,24 +444,37 @@ const Quotes2 = () => {
                                                 </View>
                                                 {item.val ?
                                                     <View>
-                                                        <SignatureCapture
-                                                            style={{height: 96, margin: 2}}
-                                                            ref={item.ref}
-                                                            onSaveEvent={processDocument}
-                                                            onDragEvent={() => onDraggedPrice(index)}
-                                                            saveImageFileInExtStorage={true}
-                                                            showNativeButtons={false}
-                                                            showTitleLabel={false}
-                                                            viewMode={'portrait'}
-                                                            backgroundColor={'#1a2332'}
-                                                            strokeColor="white"
-                                                            maxStrokeWidth={1}
-                                                        />
-
+                                                        {isEnabled ? <View style={{justifyContent:'center',alignItems:'center',display:'flex',height:'100%'}}><TextInput
+                                                                //value={name}
+                                                                onChangeText={text => setpriceET(text)}
+                                                                placeholder='Enter your price'
+                                                                placeholderTextColor = "#7f7f7f"
+                                                                keyboardType='numeric'
+                                                                style={{height: 60,color:'white',fontSize: 17,textAlign:'center'}}
+                                                            /></View> :
+                                                            <SignatureCapture
+                                                                style={{height: 96, margin: 2}}
+                                                                ref={item.ref}
+                                                                onSaveEvent={processDocument}
+                                                                onDragEvent={() => onDraggedPrice(index)}
+                                                                saveImageFileInExtStorage={true}
+                                                                showNativeButtons={false}
+                                                                showTitleLabel={false}
+                                                                viewMode={'portrait'}
+                                                                backgroundColor={'#1a2332'}
+                                                                strokeColor="white"
+                                                                maxStrokeWidth={1}
+                                                            />
+                                                        }
 
                                                     </View>
                                                     :
-                                                    <View style={{
+                                                    <View style={isEnabled ? {
+                                                        flexDirection: 'row',
+                                                        height: 60,
+                                                        justifyContent: 'center',
+                                                        alignItems: 'center',
+                                                    }: {
                                                         flexDirection: 'row',
                                                         height: 100,
                                                         justifyContent: 'center',
