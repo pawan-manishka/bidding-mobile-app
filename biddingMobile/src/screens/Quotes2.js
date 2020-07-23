@@ -13,7 +13,7 @@ import {
     ToastAndroid,
     Platform,
     AlertIOS,
-    Switch
+    Switch, PermissionsAndroid
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -81,14 +81,14 @@ const Quotes2 = () => {
         let catalogs_array = [];
 
         CatalogList.map((item, index) => (
-            catalogs_array.push({value: item.Id})
+            catalogs_array.push({value: item.Id+" - "+item.Name})
         ))
 
         //console.log('items by catalog catalog list: ' + ItemsByCatalog.length)
         console.log('update price status: ' + PostBuyOutPriceStatus)
         const onChangeHandler = (value) => {
             console.log(`Selected value: ${value}`);
-            getItemsByCatalog({id: value})
+            getItemsByCatalog({id: value.substring(0,4)})
             setgo(true)
             // renderData()
         };
@@ -302,6 +302,29 @@ const Quotes2 = () => {
         function onDraggedPrice(index) {
             console.log('price dragged on index: ' + index);
         }
+
+    const requestStoragePermission = async () => {
+        try {
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+                {
+                    title: "Storage Permissions",
+                    message:
+                        "You needs to give storage permission before using the app",
+                    buttonNeutral: "Ask Me Later",
+                    buttonNegative: "Cancel",
+                    buttonPositive: "OK"
+                }
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                console.log("You can use the app");
+            } else {
+                console.log("Storage permission denied");
+            }
+        } catch (err) {
+            console.warn(err);
+        }
+    };
 
         return (
             <View style={{width: '100%', backgroundColor: '#0b1224'}}>
