@@ -93,7 +93,7 @@ const SwiperComponent = ({navigation}) => {
                     <StatusBar backgroundColor="#1a2435" barStyle="light-content"/>
                     <View style={styles.header}>
                         <Image
-                            source={require('../asset/SmartAuction.png')}
+                            source={require('../asset/SmartAuction1.png')}
                             style={styles.image}
                             resizeMode={'stretch'}
                         />
@@ -128,7 +128,7 @@ const SwiperComponent = ({navigation}) => {
                 <View style={styles.slide}>
                     <View style={styles.header}>
                         <Image
-                            source={require('../asset/SmartAuction.png')}
+                            source={require('../asset/SmartAuction1.png')}
                             style={styles.image}
                             resizeMode={'stretch'}
                         />
@@ -213,8 +213,8 @@ var styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     image: {
-        height: 100,
-        width: 240,
+        height: 90,
+        width: 200,
     },
     title: {
         fontSize: 24,
