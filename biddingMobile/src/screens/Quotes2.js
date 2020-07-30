@@ -346,8 +346,8 @@ const Quotes2 = () => {
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        marginLeft: 10,
-                        marginRight: 10
+                        marginLeft: '3%',
+                        marginRight: '3%'
                     }}>
                         {/*<Text style={{color:'white',fontSize: 18,fontWeight: 'bold'}}>Catalogs: </Text>*/}
                         <View style={{
@@ -376,7 +376,8 @@ const Quotes2 = () => {
                                 <Text
                                     style={{
                                         color: '#dfdfdf',
-                                        fontSize: 16
+                                        fontSize: 16,
+                                        marginLeft:'1%'
                                     }}>Canvas</Text>
                                 <View>
                                     <Switch
