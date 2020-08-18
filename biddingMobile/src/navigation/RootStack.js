@@ -8,6 +8,7 @@ import Quotes from '../screens/Quotes';
 import {Provider as CatalogProvider} from "../context/CatalogContext";
 import React from "react";
 import Quotes2 from "../screens/Quotes2";
+import SignalRTest from "../screens/SignalRTest";
 import {setNavigator} from "../navigationRef";
 
 const StackNavigator = createStackNavigator({
@@ -45,7 +46,7 @@ const Main = createSwitchNavigator({
         screen: StackNavigator,
     },
     App: {
-        screen: Quotes2,
+        screen: SignalRTest,
     },
     // TourDetail: {
     //     screen: TourStack,

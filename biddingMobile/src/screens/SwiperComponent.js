@@ -48,13 +48,17 @@ const SwiperComponent = ({navigation}) => {
     const authorized = async () => {
         try {
             const authState = await authorize(config);
-            console.log('accessTokenExpirationDate: '+authState.accessTokenExpirationDate)
-            console.log('scopes: '+authState.scopes)
-            console.log('tokenType: '+authState.tokenType)
-            console.log('refreshToken: '+authState.tokenType)
+            //console.log('accessTokenExpirationDate: '+authState.accessTokenExpirationDate)
+            //console.log('scopes: '+authState.scopes)
+            //console.log('tokenType: '+authState.tokenType)
+            //console.log('refreshToken: '+authState.tokenType)
             console.log('accessToken: '+authState.accessToken)
             AsyncStorage.setItem('token',authState.accessToken);
-            navigation.navigate('App');
+            // navigation.navigate('Home');
+            navigation.reset({
+                index: 0,
+                routes: [{name: 'Home'}],
+            });
 
         } catch (error) {
             Alert.alert('Failed to log in', error.message);
