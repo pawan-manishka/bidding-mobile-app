@@ -75,9 +75,9 @@ const _HomeWithTabs = () => {
                     inactiveTintColor: '#374760',
                 },
             }}/>
-            <Tab.Screen name="Chart" component={ChartScreen}
+            <Tab.Screen name="Chart" component={SignalRTest}
                         options={{
-                            tabBarLabel: 'Chart',
+                            tabBarLabel: 'Signal R',
                             tabBarIcon: ({color, size}) => (
                                 <Ionicons name="ios-stats" color={color} size={25}/>
                             ),
