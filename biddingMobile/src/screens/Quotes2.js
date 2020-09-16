@@ -34,7 +34,8 @@ import RNPickerSelect from 'react-native-picker-select';
 
 const Quotes2 = () => {
 
-        const {state: {CatalogList, ItemsByCatalog, PostBuyOutPriceStatus}, getPublishedCatalogs, getItemsByCatalog, updatePriceByID, clearupdatePriceByIDStatus} = useContext(CatalogContext);
+        const {state: {CatalogList, ItemsByCatalog, PostBuyOutPriceStatus}, getPublishedCatalogs,
+            getItemsByCatalog, updatePriceByID, clearupdatePriceByIDStatus} = useContext(CatalogContext);
         const [priceRefs, setpriceRefs] = React.useState([]);
         const [priceIndex, setpriceIndex] = React.useState('');
         const [priceET, setpriceET] = React.useState('');

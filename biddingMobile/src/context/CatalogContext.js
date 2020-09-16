@@ -36,7 +36,11 @@ const getItemsByCatalog = dispatch => async ({id}) => {
     try {
         console.log("passed id: "+id);
         const response = await biddingAPI.get('/CatalogsManager/get-items-by-catalog/'+id+'?page=1&size=15&ignorePaging=false');
-        dispatch({type: 'get_items_by_catalog', payload: response.data.data});
+
+        if (response.data.data !== undefined){
+            dispatch({type: 'get_items_by_catalog', payload: response.data.data});
+        }
+        console.log("response: "+response.data.data)
 
     } catch (e) {
         console.log(e)
