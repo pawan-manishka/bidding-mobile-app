@@ -6,6 +6,7 @@ import {
 import {Context as CatalogContext} from "../context/CatalogContext";
 import signalr from 'react-native-signalr';
 import AsyncStorage from "@react-native-community/async-storage";
+const signalR = require("@microsoft/signalr");
 
 const SignalRTest = () => {
 
@@ -37,49 +38,29 @@ const SignalRTest = () => {
                 setToken(result)
             }
         )
-        console.log('Access Token check: ', token);
-        const connection = signalr.hubConnection('https://dev1.okloapps.com/SmartAuction/hubs/auction',
-            {
-                qs: {
-                    access_token: token
-                },
-            });
+        console.log('Access Token check : ', token);
 
-        connection.logging = true;
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("https://dev1.okloapps.com/SmartAuction/hubs/auction", { accessTokenFactory: () => token })
+            .build();
 
-        const proxy = connection.createHubProxy('Auction');
+        // connection.on("JoinAuction", data => {
+        //     console.log("data",data);
+        // });
+        connection.start()
+            .then(() => connection.invoke("JoinAuction",{ AuctionId: 6439 }).catch(err => console.error(err)));
 
-        // atempt connection, and handle errors
-        connection.start().done(() => {
-            console.log('Now connected, connection ID=' + connection.id);
-
-            proxy.invoke('JoinAuction', { AuctionId: 6439 })
-                .done((directResponse) => {
-                    console.log('direct-response-from-server', directResponse);
-                }).fail(() => {
-                console.warn('Something went wrong when calling server, it might not be up and running?')
-            });
-
-        }).fail(() => {
-            console.log('Failed');
+        connection.on('AuctionStatusChanged', data => {
+            console.log("data",data);
         });
 
-        //connection-handling
-        connection.connectionSlow(() => {
-            console.log('We are currently experiencing difficulties with the connection.')
+        connection.on('BiddingStarted',  bidding => {
+            console.log("bidding",bidding);
         });
+        // connection.on("CurrentBidChanged", self.onCurrentBidChanged);
+        // connection.on("OnlineCountChanged", self.onlineCountChanged);
 
-        connection.error((error) => {
-            const errorMessage = error.message;
-            let detailedError = '';
-            if (error.source && error.source._response) {
-                detailedError = error.source._response;
-            }
-            if (detailedError === 'An SSL error has occurred and a secure connection to the server cannot be made.') {
-                console.log('When using react-native-signalr on ios with http remember to enable http in App Transport Security https://github.com/olofd/react-native-signalr/issues/14')
-            }
-            console.debug('SignalR error: ' + errorMessage, detailedError)
-        });
+        console.log('connection passed  >> ');
 
     }, []);
 
