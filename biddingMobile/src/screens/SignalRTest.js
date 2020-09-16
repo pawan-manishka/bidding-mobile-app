@@ -85,17 +85,17 @@ const SignalRTest = () => {
 
             connection.on('BiddingStarted',  bidding => {
                 setAuctionData(bidding)
-                console.log("bidding >>",bidding);
-                console.log("bidding changed array >",bidding);
+                console.log("bidding >>",bidding.Changed);
+                //console.log("bidding changed array >",bidding);
             });
             // connection.on("CurrentBidChanged", self.onCurrentBidChanged);
             // connection.on("OnlineCountChanged", self.onlineCountChanged);
 
-            console.log('connection passed  >> ');
+            //console.log('connection passed  >> ');
 
             }
         )
-
+        console.log("auction data: >>",auctionData);
 
         // const connection = new signalR.HubConnectionBuilder()
         //     .withUrl("https://dev1.okloapps.com/SmartAuction/hubs/auction",

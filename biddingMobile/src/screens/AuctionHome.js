@@ -30,81 +30,120 @@ import index from 'react-native-swiper/src';
 import {utils} from '@react-native-firebase/app';
 import vision from '@react-native-firebase/ml-vision';
 import RNPickerSelect from 'react-native-picker-select';
+import AsyncStorage from '@react-native-community/async-storage';
+const signalR = require("@microsoft/signalr");
+
+const readData = async () => {
+    try {
+        const accessToken = await AsyncStorage.getItem("token")
+
+        if (accessToken !== null) {
+            return accessToken
+        }
+    } catch (e) {
+        alert('Failed to fetch the data from storage')
+    }
+}
 
 
 const AuctionHome = () => {
 
-        const {state: {CatalogList, ItemsByCatalog, PostBuyOutPriceStatus}, getPublishedCatalogs, getItemsByCatalog, updatePriceByID, clearupdatePriceByIDStatus} = useContext(CatalogContext);
-        const [priceRefs, setpriceRefs] = React.useState([]);
-        const [priceIndex, setpriceIndex] = React.useState('');
-        const [priceET, setpriceET] = React.useState('');
-        const [ItemID, setItemID] = React.useState('');
-        const [go, setgo] = React.useState(false);
-        const [go2, setgo2] = React.useState(false);
-
-        const [isEnabled, setIsEnabled] = useState(false);
-        const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+    const [animatePress, setAnimatePress] = useState(new Animated.Value(1))
+    const [token, setToken] = useState('');
+    const [auctionStatus, setAuctionStatus] = useState('');
+    const [auctionData, setAuctionData] = useState('');
 
 
-        React.useEffect(() => {
-            getItemsByCatalog({id: 1169})
-            setgo(true)
-        }, []);
+    const animateIn = () => {
+        Animated.timing(animatePress, {
+            toValue: 0.5,
+            duration: 500,
+            useNativeDriver: true // Add This line
+        }).start();
+    }
 
-        function renderSeparator() {
-            return (
-                <View style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flex: 1
-                }}>
-                    <View
-                        style={{
-                            height: 1,
-                            width: '90%',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            backgroundColor: '#1f2837',
-                        }}
-                    />
-                </View>
-            );
-        };
+    React.useEffect(() => {
+        readData().then((result) => {
+                console.log('Access Token check : ', result);
 
-        const [showT, dispatch] = useReducer((showT, {type, value}) => {
-            switch (type) {
-                case 'add':
-                    return [...showT, value];
-                case 'remove':
-                    return showT.filter((_, index) => index !== value);
-                case 'change':
-                    //console.log('changed array: ' + JSON.stringify(value));
-                    return value;
-                default:
-                    return showT;
+                const connection = new signalR.HubConnectionBuilder()
+                    .withUrl("https://dev1.okloapps.com/SmartAuction/hubs/auction",
+                        { accessTokenFactory: () => result })
+                    .build();
+
+                // connection.on("JoinAuction", data => {
+                //     console.log("data",data);
+                // });
+                connection.start()
+                    .then(() => connection.invoke("JoinAuction",{ AuctionId: 6439 }).catch(err => console.error(err)));
+
+                connection.on('AuctionStatusChanged', data => {
+                    console.log("data",data);
+                    setAuctionStatus(data)
+                });
+
+
+                const arr = {"Changed": [{"AskingPrice": 140, "AuctionId": 6439, "AutoClosed": false, "Bidders": null, "BiddingEndTime": "2020-09-11T17:47:58.9136667",
+                        "BiddingPrice": 45, "BiddingStartTime": "2020-09-11T17:47:38.9136667", "Broker": "FW", "BrokerId": 6, "BrokerTimeDisplay": "",
+                        "BrokerUserId": 0, "Buyer": null, "BuyerId": 0, "BuyerUserId": 0, "CatalogItemId": 0, "Closed": true, "Extensions": 0,
+                        "Followers": null, "Grade": "BOP", "Id": 187471, "ItemId": 93353, "LastBidTime": null, "LotNumber": 99, "MinBid": 0,
+                        "OpenToBid": false, "OpenToSell": false, "Pending": false, "PerUnitWeight": 10, "Seller": "CRAIGHEAD", "SellerId": 116,
+                        "SellerName": "CRAIGHEAD", "SellerRegistrationNumber": "MF0608", "SellingEndTime": "2020-09-11T17:48:28.9136667",
+                        "SellingMark": "CRAIGHEAD", "Sold": false, "SoldTimeUtc": "0001-01-01T00:00:00", "SoldTo": "", "Status": 15, "StatusId": 15,
+                        "TimeDisplay": "", "TotalWeight": 400, "UnitType": "Bags", "UnitTypeId": 1, "Units": 40, "WaitingForBroker": false},
+
+                        {"AskingPrice": 140, "AuctionId": 6439, "AutoClosed": false, "Bidders": null, "BiddingEndTime": "2020-09-11T17:48:18.9136667",
+                            "BiddingPrice": 45, "BiddingStartTime": "2020-09-11T17:47:58.9136667", "Broker": "FW", "BrokerId": 6, "BrokerTimeDisplay": "",
+                            "BrokerUserId": 0, "Buyer": null, "BuyerId": 0, "BuyerUserId": 0, "CatalogItemId": 0, "Closed": true, "Extensions": 0,
+                            "Followers": null, "Grade": "BOP", "Id": 187470, "ItemId": 93352, "LastBidTime": null, "LotNumber": 100, "MinBid": 0,
+                            "OpenToBid": false, "OpenToSell": false, "Pending": false, "PerUnitWeight": 10, "Seller": "CRAIGHEAD", "SellerId": 116,
+                            "SellerName": "CRAIGHEAD", "SellerRegistrationNumber": "MF0608", "SellingEndTime": "2020-09-11T17:48:48.9136667",
+                            "SellingMark": "CRAIGHEAD", "Sold": false, "SoldTimeUtc": "0001-01-01T00:00:00", "SoldTo": "", "Status": 15, "StatusId": 15,
+                            "TimeDisplay": "", "TotalWeight": 400, "UnitType": "Bags", "UnitTypeId": 1, "Units": 40, "WaitingForBroker": false},
+
+                    ], "UniqueName": "AUCTION_6439"}
+
+                console.log("bidding Changed > ",arr.Changed);
+                console.log("bidding Changed status  > ",arr.Changed[0].Status);
+                console.log("bidding name  > ",arr.UniqueName);
+
+
+
+                connection.on('BiddingStarted',  bidding => {
+                    setAuctionData(bidding.Changed)
+                    console.log("bidding >>",bidding.Changed);
+                    //console.log("bidding changed array >",bidding);
+                });
+                // connection.on("CurrentBidChanged", self.onCurrentBidChanged);
+                // connection.on("OnlineCountChanged", self.onlineCountChanged);
+
+                //console.log('connection passed  >> ');
+
             }
-        }, []);
+        )
+        console.log("auction data: >>",auctionData);
 
-        if (ItemsByCatalog.length > 0 && go) {
-            setgo(false)
-            let value = []
-            ItemsByCatalog.map((item, index) => {
-                // Only do this if items have no stable IDs
+    }, []);
 
-                //console.log("index: " + index)<Text
-                const value = {
-                    idIndex: index, ref: React.createRef(), price: 0, val: true, Id: item.Id, ItemNumber: item.ItemNumber,
-                    BrandName: item.BrandName, ItemCode: item.ItemCode, ItemType: item.ItemType,
-                    NetWeight: item.NetWeight, TotalWeight: item.TotalWeight, status: 0
-                }
-                dispatch({type: 'add', value: value})
-                // console.log("value array: " + JSON.stringify(value))
-                //value.push(value2)
-            })
-            //dispatch({type: 'add', value: value})
-            // console.log("showT array: " + JSON.stringify(showT))
-            //console.log("value array: " + JSON.stringify(value))
-        }
+    function renderSeparator() {
+        return (
+            <View style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                flex: 1
+            }}>
+                <View
+                    style={{
+                        height: 1,
+                        width: '90%',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: '#1f2837',
+                    }}
+                />
+            </View>
+        );
+    };
 
         return (
             <View style={{width: '100%', backgroundColor: '#0b1224'}}>
@@ -113,21 +152,23 @@ const AuctionHome = () => {
                     <View style={{
                         backgroundColor: '#0b1224', height: '100%', width: '100%'
                     }}>
-                        {ItemsByCatalog.length === 0 ?
-                            <View style={{
-                                width: '100%',
-                                height: '100%',
-                                backgroundColor: '#0b1224',
-                                justifyContent: 'center',
-                                alignItems: 'center', display: 'flex',
-                                paddingBottom: 300
-                            }}>
-                                <Text style={{color: '#489fdd'}}>No Records Found ...</Text>
-                            </View>
-                            : null}
+                        {/*{ItemsByCatalog.length === 0 ?*/}
+                        {/*    <View style={{*/}
+                        {/*        width: '100%',*/}
+                        {/*        height: '100%',*/}
+                        {/*        backgroundColor: '#0b1224',*/}
+                        {/*        justifyContent: 'center',*/}
+                        {/*        alignItems: 'center', display: 'flex',*/}
+                        {/*        paddingBottom: 300*/}
+                        {/*    }}>*/}
+                        {/*        <Text style={{color: '#489fdd'}}>No Records Found ...</Text>*/}
+                        {/*    </View>*/}
+                        {/*    : null}*/}
+                        <Text style={{width:'100%',fontSize:18,color:'green',
+                        paddingTop:20,paddingBottom:20,paddingLeft: 10}}> Status: {auctionStatus.StatusName}</Text>
                         <FlatList
                             contentContainerStyle={{paddingBottom: 40}}
-                            data={showT}
+                            data={auctionData}
                             renderItem={({item, index}) => (
                                 <View style={{
                                     flex: 1, flexDirection: 'row', backgroundColor: '#0b1224', justifyContent: 'center',
@@ -142,14 +183,14 @@ const AuctionHome = () => {
                                             style={{
                                                 color: 'red',
                                                 fontWeight: 'bold',
-                                                fontSize: 18
-                                            }}>{item.ItemNumber}</Text>
+                                                fontSize: 22
+                                            }}>{item.LotNumber}</Text>
                                         <Text style={{
                                             color: 'white',
                                             // fontWeight: 'bold',
-                                            fontSize: 12
-                                        }}>{item.BrandName}</Text>
-                                        <Text style={{color: 'green', fontSize: 14}}>{item.ItemCode}</Text>
+                                            fontSize: 15
+                                        }}>{item.Grade}</Text>
+                                        <Text style={{color: 'white', fontSize: 14}}>{item.TimeDisplay}</Text>
                                     </View>
 
                                     <View style={{
@@ -162,10 +203,48 @@ const AuctionHome = () => {
                                                 fontSize: 17,
                                                 color: 'red',
                                                 fontWeight: 'bold'
-                                            }}>{item.ItemType}</Text>
-                                        <Text style={{fontSize: 13, color: 'green'}}>{item.NetWeight + " Kg"}</Text>
-                                        <Text style={{fontSize: 17, color: 'green'}}>{item.TotalWeight + " Kg"}</Text>
+                                            }}>{item.SellerRegistrationNumber}</Text>
+                                        <Text style={{fontSize: 13, color: 'white'}}>{item.PerUnitWeight}</Text>
+                                        <Text style={{fontSize: 17, color: 'white'}}>{item.TotalWeight + " Kg"}</Text>
 
+                                    </View>
+
+                                    <View style={{
+                                        flexDirection: 'column', flex: 1.2, justifyContent: 'center',
+                                        alignItems: 'center',
+                                    }}>
+                                        {/*<Text style={{color: 'white'}}>{item.key}</Text>*/}
+                                        <Text
+                                            style={{
+                                                color: 'red',
+                                                fontWeight: 'bold',
+                                                fontSize: 13
+                                            }}>Ask (Rs)</Text>
+                                        <Text style={{
+                                            color: 'green',
+                                            fontWeight: 'bold',
+                                            fontSize: 23
+                                        }}>{item.AskingPrice}</Text>
+                                        <Text style={{color: 'white', fontSize: 14}}>{item.Broker}</Text>
+                                    </View>
+
+                                    <View style={{
+                                        flexDirection: 'column', flex: 1.2, justifyContent: 'center',
+                                        alignItems: 'center',
+                                    }}>
+                                        {/*<Text style={{color: 'white'}}>{item.key}</Text>*/}
+                                        <Text
+                                            style={{
+                                                color: 'red',
+                                                fontWeight: 'bold',
+                                                fontSize: 13
+                                            }}>Bid (Rs)</Text>
+                                        <Text style={{
+                                            color: 'green',
+                                            fontWeight: 'bold',
+                                            fontSize: 23
+                                        }}>{item.BiddingPrice}</Text>
+                                        <Text style={{color: 'green', fontSize: 14}}>{item.Buyer}</Text>
                                     </View>
 
                                 </View>
