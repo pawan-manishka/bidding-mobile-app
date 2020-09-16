@@ -164,8 +164,10 @@ const AuctionHome = () => {
                         {/*        <Text style={{color: '#489fdd'}}>No Records Found ...</Text>*/}
                         {/*    </View>*/}
                         {/*    : null}*/}
+                        <Text style={{width:'100%',fontSize:18,color:'white',
+                            paddingTop:20,paddingBottom:2,paddingLeft: 10}}> Auction Name: {auctionStatus.UniqueName}</Text>
                         <Text style={{width:'100%',fontSize:18,color:'green',
-                        paddingTop:20,paddingBottom:20,paddingLeft: 10}}> Status: {auctionStatus.StatusName}</Text>
+                        paddingTop:2,paddingBottom:20,paddingLeft: 10}}> Status: {auctionStatus.StatusName}</Text>
                         <FlatList
                             contentContainerStyle={{paddingBottom: 40}}
                             data={auctionData}
@@ -190,7 +192,7 @@ const AuctionHome = () => {
                                             // fontWeight: 'bold',
                                             fontSize: 15
                                         }}>{item.Grade}</Text>
-                                        <Text style={{color: 'white', fontSize: 14}}>{item.TimeDisplay}</Text>
+                                        <Text style={{color: '#489fdd', fontSize: 14}}>{item.TimeDisplay}</Text>
                                     </View>
 
                                     <View style={{
@@ -245,6 +247,18 @@ const AuctionHome = () => {
                                             fontSize: 23
                                         }}>{item.BiddingPrice}</Text>
                                         <Text style={{color: 'green', fontSize: 14}}>{item.Buyer}</Text>
+                                    </View>
+                                    <View style={{
+                                        flexDirection: 'column', flex: 1.2, justifyContent: 'center',
+                                        alignItems: 'center',
+                                    }}>
+                                        {/*<Text style={{color: 'white'}}>{item.key}</Text>*/}
+                                        <Text
+                                            style={{
+                                                color: 'white',
+                                                fontWeight: 'bold',
+                                                fontSize: 13
+                                            }}>{item.Status === 15 ? "Closed" :item.Status === 12 ? "Pending" : item.Status === 13 ? "Open":""}</Text>
                                     </View>
 
                                 </View>
