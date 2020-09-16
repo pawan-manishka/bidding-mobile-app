@@ -53,7 +53,15 @@ const SwiperComponent = ({navigation}) => {
             //console.log('tokenType: '+authState.tokenType)
             //console.log('refreshToken: '+authState.tokenType)
             console.log('accessToken: '+authState.accessToken)
-            AsyncStorage.setItem('token',authState.accessToken);
+            //AsyncStorage.setItem('token',authState.accessToken);
+
+            try {
+                await AsyncStorage.setItem("token", authState.accessToken)
+            } catch (e) {
+                console.log(e)
+                //alert('Failed to save the data to the storage')
+            }
+
             // navigation.navigate('Home');
             navigation.reset({
                 index: 0,
