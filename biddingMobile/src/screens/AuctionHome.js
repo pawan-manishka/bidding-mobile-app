@@ -75,7 +75,7 @@ const AuctionHome = () => {
                 //     console.log("data",data);
                 // });
                 connection.start()
-                    .then(() => connection.invoke("JoinAuction",{ AuctionId: 6439 }).catch(err => console.error(err)));
+                    .then(() => connection.invoke("JoinAuction",{ AuctionId: 6443 }).catch(err => console.error(err)));
 
                 connection.on('AuctionStatusChanged', data => {
                     console.log("data",data);
@@ -165,16 +165,16 @@ const AuctionHome = () => {
                         {/*    </View>*/}
                         {/*    : null}*/}
                         <Text style={{width:'100%',fontSize:18,color:'white',
-                            paddingTop:20,paddingBottom:2,paddingLeft: 10}}> Auction Name: {auctionStatus.UniqueName}</Text>
+                            paddingTop:20,paddingBottom:2,paddingLeft: '4%'}}> Auction : {auctionStatus.UniqueName}</Text>
                         <Text style={{width:'100%',fontSize:18,color:'green',
-                        paddingTop:2,paddingBottom:20,paddingLeft: 10}}> Status: {auctionStatus.StatusName}</Text>
+                        paddingTop:2,paddingBottom:20,paddingLeft: '4%'}}> Status : {auctionStatus.StatusName}</Text>
                         <FlatList
                             contentContainerStyle={{paddingBottom: 40}}
                             data={auctionData}
                             renderItem={({item, index}) => (
                                 <View style={{
                                     flex: 1, flexDirection: 'row', backgroundColor: '#0b1224', justifyContent: 'center',
-                                    alignItems: 'stretch', padding: 2,
+                                    alignItems: 'stretch', padding: '2 %',
                                 }}>
                                     <View style={{
                                         flexDirection: 'column', flex: 1.2, justifyContent: 'center',
@@ -201,8 +201,7 @@ const AuctionHome = () => {
                                     }}>
 
                                         <Text
-                                            style={{
-                                                fontSize: 17,
+                                            style={{fontSize: 17,
                                                 color: 'red',
                                                 fontWeight: 'bold'
                                             }}>{item.SellerRegistrationNumber}</Text>
@@ -255,7 +254,7 @@ const AuctionHome = () => {
                                         {/*<Text style={{color: 'white'}}>{item.key}</Text>*/}
                                         <Text
                                             style={{
-                                                color: 'white',
+                                                color: '#489fdd',
                                                 fontWeight: 'bold',
                                                 fontSize: 13
                                             }}>{item.Status === 15 ? "Closed" :item.Status === 12 ? "Pending" : item.Status === 13 ? "Open":""}</Text>
