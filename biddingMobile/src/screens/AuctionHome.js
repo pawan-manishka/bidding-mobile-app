@@ -65,15 +65,19 @@ const AuctionHome = () => {
         }).start();
     }
 
-    React.useEffect(() => {
-        readData().then((result) => {
-                if (AuctionId !== '') {
-                    console.log('Access Token check : ', result);
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("https://dev1.okloapps.com/SmartAuction/hubs/auction",
+            {accessTokenFactory: () => readData().then((result) => result)})
+        .build();
 
-                    const connection = new signalR.HubConnectionBuilder()
-                        .withUrl("https://dev1.okloapps.com/SmartAuction/hubs/auction",
-                            {accessTokenFactory: () => result})
-                        .build();
+    React.useEffect(() => {
+                if (AuctionId !== '') {
+                    //console.log('Access Token check : ', result);
+
+                    // const connection = new signalR.HubConnectionBuilder()
+                    //     .withUrl("https://dev1.okloapps.com/SmartAuction/hubs/auction",
+                    //         {accessTokenFactory: () => result})
+                    //     .build();
 
                     // connection.on("JoinAuction", data => {
                     //     console.log("data",data);
@@ -95,11 +99,10 @@ const AuctionHome = () => {
                     // connection.on("OnlineCountChanged", self.onlineCountChanged);
 
                     //console.log('connection passed  >> ');
+                    //connection.stop().done(console.log('connection stopped!'))
 
                 }
-            }
 
-        )
         console.log("auction data: >>",auctionData);
         getAuctionList();
 
@@ -134,6 +137,7 @@ const AuctionHome = () => {
     const onChangeHandler = (value) => {
         //let filtered = photoTypes.filter(ex => ex.photo_type === photoval);
         console.log(`Selected value: ${value}`);
+        //connection.stop()
         setAuctionId(value)
         //getItemsByCatalog({id: value})
         //setgo(true)
