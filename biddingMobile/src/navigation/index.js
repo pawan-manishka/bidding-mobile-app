@@ -12,11 +12,13 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import SwiperComponent from '../screens/SwiperComponent';
 import SignalRTest from '../screens/SignalRTest';
 import AuctionHome from '../screens/AuctionHome';
+import AuctionView from '../screens/AuctionView';
 import Quotes2 from '../screens/Quotes2';
 import {Provider as CatalogProvider} from '../context/CatalogContext';
 import {Provider as AuctionProvider} from '../context/AuctionContext';
 
 const Stack = createStackNavigator();
+const AuctionHomeScreen = createStackNavigator();
 
 function ChartScreen() {
     return (
@@ -46,6 +48,15 @@ function HistoryScreen() {
     );
 }
 
+function AuctionHomeStackScreen() {
+    return (
+        <AuctionHomeScreen.Navigator>
+            <AuctionHomeScreen.Screen name="AuctionHome" options={{headerShown: false}} component={AuctionHome}/>
+            <AuctionHomeScreen.Screen name="AuctionView" options={{headerShown: false}} component={AuctionView}/>
+        </AuctionHomeScreen.Navigator>
+    );
+}
+
 
 const _HomeWithTabs = () => {
     const Tab = createBottomTabNavigator();
@@ -55,7 +66,7 @@ const _HomeWithTabs = () => {
                 backgroundColor: '#0b1224',//color you want to change
             },
         }}>
-            <Tab.Screen name="AuctionHome" component={AuctionHome} options={{
+            <Tab.Screen name="Home" component={AuctionHomeStackScreen} options={{
                 tabBarLabel: 'Auction Home',
                 tabBarIcon: ({focused, color, size}) => {
                     // You can return any component that you like here!

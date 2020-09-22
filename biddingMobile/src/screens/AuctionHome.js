@@ -46,7 +46,7 @@ const readData = async () => {
 }
 
 
-const AuctionHome = () => {
+const AuctionHome = ({navigation}) => {
 
     const {state: {AuctionList}, getAuctionList,} = useContext(AuctionContext);
 
@@ -138,7 +138,11 @@ const AuctionHome = () => {
         //let filtered = photoTypes.filter(ex => ex.photo_type === photoval);
         console.log(`Selected value: ${value}`);
         //connection.stop()
-        setAuctionId(value)
+        //setAuctionId(value)
+        navigation.navigate("AuctionView");
+        navigation.navigate('AuctionView', {
+            AuctionId: value,
+        })
         //getItemsByCatalog({id: value})
         //setgo(true)
         // renderData()
@@ -184,10 +188,6 @@ const AuctionHome = () => {
                     <View style={{
                         backgroundColor: '#0b1224', height: '100%', width: '100%'
                     }}>
-                        <Text style={{width:'100%',fontSize:18,color:'white',
-                            paddingBottom:2,paddingLeft: '4%'}}> Auction : {auctionStatus.UniqueName}</Text>
-                        <Text style={{width:'100%',fontSize:18,color:'green',
-                        paddingTop:2,paddingBottom:20,paddingLeft: '4%'}}> Status : {auctionStatus.StatusName}</Text>
 
                         {AuctionList.length === 0 ?
                             <View style={{
