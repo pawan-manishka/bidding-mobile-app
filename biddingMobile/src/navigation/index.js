@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {View, Text, Icon} from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -18,9 +18,22 @@ import QuotesBroker from '../screens/QuotesBroker';
 import QuotesBuyer from '../screens/QuotesBuyer';
 import {Provider as CatalogProvider} from '../context/CatalogContext';
 import {Provider as AuctionProvider} from '../context/AuctionContext';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const Stack = createStackNavigator();
 const AuctionHomeScreen = createStackNavigator();
+
+const readData = async () => {
+    try {
+        const Role = await AsyncStorage.getItem("role")
+
+        if (Role !== null) {
+            return Role
+        }
+    } catch (e) {
+        alert('Failed to get role from async storage')
+    }
+}
 
 function ChartScreen() {
     return (
@@ -58,9 +71,13 @@ function AuctionHomeStackScreen() {
         </AuctionHomeScreen.Navigator>
     );
 }
+//readData().then((result) => setrole(result))
 
+function _HomeWithTabs(){
 
-const _HomeWithTabs = () => {
+    const [role, setrole] = useState('');
+    readData().then((result) => setrole(result))
+
     const Tab = createBottomTabNavigator();
     return (
         <Tab.Navigator initialRouteName="Home" tabBarOptions={{
@@ -79,7 +96,7 @@ const _HomeWithTabs = () => {
                     inactiveTintColor: '#374760',
                 },
             }}/>
-            <Tab.Screen name="Quotes" component={Quotes2} options={{
+            <Tab.Screen name="Quotes" component={QuotesBroker} options={{
                 tabBarLabel: 'Quotes',
                 tabBarIcon: ({color, size}) => (
                     <Fontisto name="arrow-swap" color={color} size={20} style={{transform: [{rotate: '90deg'}]}}/>
@@ -89,7 +106,8 @@ const _HomeWithTabs = () => {
                     inactiveTintColor: '#374760',
                 },
             }}/>
-            <Tab.Screen name="Chart" component={SignalRTest}
+
+            {role==="Buyer"?<Tab.Screen name="Chart" component={SignalRTest}
                         options={{
                             tabBarLabel: 'Signal R',
                             tabBarIcon: ({color, size}) => (
@@ -99,7 +117,7 @@ const _HomeWithTabs = () => {
                                 activeTintColor: 'white',
                                 inactiveTintColor: '#374760',
                             },
-                        }}/>
+                        }}/>: null}
             <Tab.Screen name="Trade" component={TradeScreen} options={{
                 tabBarLabel: 'Trade',
                 tabBarIcon: ({color, size}) => (

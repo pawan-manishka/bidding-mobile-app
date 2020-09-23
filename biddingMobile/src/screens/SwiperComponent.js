@@ -58,6 +58,7 @@ const SwiperComponent = ({navigation}) => {
 
             try {
                 await AsyncStorage.setItem("token", authState.accessToken)
+                await AsyncStorage.setItem("role", "Buyer")
             } catch (e) {
                 console.log(e)
                 //alert('Failed to save the data to the storage')

@@ -127,14 +127,6 @@ const QuotesBroker = () => {
             }
         }
 
-    function resetRemarks(index) {
-        remarkRefs[index].current.resetImage();
-    }
-
-    function saveRemarks(index) {
-        remarkRefs[index].current.saveImage();
-    }
-
         function savePrice(index, id) {
             console.log('id of correct: ' + id);
             console.log('index of correct: ' + index);
@@ -207,10 +199,11 @@ const QuotesBroker = () => {
 
 
         async function processDocument(result) {
+            console.log("path: "+result.pathName);
             const processed = await vision().textRecognizerProcessImage(
                 result.pathName,
             );
-            console.log(result.pathName);
+            console.log("path: "+result.pathName);
             console.log('Found text in document: ', processed.text);
 
             let filtord = processed.text.replace(/[^0-9]/g, '');
@@ -238,6 +231,10 @@ const QuotesBroker = () => {
                 console.log('Languages found in block: ', block.recognizedLanguages);
             });
         }
+
+    function saveRemarks(result) {
+        console.log("remarks saved path:"+result.pathName)
+    }
 
         function onDraggedPrice(index) {
             console.log('price dragged on index: ' + index);
@@ -543,7 +540,7 @@ const QuotesBroker = () => {
                                                             <SignatureCapture
                                                                 style={{height: 96, margin: 2}}
                                                                 ref={item.ref2}
-                                                                //onSaveEvent={processDocument}
+                                                                onSaveEvent={saveRemarks}
                                                                 onDragEvent={() => onDraggedRemarks(index)}
                                                                 saveImageFileInExtStorage={true}
                                                                 showNativeButtons={false}

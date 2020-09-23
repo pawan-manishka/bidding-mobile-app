@@ -107,7 +107,7 @@ const QuotesBuyer = () => {
 
                 //console.log("index: " + index)<Text
                 const value = {
-                    idIndex: index, ref: React.createRef(), price: 0,ref2: React.createRef(), remarks: '', val: true, Id: item.Id, ItemNumber: item.ItemNumber,
+                    idIndex: index, ref: React.createRef(), price: 0,ref3: React.createRef(),minBid:0,ref4: React.createRef(),maxBid:0,ref2: React.createRef(), remarks: '', val: true, Id: item.Id, ItemNumber: item.ItemNumber,
                     BrandName: item.BrandName, ItemCode: item.ItemCode, ItemType: item.ItemType,
                     NetWeight: item.NetWeight, TotalWeight: item.TotalWeight, status: 0,
                 };
@@ -542,7 +542,7 @@ const QuotesBuyer = () => {
                                                             /></View> :
                                                             <SignatureCapture
                                                                 style={{height: 96, margin: 2}}
-                                                                ref={item.ref}
+                                                                ref={item.ref3}
                                                                 onSaveEvent={processDocument}
                                                                 onDragEvent={() => onDraggedPrice(index)}
                                                                 saveImageFileInExtStorage={true}
@@ -573,7 +573,7 @@ const QuotesBuyer = () => {
                                                             textAlign: 'center',
                                                             fontSize: 20,
                                                             flex: 5,
-                                                        }}>{item.price}</Text>
+                                                        }}>{item.minBid}</Text>
                                                         <View style={{
                                                             flex: 3,
                                                             height: 60,
@@ -655,7 +655,7 @@ const QuotesBuyer = () => {
                                                             /></View> :
                                                             <SignatureCapture
                                                                 style={{height: 96, margin: 2}}
-                                                                ref={item.ref}
+                                                                ref={item.ref4}
                                                                 onSaveEvent={processDocument}
                                                                 onDragEvent={() => onDraggedPrice(index)}
                                                                 saveImageFileInExtStorage={true}
@@ -686,7 +686,7 @@ const QuotesBuyer = () => {
                                                             textAlign: 'center',
                                                             fontSize: 20,
                                                             flex: 5,
-                                                        }}>{item.price}</Text>
+                                                        }}>{item.maxBid}</Text>
                                                         <View style={{
                                                             flex: 3,
                                                             height: 60,
