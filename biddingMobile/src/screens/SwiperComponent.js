@@ -53,6 +53,7 @@ const SwiperComponent = ({navigation}) => {
             //console.log('tokenType: '+authState.tokenType)
             //console.log('refreshToken: '+authState.tokenType)
             console.log('accessToken: '+authState.accessToken)
+            console.log('authstate: '+JSON.stringify(authState))
             //AsyncStorage.setItem('token',authState.accessToken);
 
             try {

@@ -14,6 +14,8 @@ import SignalRTest from '../screens/SignalRTest';
 import AuctionHome from '../screens/AuctionHome';
 import AuctionView from '../screens/AuctionView';
 import Quotes2 from '../screens/Quotes2';
+import QuotesBroker from '../screens/QuotesBroker';
+import QuotesBuyer from '../screens/QuotesBuyer';
 import {Provider as CatalogProvider} from '../context/CatalogContext';
 import {Provider as AuctionProvider} from '../context/AuctionContext';
 
