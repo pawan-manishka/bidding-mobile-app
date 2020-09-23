@@ -234,6 +234,7 @@ const QuotesBroker = () => {
 
     function saveRemarks(result) {
         console.log("remarks saved path:"+result.pathName)
+        console.log("remarks encoded:"+result.encoded)
     }
 
         function onDraggedPrice(index) {
