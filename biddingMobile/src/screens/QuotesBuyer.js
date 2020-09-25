@@ -25,12 +25,14 @@ import RNPickerSelect from 'react-native-picker-select';
 const QuotesBuyer = () => {
 
         const {
-            state: {CatalogList, ItemsByCatalog, PostBuyOutPriceStatus}, getPublishedCatalogs,
-            getItemsByCatalog, updatePriceByID, clearupdatePriceByIDStatus,
+            state: {CatalogList, ItemsByCatalog, ItemsByCatalogBuyer, PostBuyOutPriceStatus}, getPublishedCatalogs,
+            getItemsByCatalog, getItemsByCatalogBuyer, updatePriceByID, clearupdatePriceByIDStatus,
         } = useContext(CatalogContext);
         const [priceRefs, setpriceRefs] = React.useState([]);
         const [priceIndex, setpriceIndex] = React.useState('');
         const [priceET, setpriceET] = React.useState('');
+        const [minBidET, setminBidET] = React.useState('');
+        const [maxBidET, setmaxBidET] = React.useState('');
         const [remarksET, setremarksET] = React.useState('');
         const [ItemID, setItemID] = React.useState('');
         const [go, setgo] = React.useState(false);
@@ -80,7 +82,7 @@ const QuotesBuyer = () => {
         const onChangeHandler = (value) => {
             //let filtered = photoTypes.filter(ex => ex.photo_type === photoval);
             console.log(`Selected value: ${value}`);
-            getItemsByCatalog({id: value});
+            getItemsByCatalogBuyer({CatalogId: value});
             setgo(true);
             // renderData()
         };
@@ -99,23 +101,32 @@ const QuotesBuyer = () => {
             }
         }, []);
 
-        if (ItemsByCatalog.length > 0 && go) {
+        console.log('items buy catalog buyer: ' + ItemsByCatalogBuyer.length);
+
+        if (ItemsByCatalogBuyer.length > 0 && go) {
             setgo(false);
             let value = [];
-            ItemsByCatalog.map((item, index) => {
+            ItemsByCatalogBuyer.map((item, index) => {
                 // Only do this if items have no stable IDs
 
-                //console.log("index: " + index)<Text
+                console.log('item name: ' + item.ItemName);
                 const value = {
-                    idIndex: index, ref: React.createRef(), price: 0,ref3: React.createRef(),minBid:0,ref4: React.createRef(),maxBid:0,ref2: React.createRef(), remarks: '', val: true, Id: item.Id, ItemNumber: item.ItemNumber,
-                    BrandName: item.BrandName, ItemCode: item.ItemCode, ItemType: item.ItemType,
-                    NetWeight: item.NetWeight, TotalWeight: item.TotalWeight, status: 0,
+                    idIndex: index, ref: React.createRef(), price: 0, ref3: React.createRef(), minBid: 0,
+                    ref4: React.createRef(), maxBid: 0, ref2: React.createRef(), remarks: '', val: true,
+                    Id: item.Id, ItemNumber: item.LotNumber,
+                    BrandName: item.ItemName, ItemCode: item.BrokerCode, ItemType: item.UnitTypeName,
+                    NetWeight: item.PerUnitWeight, TotalWeight: item.PerUnitWeight, status: 0,
                 };
                 dispatch({type: 'add', value: value});
-                // console.log("value array: " + JSON.stringify(value))
+                //console.log("value array: " + JSON.stringify(value))
                 //value.push(value2)
             });
+
+            console.log('show t array: ' + JSON.stringify(showT));
         }
+
+        //console.log("show t array: "+JSON.stringify(showT))
+
 
         function resetPrice(index) {
             //console.log("function call: "+priceRefs[index].current)
@@ -205,8 +216,7 @@ const QuotesBuyer = () => {
         }
 
 
-
-        async function processDocument(result) {
+        async function processMinBid(result) {
             const processed = await vision().textRecognizerProcessImage(
                 result.pathName,
             );
@@ -226,10 +236,10 @@ const QuotesBuyer = () => {
                 let item = {...showT[priceIndex]};
                 console.log('index val: ', item.val);
                 item.val = false;
-                item.price = filtord;
+                item.minBid = filtord;
                 items[priceIndex] = item;
                 dispatch({type: 'change', value: items});
-                updatePriceByID({id: ItemID, BuyOutPrice: filtord});
+                //updatePriceByID({id: ItemID, BuyOutPrice: filtord});
             }
 
             processed.blocks.forEach((block) => {
@@ -239,8 +249,82 @@ const QuotesBuyer = () => {
             });
         }
 
+    async function processMaxBid(result) {
+        const processed = await vision().textRecognizerProcessImage(
+            result.pathName,
+        );
+        console.log(result.pathName);
+        console.log('Found text in document: ', processed.text);
+
+        let filtord = processed.text.replace(/[^0-9]/g, '');
+        if (filtord === '') {
+            if (Platform.OS === 'android') {
+                ToastAndroid.show('Cannot identify the price. Please try again!', ToastAndroid.SHORT);
+            } else {
+                AlertIOS.alert('Cannot identify the price. Please try again!');
+            }
+        } else {
+
+            let items = [...showT];
+            let item = {...showT[priceIndex]};
+            console.log('index val: ', item.val);
+            item.val = false;
+            item.maxBid = filtord;
+            items[priceIndex] = item;
+            dispatch({type: 'change', value: items});
+            //updatePriceByID({id: ItemID, BuyOutPrice: filtord});
+        }
+
+        processed.blocks.forEach((block) => {
+            console.log('Found block with text: ', block.text);
+            console.log('Confidence in block: ', block.confidence);
+            console.log('Languages found in block: ', block.recognizedLanguages);
+        });
+    }
+
+    async function processDocument(result) {
+        const processed = await vision().textRecognizerProcessImage(
+            result.pathName,
+        );
+        console.log(result.pathName);
+        console.log('Found text in document: ', processed.text);
+
+        let filtord = processed.text.replace(/[^0-9]/g, '');
+        if (filtord === '') {
+            if (Platform.OS === 'android') {
+                ToastAndroid.show('Cannot identify the price. Please try again!', ToastAndroid.SHORT);
+            } else {
+                AlertIOS.alert('Cannot identify the price. Please try again!');
+            }
+        } else {
+
+            let items = [...showT];
+            let item = {...showT[priceIndex]};
+            console.log('index val: ', item.val);
+            item.val = false;
+            item.price = filtord;
+            items[priceIndex] = item;
+            dispatch({type: 'change', value: items});
+            updatePriceByID({id: ItemID, BuyOutPrice: filtord});
+        }
+
+        processed.blocks.forEach((block) => {
+            console.log('Found block with text: ', block.text);
+            console.log('Confidence in block: ', block.confidence);
+            console.log('Languages found in block: ', block.recognizedLanguages);
+        });
+    }
+
         function onDraggedPrice(index) {
             console.log('price dragged on index: ' + index);
+        }
+
+        function onDraggedMinBid(index) {
+            console.log('min bid dragged on index: ' + index);
+        }
+
+        function onDraggedMaxBid(index) {
+            console.log('max bid dragged on index: ' + index);
         }
 
         function onDraggedRemarks(index) {
@@ -326,7 +410,7 @@ const QuotesBuyer = () => {
                                 <TextLoader textStyle={{marginTop: '1%', color: '#489fdd'}} text="Loading"/>
                             </View>
                             : null}
-                        {ItemsByCatalog.length === 0 ?
+                        {ItemsByCatalogBuyer.length === 0 ?
                             <View style={{
                                 width: '100%',
                                 height: '100%',
@@ -496,7 +580,7 @@ const QuotesBuyer = () => {
                                     </View>
                                     <View style={{
                                         flexDirection: 'row', flex: 2, justifyContent: 'center',
-                                        alignItems: 'center',marginLeft: 2,
+                                        alignItems: 'center', marginLeft: 2,
                                     }}>
                                         <View style={{
                                             flexDirection: 'column', flex: 1.2,
@@ -529,7 +613,7 @@ const QuotesBuyer = () => {
                                                                 height: '100%',
                                                             }}><TextInput
                                                                 //value={name}
-                                                                onChangeText={text => setpriceET(text)}
+                                                                onChangeText={text => setminBidET(text)}
                                                                 placeholder='Enter minimum bid'
                                                                 placeholderTextColor="#7f7f7f"
                                                                 keyboardType='numeric'
@@ -543,8 +627,8 @@ const QuotesBuyer = () => {
                                                             <SignatureCapture
                                                                 style={{height: 96, margin: 2}}
                                                                 ref={item.ref3}
-                                                                onSaveEvent={processDocument}
-                                                                onDragEvent={() => onDraggedPrice(index)}
+                                                                onSaveEvent={processMinBid}
+                                                                onDragEvent={() => onDraggedMinBid(index)}
                                                                 saveImageFileInExtStorage={true}
                                                                 showNativeButtons={false}
                                                                 showTitleLabel={false}
@@ -609,7 +693,7 @@ const QuotesBuyer = () => {
                                     </View>
                                     <View style={{
                                         flexDirection: 'row', flex: 2, justifyContent: 'center',
-                                        alignItems: 'center',marginLeft: 2,
+                                        alignItems: 'center', marginLeft: 2,
                                     }}>
                                         <View style={{
                                             flexDirection: 'column', flex: 1.2,
@@ -642,7 +726,7 @@ const QuotesBuyer = () => {
                                                                 height: '100%',
                                                             }}><TextInput
                                                                 //value={name}
-                                                                onChangeText={text => setpriceET(text)}
+                                                                onChangeText={text => setmaxBidET(text)}
                                                                 placeholder='Enter maximum bid'
                                                                 placeholderTextColor="#7f7f7f"
                                                                 keyboardType='numeric'
@@ -656,8 +740,8 @@ const QuotesBuyer = () => {
                                                             <SignatureCapture
                                                                 style={{height: 96, margin: 2}}
                                                                 ref={item.ref4}
-                                                                onSaveEvent={processDocument}
-                                                                onDragEvent={() => onDraggedPrice(index)}
+                                                                onSaveEvent={processMaxBid}
+                                                                onDragEvent={() => onDraggedMaxBid(index)}
                                                                 saveImageFileInExtStorage={true}
                                                                 showNativeButtons={false}
                                                                 showTitleLabel={false}
