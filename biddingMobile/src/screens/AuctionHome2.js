@@ -140,7 +140,7 @@ const AuctionHome2 = () => {
                                         {/*<Text style={{color: 'white'}}>{item.key}</Text>*/}
                                         <Text
                                             style={{
-                                                color: 'red',
+                                                color: '#fb4040',
                                                 fontWeight: 'bold',
                                                 fontSize: 18
                                             }}>{item.ItemNumber}</Text>
@@ -160,7 +160,7 @@ const AuctionHome2 = () => {
                                         <Text
                                             style={{
                                                 fontSize: 17,
-                                                color: 'red',
+                                                color: '#fb4040',
                                                 fontWeight: 'bold'
                                             }}>{item.ItemType}</Text>
                                         <Text style={{fontSize: 13, color: 'green'}}>{item.NetWeight + " Kg"}</Text>

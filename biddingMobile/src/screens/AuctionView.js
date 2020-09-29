@@ -116,10 +116,11 @@ const AuctionView = ({route,navigation}) => {
     }
 
         return (
-            <View style={{width: '100%', backgroundColor: '#0b1224'}}>
-                <StatusBar backgroundColor="#1a2435" barStyle="light-content"/>
-                <View style={{flexDirection: "row",alignItems:'center'}}>
-                    <TouchableOpacity style={{paddingLeft:10,paddingTop:10}}
+            <View style={{width: '100%', backgroundColor: '#121a2a'}}>
+                <StatusBar backgroundColor="#121a2a" barStyle="light-content"/>
+
+                <View style={{flexDirection: "row",alignItems:'flex-end',alignSelf:'flex-end',paddingRight:15}}>
+                    <TouchableOpacity style={{paddingTop:10}}
                         onPress={() => navigation.reset({
                             index: 0,
                             routes: [{name: 'Home'}],
@@ -127,23 +128,23 @@ const AuctionView = ({route,navigation}) => {
                         <MaterialCommunityIcons name="arrow-left" color="white" size={25}/>
                     </TouchableOpacity>
                     <Text style={{display:'flex',justifyContent:'center',alignItems:'center',color:'white',
-                    fontSize:18,paddingLeft:10,paddingTop:10}}>Auction Details</Text>
+                    fontSize:18,paddingLeft:10,paddingTop:10}}>Back</Text>
                 </View>
                 <View>
 
                     <View style={{
-                        backgroundColor: '#0b1224', height: '100%', width: '100%',marginTop:15
+                        backgroundColor: '#121a2a', height: '100%', width: '100%',marginTop:15
                     }}>
                         <Text style={{width:'100%',fontSize:18,color:'white',
                             paddingBottom:2,paddingLeft: '4%'}}> Auction : {auctionStatus.UniqueName}</Text>
-                        <Text style={{width:'100%',fontSize:18,color:'green',
+                        <Text style={{width:'100%',fontSize:18,color:'#43d86d',
                             paddingTop:2,paddingBottom:20,paddingLeft: '4%'}}> Status : {auctionStatus.StatusName}</Text>
 
                         {auctionData.length === 0 ?
                             <View style={{
                                 width: '100%',
                                 height: '100%',
-                                backgroundColor: '#0b1224',
+                                backgroundColor: '#121a2a',
                                 justifyContent: 'center',
                                 alignItems: 'center', display: 'flex',
                                 paddingBottom: 300
@@ -158,7 +159,7 @@ const AuctionView = ({route,navigation}) => {
                             data={auctionData}
                             renderItem={({item, index}) => (
                                 <View style={{
-                                    flex: 1, flexDirection: 'row', backgroundColor: '#0b1224', justifyContent: 'center',
+                                    flex: 1, flexDirection: 'row', backgroundColor: '#121a2a', justifyContent: 'center',
                                     alignItems: 'stretch', padding: '2 %',
                                 }}>
                                     <View style={{
@@ -168,7 +169,7 @@ const AuctionView = ({route,navigation}) => {
                                         {/*<Text style={{color: 'white'}}>{item.key}</Text>*/}
                                         <Text
                                             style={{
-                                                color: 'red',
+                                                color: '#fb4040',
                                                 fontWeight: 'bold',
                                                 fontSize: 22
                                             }}>{item.LotNumber}</Text>
@@ -187,7 +188,7 @@ const AuctionView = ({route,navigation}) => {
 
                                         <Text
                                             style={{fontSize: 17,
-                                                color: 'red',
+                                                color: '#fb4040',
                                                 fontWeight: 'bold'
                                             }}>{item.SellerRegistrationNumber}</Text>
                                         <Text style={{fontSize: 13, color: 'white'}}>{item.PerUnitWeight}</Text>
@@ -202,12 +203,12 @@ const AuctionView = ({route,navigation}) => {
                                         {/*<Text style={{color: 'white'}}>{item.key}</Text>*/}
                                         <Text
                                             style={{
-                                                color: 'red',
+                                                color: '#fb4040',
                                                 fontWeight: 'bold',
                                                 fontSize: 13
                                             }}>Ask (Rs)</Text>
                                         <Text style={{
-                                            color: 'green',
+                                            color: '#43d86d',
                                             fontWeight: 'bold',
                                             fontSize: 23
                                         }}>{item.AskingPrice}</Text>
@@ -221,29 +222,63 @@ const AuctionView = ({route,navigation}) => {
                                         {/*<Text style={{color: 'white'}}>{item.key}</Text>*/}
                                         <Text
                                             style={{
-                                                color: 'red',
+                                                color: '#fb4040',
                                                 fontWeight: 'bold',
                                                 fontSize: 13
                                             }}>Bid (Rs)</Text>
                                         <Text style={{
-                                            color: 'green',
+                                            color: '#43d86d',
                                             fontWeight: 'bold',
                                             fontSize: 23
                                         }}>{item.BiddingPrice}</Text>
-                                        <Text style={{color: 'green', fontSize: 14}}>{item.Buyer}</Text>
+                                        <Text style={{color: '#43d86d', fontSize: 14}}>{item.Buyer}</Text>
                                     </View>
+
+
+
                                     <View style={{
                                         flexDirection: 'column', flex: 1.2, justifyContent: 'center',
-                                        alignItems: 'center',
+                                        alignItems: 'center'
                                     }}>
                                         {/*<Text style={{color: 'white'}}>{item.key}</Text>*/}
-                                        <Text
-                                            style={{
-                                                color: '#489fdd',
-                                                fontWeight: 'bold',
-                                                fontSize: 13
-                                            }}>{item.Status === 15 ? "Closed" :item.Status === 12 ? "Pending" : item.Status === 13 ? "Open":""}</Text>
+                                        {item.Status === 15 ?  <View style={{
+                                            flexDirection: 'column', justifyContent: 'center',
+                                            alignItems: 'center', backgroundColor:'#fb4040',width:70,height:30,
+                                            borderRadius:15
+                                        }}>
+                                            <Text
+                                                style={{
+                                                    color: 'white',
+                                                    fontWeight: 'bold',
+                                                    fontSize: 13
+                                                }}>CLOSED</Text>
+                                        </View> :item.Status === 12 ?  <View style={{
+                                            flexDirection: 'column', justifyContent: 'center',
+                                            alignItems: 'center', backgroundColor:'#f7c346',width:70,height:30,
+                                            borderRadius:15
+                                        }}>
+                                            <Text
+                                                style={{
+                                                    color: 'white',
+                                                    fontWeight: 'bold',
+                                                    fontSize: 13
+                                                }}>PENDING</Text>
+                                        </View> : item.Status === 13 ?  <View style={{
+                                            flexDirection: 'column', justifyContent: 'center',
+                                            alignItems: 'center', backgroundColor:'#43d86d',width:70,height:30,
+                                            borderRadius:15
+                                        }}>
+                                            <Text
+                                                style={{
+                                                    color: 'white',
+                                                    fontWeight: 'bold',
+                                                    fontSize: 13
+                                                }}>OPEN</Text>
+                                        </View>:""}
+
                                     </View>
+
+
 
                                 </View>
                             )}

@@ -113,9 +113,9 @@ const QuotesBuyer = () => {
                 const value = {
                     idIndex: index, ref: React.createRef(), price: 0, ref3: React.createRef(), minBid: 0,
                     ref4: React.createRef(), maxBid: 0, ref2: React.createRef(), remarks: '', val: true,
-                    Id: item.Id, ItemNumber: item.LotNumber,
-                    BrandName: item.ItemName, ItemCode: item.BrokerCode, ItemType: item.UnitTypeName,
-                    NetWeight: item.PerUnitWeight, TotalWeight: item.PerUnitWeight, status: 0,
+                    Id: item.Id, LotNumber: item.LotNumber,
+                    SellingMark: item.SellingMark, Grade: item.Grade, Units: item.Units,
+                    PerUnitWeight: item.PerUnitWeight, TotalWeight: item.TotalWeight, status: 0,
                 };
                 dispatch({type: 'add', value: value});
                 //console.log("value array: " + JSON.stringify(value))
@@ -437,16 +437,16 @@ const QuotesBuyer = () => {
                                         {/*<Text style={{color: 'white'}}>{item.key}</Text>*/}
                                         <Text
                                             style={{
-                                                color: 'red',
+                                                color: '#fb4040',
                                                 fontWeight: 'bold',
                                                 fontSize: 18,
-                                            }}>{item.ItemNumber}</Text>
+                                            }}>{item.LotNumber}</Text>
                                         <Text style={{
                                             color: 'white',
                                             // fontWeight: 'bold',
                                             fontSize: 12,
-                                        }}>{item.BrandName}</Text>
-                                        <Text style={{color: 'green', fontSize: 14}}>{item.ItemCode}</Text>
+                                        }}>{item.SellingMark}</Text>
+                                        <Text style={{color: 'green', fontSize: 14}}>{item.Grade}</Text>
                                     </View>
 
                                     <View style={{
@@ -457,10 +457,10 @@ const QuotesBuyer = () => {
                                         <Text
                                             style={{
                                                 fontSize: 17,
-                                                color: 'red',
+                                                color: '#fb4040',
                                                 fontWeight: 'bold',
-                                            }}>{item.ItemType}</Text>
-                                        <Text style={{fontSize: 13, color: 'green'}}>{item.NetWeight + ' Kg'}</Text>
+                                            }}>{item.Units}</Text>
+                                        <Text style={{fontSize: 13, color: 'green'}}>{item.PerUnitWeight + ' Kg'}</Text>
                                         <Text style={{fontSize: 17, color: 'green'}}>{item.TotalWeight + ' Kg'}</Text>
 
                                     </View>
@@ -489,7 +489,7 @@ const QuotesBuyer = () => {
                                                 <View style={{
                                                     flexDirection: 'row', alignItems: 'center',
                                                 }}>
-                                                    {/*{showT[index].success ? <Text style={{color:'green'}}>success</Text> : <Text style={{color:'red'}}>failed</Text>}*/}
+                                                    {/*{showT[index].success ? <Text style={{color:'green'}}>success</Text> : <Text style={{color:'#fb4040'}}>failed</Text>}*/}
                                                 </View>
                                                 {item.val ?
                                                     <View>
@@ -602,7 +602,7 @@ const QuotesBuyer = () => {
                                                 <View style={{
                                                     flexDirection: 'row', alignItems: 'center',
                                                 }}>
-                                                    {/*{showT[index].success ? <Text style={{color:'green'}}>success</Text> : <Text style={{color:'red'}}>failed</Text>}*/}
+                                                    {/*{showT[index].success ? <Text style={{color:'green'}}>success</Text> : <Text style={{color:'#fb4040'}}>failed</Text>}*/}
                                                 </View>
                                                 {item.val ?
                                                     <View>
@@ -715,7 +715,7 @@ const QuotesBuyer = () => {
                                                 <View style={{
                                                     flexDirection: 'row', alignItems: 'center',
                                                 }}>
-                                                    {/*{showT[index].success ? <Text style={{color:'green'}}>success</Text> : <Text style={{color:'red'}}>failed</Text>}*/}
+                                                    {/*{showT[index].success ? <Text style={{color:'green'}}>success</Text> : <Text style={{color:'#fb4040'}}>failed</Text>}*/}
                                                 </View>
                                                 {item.val ?
                                                     <View>
@@ -829,7 +829,7 @@ const QuotesBuyer = () => {
                                                 <View style={{
                                                     flexDirection: 'row', alignItems: 'center',
                                                 }}>
-                                                    {/*{showT[index].success ? <Text style={{color:'green'}}>success</Text> : <Text style={{color:'red'}}>failed</Text>}*/}
+                                                    {/*{showT[index].success ? <Text style={{color:'green'}}>success</Text> : <Text style={{color:'#fb4040'}}>failed</Text>}*/}
                                                 </View>
                                                 {item.val ?
                                                     <View>
@@ -956,7 +956,7 @@ const QuotesBuyer = () => {
                                                     style={[
                                                         styles.button,
                                                         {
-                                                            borderColor: 'red',
+                                                            borderColor: '#fb4040',
                                                             borderWidth: 1,
                                                             borderRadius: 50,
                                                             width: 24,
@@ -966,7 +966,7 @@ const QuotesBuyer = () => {
                                                         },
                                                     ]}>
                                                     <MaterialIcons name='clear' size={22}
-                                                                   color="red"/>
+                                                                   color="#fb4040"/>
                                                 </TouchableOpacity>
                                             </View>
                                             : item.status === 200 ?

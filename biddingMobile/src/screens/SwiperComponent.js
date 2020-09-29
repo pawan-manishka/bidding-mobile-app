@@ -120,7 +120,7 @@ const SwiperComponent = ({navigation}) => {
 
 
                 <View style={styles.slide}>
-                    <StatusBar backgroundColor="#1a2435" barStyle="light-content"/>
+                    <StatusBar backgroundColor="#121a2a" barStyle="light-content"/>
                     <View style={styles.header}>
                         <Image
                             source={require('../asset/SmartAuction1.png')}
@@ -230,7 +230,7 @@ var styles = StyleSheet.create({
     slide: {
         flex: 1,
         // backgroundColor: 'white',
-        backgroundColor: '#1a2435',
+        backgroundColor: '#121a2a',
     },
     header: {
         flex: 2,

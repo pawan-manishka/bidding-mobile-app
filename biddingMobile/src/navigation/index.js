@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import {View, Text, Icon} from 'native-base';
+import {View, Text,} from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -7,18 +7,16 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
 import SwiperComponent from '../screens/SwiperComponent';
 import SignalRTest from '../screens/SignalRTest';
 import AuctionHome from '../screens/AuctionHome';
 import AuctionView from '../screens/AuctionView';
-import Quotes2 from '../screens/Quotes2';
 import QuotesBroker from '../screens/QuotesBroker';
 import QuotesBuyer from '../screens/QuotesBuyer';
 import {Provider as CatalogProvider} from '../context/CatalogContext';
 import {Provider as AuctionProvider} from '../context/AuctionContext';
 import AsyncStorage from '@react-native-community/async-storage';
+import {SafeAreaView,StatusBar,Alert} from "react-native";
 
 const Stack = createStackNavigator();
 const AuctionHomeScreen = createStackNavigator();
@@ -82,7 +80,7 @@ function _HomeWithTabs(){
     return (
         <Tab.Navigator initialRouteName="Home" tabBarOptions={{
             activeTintColor: 'white', style: {
-                backgroundColor: '#0b1224',//color you want to change
+                backgroundColor: '#121a2a',//color you want to change
             },
         }}>
             <Tab.Screen name="Home" component={AuctionHomeStackScreen} options={{
@@ -106,9 +104,7 @@ function _HomeWithTabs(){
                     activeTintColor: 'white',
                     inactiveTintColor: '#374760',
                 },
-            }}/>: null}
-
-            {role==="Buyer"?<Tab.Screen name="Quotes" component={QuotesBuyer} options={{
+            }}/>: <Tab.Screen name="Quotes" component={QuotesBuyer} options={{
                 tabBarLabel: 'Quotes',
                 tabBarIcon: ({color, size}) => (
                     <Fontisto name="arrow-swap" color={color} size={20} style={{transform: [{rotate: '90deg'}]}}/>
@@ -117,10 +113,21 @@ function _HomeWithTabs(){
                     activeTintColor: 'white',
                     inactiveTintColor: '#374760',
                 },
-            }}/>: null}
+            }}/>}
+
+           {/*<Tab.Screen name="Quotes" component={QuotesBuyer} options={{*/}
+                {/*tabBarLabel: 'Quotes',*/}
+                {/*tabBarIcon: ({color, size}) => (*/}
+                    {/*<Fontisto name="arrow-swap" color={color} size={20} style={{transform: [{rotate: '90deg'}]}}/>*/}
+                {/*),*/}
+                {/*tabBarOptions: {*/}
+                    {/*activeTintColor: 'white',*/}
+                    {/*inactiveTintColor: '#374760',*/}
+                {/*},*/}
+            {/*}}/>*/}
 
 
-            {role==="Buyer"?<Tab.Screen name="Chart" component={SignalRTest}
+            <Tab.Screen name="Chart" component={SignalRTest}
                         options={{
                             tabBarLabel: 'Signal R',
                             tabBarIcon: ({color, size}) => (
@@ -130,7 +137,7 @@ function _HomeWithTabs(){
                                 activeTintColor: 'white',
                                 inactiveTintColor: '#374760',
                             },
-                        }}/>: null}
+                        }}/>
             <Tab.Screen name="Trade" component={TradeScreen} options={{
                 tabBarLabel: 'Trade',
                 tabBarIcon: ({color, size}) => (
@@ -154,9 +161,12 @@ function _HomeWithTabs(){
 
 export default function Navigation() {
     return (
+
         <AuctionProvider>
             <CatalogProvider>
                 <NavigationContainer>
+                    {/*<SafeAreaView>*/}
+                        {/*<StatusBar backgroundColor="#1a2435" barStyle="light-content"/>*/}
                     <Stack.Navigator initialRouteName="Initial">
                         <Stack.Screen name="Initial"
                                       options={{headerShown: false}}
@@ -179,8 +189,10 @@ export default function Navigation() {
 
 
                     </Stack.Navigator>
+                    {/*</SafeAreaView>*/}
                 </NavigationContainer>
             </CatalogProvider>
         </AuctionProvider>
+
     );
 }

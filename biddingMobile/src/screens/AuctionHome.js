@@ -155,12 +155,12 @@ const AuctionHome = ({navigation}) => {
     };
 
         return (
-            <View style={{width: '100%', backgroundColor: '#0b1224'}}>
+            <View style={{width: '100%', backgroundColor: '#121a2a'}}>
                 <StatusBar backgroundColor="#1a2435" barStyle="light-content"/>
                 <View>
                     <View style={{
                         width: '100%',
-                        backgroundColor: '#0b1224',
+                        backgroundColor: '#121a2a',
                         flexDirection: 'row',
                         display: 'flex',
                         justifyContent: 'center',
@@ -173,7 +173,7 @@ const AuctionHome = ({navigation}) => {
                             flex: 1,
                             marginBottom: 15,
                             marginRight: 20,
-                            backgroundColor: '#0b1224',
+                            backgroundColor: '#121a2a',
                             flexDirection: 'column',
                         }}>
                             <RNPickerSelect
@@ -186,14 +186,14 @@ const AuctionHome = ({navigation}) => {
                         </View>
                     </View>
                     <View style={{
-                        backgroundColor: '#0b1224', height: '100%', width: '100%'
+                        backgroundColor: '#121a2a', height: '100%', width: '100%'
                     }}>
 
                         {AuctionList.length === 0 ?
                             <View style={{
                                 width: '100%',
                                 height: '100%',
-                                backgroundColor: '#0b1224',
+                                backgroundColor: '#121a2a',
                                 justifyContent: 'center',
                                 alignItems: 'center', display: 'flex',
                                 paddingBottom: 300
@@ -206,7 +206,7 @@ const AuctionHome = ({navigation}) => {
                             <View style={{
                                 width: '100%',
                                 height: '100%',
-                                backgroundColor: '#0b1224',
+                                backgroundColor: '#121a2a',
                                 justifyContent: 'center',
                                 alignItems: 'center', display: 'flex',
                                 paddingBottom: 300
@@ -220,8 +220,8 @@ const AuctionHome = ({navigation}) => {
                             data={auctionData}
                             renderItem={({item, index}) => (
                                 <View style={{
-                                    flex: 1, flexDirection: 'row', backgroundColor: '#0b1224', justifyContent: 'center',
-                                    alignItems: 'stretch', padding: '2 %',
+                                    flex: 1, flexDirection: 'row', backgroundColor: '#121a2a', justifyContent: 'center',
+                                    alignItems: 'stretch', padding: '2%',
                                 }}>
                                     <View style={{
                                         flexDirection: 'column', flex: 1.2, justifyContent: 'center',
@@ -230,7 +230,7 @@ const AuctionHome = ({navigation}) => {
                                         {/*<Text style={{color: 'white'}}>{item.key}</Text>*/}
                                         <Text
                                             style={{
-                                                color: 'red',
+                                                color: '#fb4040',
                                                 fontWeight: 'bold',
                                                 fontSize: 22
                                             }}>{item.LotNumber}</Text>
@@ -249,7 +249,7 @@ const AuctionHome = ({navigation}) => {
 
                                         <Text
                                             style={{fontSize: 17,
-                                                color: 'red',
+                                                color: '#fb4040',
                                                 fontWeight: 'bold'
                                             }}>{item.SellerRegistrationNumber}</Text>
                                         <Text style={{fontSize: 13, color: 'white'}}>{item.PerUnitWeight}</Text>
@@ -264,7 +264,7 @@ const AuctionHome = ({navigation}) => {
                                         {/*<Text style={{color: 'white'}}>{item.key}</Text>*/}
                                         <Text
                                             style={{
-                                                color: 'red',
+                                                color: '#fb4040',
                                                 fontWeight: 'bold',
                                                 fontSize: 13
                                             }}>Ask (Rs)</Text>
@@ -283,7 +283,7 @@ const AuctionHome = ({navigation}) => {
                                         {/*<Text style={{color: 'white'}}>{item.key}</Text>*/}
                                         <Text
                                             style={{
-                                                color: 'red',
+                                                color: '#fb4040',
                                                 fontWeight: 'bold',
                                                 fontSize: 13
                                             }}>Bid (Rs)</Text>

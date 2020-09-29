@@ -252,12 +252,12 @@ const QuotesBroker = () => {
         };
 
         return (
-            <View style={{width: '100%', backgroundColor: '#0b1224'}}>
+            <View style={{width: '100%', backgroundColor: '#121a2a'}}>
                 <StatusBar backgroundColor="#1a2435" barStyle="light-content"/>
                 <View>
                     <View style={{
                         width: '100%',
-                        backgroundColor: '#0b1224',
+                        backgroundColor: '#121a2a',
                         flexDirection: 'row',
                         display: 'flex',
                         justifyContent: 'center',
@@ -270,7 +270,7 @@ const QuotesBroker = () => {
                             flex: 1,
                             marginBottom: 15,
                             marginRight: 20,
-                            backgroundColor: '#0b1224',
+                            backgroundColor: '#121a2a',
                             flexDirection: 'column',
                         }}>
                             <RNPickerSelect
@@ -294,7 +294,7 @@ const QuotesBroker = () => {
                                 <View>
                                     <Switch
                                         trackColor={{false: '#2b5f84', true: '#005900'}}
-                                        thumbColor={isEnabled ? 'green' : '#489fdd'}
+                                        thumbColor={isEnabled ? '#43d86d' : '#489fdd'}
                                         ios_backgroundColor="#3e3e3e"
                                         onValueChange={toggleSwitch}
                                         value={isEnabled}
@@ -309,13 +309,13 @@ const QuotesBroker = () => {
                         </View>
                     </View>
                     <View style={{
-                        backgroundColor: '#0b1224', height: '100%', width: '100%',
+                        backgroundColor: '#121a2a', height: '100%', width: '100%',
                     }}>
                         {CatalogList.length === 0 ?
                             <View style={{
                                 width: '100%',
                                 height: '100%',
-                                backgroundColor: '#0b1224',
+                                backgroundColor: '#121a2a',
                                 justifyContent: 'center',
                                 alignItems: 'center', display: 'flex',
                                 paddingBottom: 300,
@@ -328,7 +328,7 @@ const QuotesBroker = () => {
                             <View style={{
                                 width: '100%',
                                 height: '100%',
-                                backgroundColor: '#0b1224',
+                                backgroundColor: '#121a2a',
                                 justifyContent: 'center',
                                 alignItems: 'center', display: 'flex',
                                 paddingBottom: 300,
@@ -341,7 +341,7 @@ const QuotesBroker = () => {
                             data={showT}
                             renderItem={({item, index}) => (
                                 <View style={{
-                                    flex: 1, flexDirection: 'row', backgroundColor: '#0b1224', justifyContent: 'center',
+                                    flex: 1, flexDirection: 'row', backgroundColor: '#121a2a', justifyContent: 'center',
                                     alignItems: 'stretch', padding: 2,
                                 }}>
                                     <View style={{
@@ -351,7 +351,7 @@ const QuotesBroker = () => {
                                         {/*<Text style={{color: 'white'}}>{item.key}</Text>*/}
                                         <Text
                                             style={{
-                                                color: 'red',
+                                                color: '#fb4040',
                                                 fontWeight: 'bold',
                                                 fontSize: 18,
                                             }}>{item.ItemNumber}</Text>
@@ -360,7 +360,7 @@ const QuotesBroker = () => {
                                             // fontWeight: 'bold',
                                             fontSize: 12,
                                         }}>{item.BrandName}</Text>
-                                        <Text style={{color: 'green', fontSize: 14}}>{item.ItemCode}</Text>
+                                        <Text style={{color: '#43d86d', fontSize: 14}}>{item.ItemCode}</Text>
                                     </View>
 
                                     <View style={{
@@ -371,11 +371,11 @@ const QuotesBroker = () => {
                                         <Text
                                             style={{
                                                 fontSize: 17,
-                                                color: 'red',
+                                                color: '#fb4040',
                                                 fontWeight: 'bold',
                                             }}>{item.ItemType}</Text>
-                                        <Text style={{fontSize: 13, color: 'green'}}>{item.NetWeight + ' Kg'}</Text>
-                                        <Text style={{fontSize: 17, color: 'green'}}>{item.TotalWeight + ' Kg'}</Text>
+                                        <Text style={{fontSize: 13, color: '#43d86d'}}>{item.NetWeight + ' Kg'}</Text>
+                                        <Text style={{fontSize: 17, color: '#43d86d'}}>{item.TotalWeight + ' Kg'}</Text>
 
                                     </View>
 
@@ -390,20 +390,20 @@ const QuotesBroker = () => {
                                             <View style={isEnabled ? {
                                                 width: '100%',
                                                 height: 65,
-                                                backgroundColor: '#1a2332',
+                                                backgroundColor: '#1a2435',
                                                 borderRadius: 10,
                                                 margin: 1,
                                             } : {
                                                 width: '100%',
                                                 height: 100,
-                                                backgroundColor: '#1a2332',
+                                                backgroundColor: '#1a2435',
                                                 borderRadius: 10,
                                                 margin: 1,
                                             }}>
                                                 <View style={{
                                                     flexDirection: 'row', alignItems: 'center',
                                                 }}>
-                                                    {/*{showT[index].success ? <Text style={{color:'green'}}>success</Text> : <Text style={{color:'red'}}>failed</Text>}*/}
+                                                    {/*{showT[index].success ? <Text style={{color:'#43d86d'}}>success</Text> : <Text style={{color:'#fb4040'}}>failed</Text>}*/}
                                                 </View>
                                                 {item.val ?
                                                     <View>
@@ -434,7 +434,7 @@ const QuotesBroker = () => {
                                                                 showNativeButtons={false}
                                                                 showTitleLabel={false}
                                                                 viewMode={'portrait'}
-                                                                backgroundColor={'#1a2332'}
+                                                                backgroundColor={'#1a2435'}
                                                                 strokeColor="white"
                                                                 maxStrokeWidth={1}
                                                             />
@@ -504,20 +504,20 @@ const QuotesBroker = () => {
                                             <View style={isEnabled ? {
                                                 width: '100%',
                                                 height: 65,
-                                                backgroundColor: '#1a2332',
+                                                backgroundColor: '#1a2435',
                                                 borderRadius: 10,
                                                 margin: 1,
                                             } : {
                                                 width: '100%',
                                                 height: 100,
-                                                backgroundColor: '#1a2332',
+                                                backgroundColor: '#1a2435',
                                                 borderRadius: 10,
                                                 margin: 1,
                                             }}>
                                                 <View style={{
                                                     flexDirection: 'row', alignItems: 'center',
                                                 }}>
-                                                    {/*{showT[index].success ? <Text style={{color:'green'}}>success</Text> : <Text style={{color:'red'}}>failed</Text>}*/}
+                                                    {/*{showT[index].success ? <Text style={{color:'#43d86d'}}>success</Text> : <Text style={{color:'#fb4040'}}>failed</Text>}*/}
                                                 </View>
                                                 {item.val ?
                                                     <View>
@@ -547,7 +547,7 @@ const QuotesBroker = () => {
                                                                 showNativeButtons={false}
                                                                 showTitleLabel={false}
                                                                 viewMode={'portrait'}
-                                                                backgroundColor={'#1a2332'}
+                                                                backgroundColor={'#1a2435'}
                                                                 strokeColor="white"
                                                                 maxStrokeWidth={1}
                                                             />
@@ -624,7 +624,7 @@ const QuotesBroker = () => {
                                                     style={[
                                                         styles.button,
                                                         {
-                                                            borderColor: 'green',
+                                                            borderColor: '#43d86d',
                                                             borderWidth: 1,
                                                             borderRadius: 50,
                                                             width: 24,
@@ -634,7 +634,7 @@ const QuotesBroker = () => {
                                                         },
                                                     ]}>
                                                     <MaterialIcons name='done' size={22}
-                                                                   color="green"/>
+                                                                   color="#43d86d"/>
                                                 </TouchableOpacity>
                                                 <TouchableOpacity
                                                     onPress={() => {
@@ -644,7 +644,7 @@ const QuotesBroker = () => {
                                                     style={[
                                                         styles.button,
                                                         {
-                                                            borderColor: 'red',
+                                                            borderColor: '#fb4040',
                                                             borderWidth: 1,
                                                             borderRadius: 50,
                                                             width: 24,
@@ -654,7 +654,7 @@ const QuotesBroker = () => {
                                                         },
                                                     ]}>
                                                     <MaterialIcons name='clear' size={22}
-                                                                   color="red"/>
+                                                                   color="#fb4040"/>
                                                 </TouchableOpacity>
                                             </View>
                                             : item.status === 200 ?
