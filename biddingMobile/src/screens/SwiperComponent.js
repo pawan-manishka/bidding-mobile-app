@@ -68,13 +68,16 @@ const SwiperComponent = ({navigation}) => {
                     await AsyncStorage.setItem("role", "Broker")
                 }else if (decoded.extension_UserType === 2){
                     await AsyncStorage.setItem("role", "Buyer")
-                }else if (decoded.extension_UserType === 3){
-                    await AsyncStorage.setItem("role", "Factory")
-                }else if (decoded.extension_UserType === 4){
-                    await AsyncStorage.setItem("role", "Admin")
-                }else if (decoded.extension_UserType === 5){
-                    await AsyncStorage.setItem("role", "TeaBoard")
                 }
+
+                // else if (decoded.extension_UserType === 3){
+                //     await AsyncStorage.setItem("role", "Factory")
+                // }else if (decoded.extension_UserType === 4){
+                //     await AsyncStorage.setItem("role", "Admin")
+                // }else if (decoded.extension_UserType === 5){
+                //     await AsyncStorage.setItem("role", "TeaBoard")
+                // }
+
             } catch (e) {
                 console.log(e)
                 //alert('Failed to save the data to the storage')
@@ -176,9 +179,9 @@ const SwiperComponent = ({navigation}) => {
                                     duration={1500}
                                     useNativeDriver>
                                     <TouchableOpacity
-                                        onPress={() =>
-                                            navigation.navigate('HomeScreen')
-                                        }
+                                        // onPress={() =>
+                                        //     navigation.navigate('')
+                                        // }
                                         style={[
                                             styles.button,
                                             {

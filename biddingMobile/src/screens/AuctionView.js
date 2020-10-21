@@ -274,7 +274,7 @@ const AuctionView = ({route,navigation}) => {
                                                     fontWeight: 'bold',
                                                     fontSize: 13
                                                 }}>OPEN</Text>
-                                        </View>:""}
+                                        </View>:null}
 
                                     </View>
 
