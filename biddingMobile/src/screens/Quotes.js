@@ -17,7 +17,6 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Main from '../navigation/RootStack';
 import SignatureCapture from 'react-native-signature-capture';
-import RNTesseractOcr from 'react-native-tesseract-ocr';
 import index from 'react-native-swiper/src';
 import {Dropdown} from 'react-native-material-dropdown';
 import {Context as CatalogContext} from "../context/CatalogContext";
@@ -144,33 +143,30 @@ const Quotes = () => {
         dispatch({type: 'change', value: items});
     }
 
-    function onSavePrice(result) {
-        //result.encoded - for the base64 encoded png
-        //result.pathName - for the file path name
-        console.log(result.pathName);
-        RNTesseractOcr.recognize(result.pathName, 'LANG_ENGLISH', tessOptions)
-            .then((result) => {
-                //this.setState({ ocrResult: result });
-                //this.setState({text: result})
-                //alert(result);
-                //price.push(result);
-                console.log(priceIndex);
-                let items = [...showT];
-                let item = {...showT[priceIndex]};
-                console.log('index val: ', item.val);
-                item.val = false;
-                item.price = result;
-                items[priceIndex] = item;
-                dispatch({type: 'change', value: items});
-                console.log('OCR Result: ', result);
-                console.log('showT array: ', showT[priceIndex]);
-            })
-            .catch((err) => {
-                console.log('OCR Error: ', err);
-            })
-            .done();
-
-    }
+    // function onSavePrice(result) {
+    //     console.log(result.pathName);
+    //     RNTesseractOcr.recognize(result.pathName, 'LANG_ENGLISH', tessOptions)
+    //         .then((result) => {
+    //             //this.setState({ ocrResult: result });
+    //             //this.setState({text: result})
+    //             //alert(result);
+    //             //price.push(result);
+    //             console.log(priceIndex);
+    //             let items = [...showT];
+    //             let item = {...showT[priceIndex]};
+    //             console.log('index val: ', item.val);
+    //             item.val = false;
+    //             item.price = result;
+    //             items[priceIndex] = item;
+    //             dispatch({type: 'change', value: items});
+    //             console.log('OCR Result: ', result);
+    //             console.log('showT array: ', showT[priceIndex]);
+    //         })
+    //         .catch((err) => {
+    //             console.log('OCR Error: ', err);
+    //         })
+    //         .done();
+    // }
 
     function onDraggedPrice(index) {
         console.log('price dragged on index: ' + index);

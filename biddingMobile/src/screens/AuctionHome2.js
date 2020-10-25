@@ -1,6 +1,5 @@
 import React, {useContext, useState, useRef, useReducer} from 'react';
-import {
-    StyleSheet,
+import {StyleSheet,
     Text,
     View,
     TextInput,
@@ -19,7 +18,6 @@ import { Chevron } from 'react-native-shapes';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import SignatureCapture from 'react-native-signature-capture';
-import RNTesseractOcr from 'react-native-tesseract-ocr';
 import {Dropdown} from 'react-native-material-dropdown';
 import {Context as CatalogContext} from "../context/CatalogContext";
 import CirclesLoader from "react-native-indicator/lib/loader/CirclesLoader";

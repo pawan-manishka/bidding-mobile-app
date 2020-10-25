@@ -4,26 +4,25 @@ import {
     Text,
     View,
     TextInput,
-    StatusBar, TouchableOpacity,
+    StatusBar,
+    TouchableOpacity,
     FlatList,
     ToastAndroid,
     Platform,
     AlertIOS,
-    Switch, PermissionsAndroid,
+    Switch,
+    PermissionsAndroid,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import SignatureCapture from 'react-native-signature-capture';
-import RNTesseractOcr from 'react-native-tesseract-ocr';
 import {Context as CatalogContext} from '../context/CatalogContext';
 import CirclesLoader from 'react-native-indicator/lib/loader/CirclesLoader';
 import TextLoader from 'react-native-indicator/lib/loader/TextLoader';
 import vision from '@react-native-firebase/ml-vision';
 import RNPickerSelect from 'react-native-picker-select';
 
-
 const QuotesBroker = () => {
-
         const {
             state: {CatalogList, ItemsByCatalog, PostBuyOutPriceStatus}, getPublishedCatalogs,
             getItemsByCatalog, updatePriceByID, clearupdatePriceByIDStatus,
@@ -143,7 +142,6 @@ const QuotesBroker = () => {
                 setgo2(true);
             }
             //showT[index].succes = true
-
         }
 
         if (PostBuyOutPriceStatus === 200 && PostBuyOutPriceStatus !== '' && go2) {
@@ -195,8 +193,6 @@ const QuotesBroker = () => {
                 updatePriceByID({id: id, BuyOutPrice: value});
             }
         }
-
-
 
         async function processDocument(result) {
             console.log("path: "+result.pathName);
@@ -676,7 +672,6 @@ const QuotesBroker = () => {
                 </View>
             </View>
         );
-
     }
 ;
 

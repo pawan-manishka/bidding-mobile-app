@@ -15,12 +15,9 @@ import {
     AlertIOS,
     Switch, PermissionsAndroid
 } from 'react-native';
-import { Chevron } from 'react-native-shapes';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import SignatureCapture from 'react-native-signature-capture';
-import RNTesseractOcr from 'react-native-tesseract-ocr';
-import {Dropdown} from 'react-native-material-dropdown';
 import {Context as CatalogContext} from "../context/CatalogContext";
 import CirclesLoader from "react-native-indicator/lib/loader/CirclesLoader";
 import TextLoader from "react-native-indicator/lib/loader/TextLoader";
@@ -220,34 +217,33 @@ const Quotes2 = () => {
             dispatch({type: 'change', value: items});
         }
 
-        function onSavePrice(result) {
-            //result.encoded - for the base64 encoded png
-            //result.pathName - for the file path name
-            console.log(result.pathName);
-            RNTesseractOcr.recognize(result.pathName, 'LANG_ENGLISH', tessOptions)
-                .then((result) => {
-                    //this.setState({ ocrResult: result });
-                    //this.setState({text: result})
-                    //alert(result);
-                    //price.push(result);
-                    console.log(priceIndex);
-                    let items = [...showT];
-                    let item = {...showT[priceIndex]};
-                    console.log('index val: ', item.val);
-                    item.val = false;
-                    item.price = result;
-                    items[priceIndex] = item;
-                    dispatch({type: 'change', value: items});
-                    updatePriceByID({id: ItemID, BuyOutPrice: result})
-                    console.log('OCR Result: ', result);
-                    console.log('showT array: ', showT[priceIndex]);
-                })
-                .catch((err) => {
-                    console.log('OCR Error: ', err);
-                })
-                .done();
-
-        }
+        // function onSavePrice(result) {
+        //     //result.encoded - for the base64 encoded png
+        //     //result.pathName - for the file path name
+        //     console.log(result.pathName);
+        //     RNTesseractOcr.recognize(result.pathName, 'LANG_ENGLISH', tessOptions)
+        //         .then((result) => {
+        //             //this.setState({ ocrResult: result });
+        //             //this.setState({text: result})
+        //             //alert(result);
+        //             //price.push(result);
+        //             console.log(priceIndex);
+        //             let items = [...showT];
+        //             let item = {...showT[priceIndex]};
+        //             console.log('index val: ', item.val);
+        //             item.val = false;
+        //             item.price = result;
+        //             items[priceIndex] = item;
+        //             dispatch({type: 'change', value: items});
+        //             updatePriceByID({id: ItemID, BuyOutPrice: result})
+        //             console.log('OCR Result: ', result);
+        //             console.log('showT array: ', showT[priceIndex]);
+        //         })
+        //         .catch((err) => {
+        //             console.log('OCR Error: ', err);
+        //         })
+        //         .done();
+        // }
 
         function savePriceEditText(value,id,index){
             console.log('price value: ', value);

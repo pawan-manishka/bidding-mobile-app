@@ -19,7 +19,6 @@ import { Chevron } from 'react-native-shapes';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import SignatureCapture from 'react-native-signature-capture';
-import RNTesseractOcr from 'react-native-tesseract-ocr';
 import {Dropdown} from 'react-native-material-dropdown';
 import CirclesLoader from "react-native-indicator/lib/loader/CirclesLoader";
 import TextLoader from "react-native-indicator/lib/loader/TextLoader";

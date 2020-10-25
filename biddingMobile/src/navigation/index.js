@@ -8,7 +8,6 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import SwiperComponent from '../screens/SwiperComponent';
-import SignalRTest from '../screens/SignalRTest';
 import AuctionHome from '../screens/AuctionHome';
 import AuctionView from '../screens/AuctionView';
 import QuotesBroker from '../screens/QuotesBroker';
@@ -17,6 +16,7 @@ import {Provider as CatalogProvider} from '../context/CatalogContext';
 import {Provider as AuctionProvider} from '../context/AuctionContext';
 import AsyncStorage from '@react-native-community/async-storage';
 import {SafeAreaView,StatusBar,Alert} from "react-native";
+import SignalRTest from '../screens/SignalRTest';
 
 const Stack = createStackNavigator();
 const AuctionHomeScreen = createStackNavigator();
@@ -24,7 +24,6 @@ const AuctionHomeScreen = createStackNavigator();
 const readData = async () => {
     try {
         const Role = await AsyncStorage.getItem("role")
-
         if (Role !== null) {
             return Role
         }
@@ -35,19 +34,15 @@ const readData = async () => {
 
 function ChartScreen() {
     return (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#1a2435'}}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#121a2a'}}>
             <Text style={{color: 'white'}}>Chart Screen!</Text>
         </View>
-        // <HomeStack.Navigator>
-        //     {/*<UserStack.Screen name="Home" options={{headerShown: false}} component={CreateWorkout}/>*/}
-        //     {/*<UserStack.Screen name="Workouts" options={{headerShown: false}} component={ViewWorkouts}/>*/}
-        // </HomeStack.Navigator>
     );
 }
 
 function TradeScreen() {
     return (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#1a2435'}}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#121a2a'}}>
             <Text style={{color: 'white'}}>Trade Screen!</Text>
         </View>
     );
@@ -55,7 +50,7 @@ function TradeScreen() {
 
 function HistoryScreen() {
     return (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#1a2435'}}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#121a2a'}}>
             <Text style={{color: 'white'}}>History Screen!</Text>
         </View>
     );
@@ -69,13 +64,10 @@ function AuctionHomeStackScreen() {
         </AuctionHomeScreen.Navigator>
     );
 }
-//readData().then((result) => setrole(result))
 
 function _HomeWithTabs(){
-
     const [role, setrole] = useState('');
     readData().then((result) => setrole(result))
-
     const Tab = createBottomTabNavigator();
     return (
         <Tab.Navigator initialRouteName="Home" tabBarOptions={{
@@ -91,7 +83,7 @@ function _HomeWithTabs(){
                 },
                 tabBarOptions: {
                     activeTintColor: 'white',
-                    inactiveTintColor: '#374760',
+                    inactiveTintColor: '#121a2a',
                 },
             }}/>
 
@@ -102,7 +94,7 @@ function _HomeWithTabs(){
                 ),
                 tabBarOptions: {
                     activeTintColor: 'white',
-                    inactiveTintColor: '#374760',
+                    inactiveTintColor: '#121a2a',
                 },
             }}/>: <Tab.Screen name="Quotes" component={QuotesBuyer} options={{
                 tabBarLabel: 'Quotes',
@@ -111,7 +103,7 @@ function _HomeWithTabs(){
                 ),
                 tabBarOptions: {
                     activeTintColor: 'white',
-                    inactiveTintColor: '#374760',
+                    inactiveTintColor: '#121a2a',
                 },
             }}/>}
 
@@ -126,16 +118,15 @@ function _HomeWithTabs(){
                 {/*},*/}
             {/*}}/>*/}
 
-
-            <Tab.Screen name="Chart" component={SignalRTest}
+            <Tab.Screen name="Chart" component={ChartScreen}
                         options={{
-                            tabBarLabel: 'Signal R',
+                            tabBarLabel: 'Charts',
                             tabBarIcon: ({color, size}) => (
                                 <Ionicons name="ios-stats" color={color} size={25}/>
                             ),
                             tabBarOptions: {
                                 activeTintColor: 'white',
-                                inactiveTintColor: '#374760',
+                                inactiveTintColor: '#121a2a',
                             },
                         }}/>
             <Tab.Screen name="Trade" component={TradeScreen} options={{
@@ -145,7 +136,7 @@ function _HomeWithTabs(){
                 ),
                 tabBarOptions: {
                     activeTintColor: 'white',
-                    inactiveTintColor: '#374760',
+                    inactiveTintColor: '#121a2a',
                 },
             }}/>
             <Tab.Screen name="History" component={HistoryScreen} options={{
@@ -161,7 +152,6 @@ function _HomeWithTabs(){
 
 export default function Navigation() {
     return (
-
         <AuctionProvider>
             <CatalogProvider>
                 <NavigationContainer>
@@ -172,7 +162,6 @@ export default function Navigation() {
                                       options={{headerShown: false}}
                                       component={SwiperComponent}
                         />
-
                         <Stack.Screen
                             name="Home"
                             options={{
@@ -180,19 +169,13 @@ export default function Navigation() {
                                 headerTitleAlign: 'center',
                                 headerShown: false,
                                 headerLeftContainerStyle: {padding: 10},
-
                             }}
                             component={_HomeWithTabs}
-
-
                         />
-
-
                     </Stack.Navigator>
                     {/*</SafeAreaView>*/}
                 </NavigationContainer>
             </CatalogProvider>
         </AuctionProvider>
-
     );
 }
