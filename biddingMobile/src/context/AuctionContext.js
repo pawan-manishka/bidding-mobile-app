@@ -5,6 +5,10 @@ const AuctionReducer = (state, action) => {
     switch (action.type) {
         case 'get_auction_list':
             return {...state, AuctionList: action.payload};
+
+        case 'get_user_details':
+            return {...state, UserDetails: action.payload};
+
         default:
             return state;
     }
@@ -20,7 +24,17 @@ const getAuctionList = dispatch => async () => {
     try {
         const response = await biddingAPI.get('/Auctions/pending-auction-list', config);
         dispatch({type: 'get_auction_list', payload: response.data});
-        //console.log("auctions :"+response.data);
+    } catch (e) {
+        console.log(e)
+    }
+};
+
+
+const getUserDetails = dispatch => async () => {
+    try {
+        const response = await biddingAPI.get('/Users/get-user-details', config);
+        dispatch({type: 'get_auction_list', payload: response.data});
+        console.log("User Details >>>>>>>>>>> "+response.data);
     } catch (e) {
         console.log(e)
     }
@@ -29,10 +43,10 @@ const getAuctionList = dispatch => async () => {
 export const {Provider, Context} = CreateDataContext(
     AuctionReducer,
     {
-        getAuctionList,
+        getAuctionList, getUserDetails
     },
     {
-        AuctionList: [],
+        AuctionList: [], UserDetails:[]
 
     }
 );

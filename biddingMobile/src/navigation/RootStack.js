@@ -1,13 +1,8 @@
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
-import Login from '../screens/Login';
-// import Home from './src/screens/Home';
 import SwiperComponent from '../screens/SwiperComponent';
-import Quotes from '../screens/Quotes';
-//import BottomTabs from './BottomTabs';
 import {Provider as CatalogProvider} from "../context/CatalogContext";
 import React from "react";
-import Quotes2 from "../screens/Quotes2";
 import SignalRTest from "../screens/SignalRTest";
 import {setNavigator} from "../navigationRef";
 
@@ -48,9 +43,6 @@ const Main = createSwitchNavigator({
     App: {
         screen: SignalRTest,
     },
-    // TourDetail: {
-    //     screen: TourStack,
-    // },
 });
 
 const App = createAppContainer(Main);

@@ -87,7 +87,18 @@ function _HomeWithTabs(){
                 },
             }}/>
 
-            {role==="Broker"?<Tab.Screen name="Quotes" component={QuotesBroker} options={{
+            {/*{role==="Broker"?<Tab.Screen name="Quotes" component={QuotesBroker} options={{*/}
+                {/*tabBarLabel: 'Quotes',*/}
+                {/*tabBarIcon: ({color, size}) => (*/}
+                    {/*<Fontisto name="arrow-swap" color={color} size={20} style={{transform: [{rotate: '90deg'}]}}/>*/}
+                {/*),*/}
+                {/*tabBarOptions: {*/}
+                    {/*activeTintColor: 'white',*/}
+                    {/*inactiveTintColor: '#121a2a',*/}
+                {/*},*/}
+            {/*}}/>: */}
+
+                <Tab.Screen name="Quotes" component={QuotesBuyer} options={{
                 tabBarLabel: 'Quotes',
                 tabBarIcon: ({color, size}) => (
                     <Fontisto name="arrow-swap" color={color} size={20} style={{transform: [{rotate: '90deg'}]}}/>
@@ -96,16 +107,9 @@ function _HomeWithTabs(){
                     activeTintColor: 'white',
                     inactiveTintColor: '#121a2a',
                 },
-            }}/>: <Tab.Screen name="Quotes" component={QuotesBuyer} options={{
-                tabBarLabel: 'Quotes',
-                tabBarIcon: ({color, size}) => (
-                    <Fontisto name="arrow-swap" color={color} size={20} style={{transform: [{rotate: '90deg'}]}}/>
-                ),
-                tabBarOptions: {
-                    activeTintColor: 'white',
-                    inactiveTintColor: '#121a2a',
-                },
-            }}/>}
+            }}/>
+
+            {/*}*/}
 
            {/*<Tab.Screen name="Quotes" component={QuotesBuyer} options={{*/}
                 {/*tabBarLabel: 'Quotes',*/}
