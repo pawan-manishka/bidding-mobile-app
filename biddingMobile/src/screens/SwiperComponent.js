@@ -14,6 +14,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import CirclesLoader from "react-native-indicator/lib/loader/CirclesLoader";
 import TextLoader from "react-native-indicator/lib/loader/TextLoader";
 import jwt_decode from "jwt-decode";
+import {Context as AuctionContext} from "../context/AuctionContext";
 
 const config = {
     issuer: 'https://oklob2ctest.onmicrosoft.com.b2clogin.com/52eb8007-baf7-4f96-9b52-a0b8e79ad06b/v2.0/',
@@ -41,6 +42,8 @@ const SwiperComponent = ({navigation}) => {
     const [show, setshow] = useState(false);
     const [hide, sethide] = useState(false);
 
+    const {state: {UserDetails}, getUserDetails} = useContext(AuctionContext);
+
     // const token = AsyncStorage.getItem('token');
     // if (token){
     //     navigation.navigate('App');
@@ -53,22 +56,25 @@ const SwiperComponent = ({navigation}) => {
             //console.log('scopes: '+authState.scopes)
             //console.log('tokenType: '+authState.tokenType)
             //console.log('refreshToken: '+authState.tokenType)
-            console.log('accessToken: '+authState.accessToken)
+            console.log('accessToken >>: '+authState.accessToken)
             //console.log('authstate: '+JSON.stringify(authState))
             var token = authState.accessToken;
             var decoded = jwt_decode(token);
-            //console.log('decoded access token: '+JSON.stringify(decoded))
+            console.log('decoded access token: '+JSON.stringify(decoded))
             //AsyncStorage.setItem('token',authState.accessToken);
 
+            getUserDetails()
+            console.log("Role1>",UserDetails.Role)
             try {
                 await AsyncStorage.setItem("token", authState.accessToken)
-                if (decoded.extension_UserType === 0){
-                    await AsyncStorage.setItem("role", "Unknown")
-                }else if (decoded.extension_UserType === 1){
-                    await AsyncStorage.setItem("role", "Broker")
-                }else if (decoded.extension_UserType === 2){
-                    await AsyncStorage.setItem("role", "Buyer")
-                }
+                // await AsyncStorage.setItem("role", UserDetails.Role)
+                // if (decoded.extension_UserType === 0){
+                //     await AsyncStorage.setItem("role", "Unknown")
+                // }else if (decoded.extension_UserType === 1){
+                //     await AsyncStorage.setItem("role", "Broker")
+                // }else if (decoded.extension_UserType === 2){
+                //     await AsyncStorage.setItem("role", "Buyer")
+                // }
 
                 // else if (decoded.extension_UserType === 3){
                 //     await AsyncStorage.setItem("role", "Factory")
@@ -112,7 +118,6 @@ const SwiperComponent = ({navigation}) => {
             setshow(false)
         }
     }
-
 
         return (
             <Swiper

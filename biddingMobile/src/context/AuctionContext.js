@@ -1,5 +1,6 @@
 import biddingAPI from '../api/bidding';
 import CreateDataContext from "./CreateDataContext";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const AuctionReducer = (state, action) => {
     switch (action.type) {
@@ -33,8 +34,9 @@ const getAuctionList = dispatch => async () => {
 const getUserDetails = dispatch => async () => {
     try {
         const response = await biddingAPI.get('/Users/get-user-details', config);
-        dispatch({type: 'get_auction_list', payload: response.data});
-        console.log("User Details >>>>>>>>>>> "+response.data);
+        dispatch({type: 'get_user_details', payload: response.data});
+        console.log("User Details >>>>>>>>>>> "+response.data.Role);
+        await AsyncStorage.setItem("role", response.data.Role)
     } catch (e) {
         console.log(e)
     }

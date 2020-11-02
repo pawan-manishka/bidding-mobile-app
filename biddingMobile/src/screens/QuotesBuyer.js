@@ -500,7 +500,7 @@ const QuotesBuyer = () => {
                                                             }}><TextInput
                                                                 //value={name}
                                                                 onChangeText={text => setpriceET(text)}
-                                                                placeholder='Enter your price'
+                                                                placeholder='Enter Price'
                                                                 placeholderTextColor="#7f7f7f"
                                                                 keyboardType='numeric'
                                                                 style={{
@@ -613,7 +613,7 @@ const QuotesBuyer = () => {
                                                             }}><TextInput
                                                                 //value={name}
                                                                 onChangeText={text => setminBidET(text)}
-                                                                placeholder='Enter minimum bid'
+                                                                placeholder='Enter min bid'
                                                                 placeholderTextColor="#7f7f7f"
                                                                 keyboardType='numeric'
                                                                 style={{
@@ -726,7 +726,7 @@ const QuotesBuyer = () => {
                                                             }}><TextInput
                                                                 //value={name}
                                                                 onChangeText={text => setmaxBidET(text)}
-                                                                placeholder='Enter maximum bid'
+                                                                placeholder='Enter max bid'
                                                                 placeholderTextColor="#7f7f7f"
                                                                 keyboardType='numeric'
                                                                 style={{

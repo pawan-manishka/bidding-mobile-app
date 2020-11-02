@@ -11,6 +11,7 @@ import SwiperComponent from '../screens/SwiperComponent';
 import AuctionHome from '../screens/AuctionHome';
 import AuctionView from '../screens/AuctionView';
 import QuotesBroker from '../screens/QuotesBroker';
+// import Quotes2 from '../screens/Quotes2';
 import QuotesBuyer from '../screens/QuotesBuyer';
 import {Provider as CatalogProvider} from '../context/CatalogContext';
 import {Provider as AuctionProvider} from '../context/AuctionContext';
@@ -24,6 +25,7 @@ const AuctionHomeScreen = createStackNavigator();
 const readData = async () => {
     try {
         const Role = await AsyncStorage.getItem("role")
+        console.log("Role",Role)
         if (Role !== null) {
             return Role
         }
@@ -87,16 +89,16 @@ function _HomeWithTabs(){
                 },
             }}/>
 
-            {/*{role==="Broker"?<Tab.Screen name="Quotes" component={QuotesBroker} options={{*/}
-                {/*tabBarLabel: 'Quotes',*/}
-                {/*tabBarIcon: ({color, size}) => (*/}
-                    {/*<Fontisto name="arrow-swap" color={color} size={20} style={{transform: [{rotate: '90deg'}]}}/>*/}
-                {/*),*/}
-                {/*tabBarOptions: {*/}
-                    {/*activeTintColor: 'white',*/}
-                    {/*inactiveTintColor: '#121a2a',*/}
-                {/*},*/}
-            {/*}}/>: */}
+            {role==="Broker"?<Tab.Screen name="Quotes" component={QuotesBroker} options={{
+                tabBarLabel: 'Quotes',
+                tabBarIcon: ({color, size}) => (
+                    <Fontisto name="arrow-swap" color={color} size={20} style={{transform: [{rotate: '90deg'}]}}/>
+                ),
+                tabBarOptions: {
+                    activeTintColor: 'white',
+                    inactiveTintColor: '#121a2a',
+                },
+            }}/> : role=== "Buyer" ?
 
                 <Tab.Screen name="Quotes" component={QuotesBuyer} options={{
                 tabBarLabel: 'Quotes',
@@ -107,9 +109,9 @@ function _HomeWithTabs(){
                     activeTintColor: 'white',
                     inactiveTintColor: '#121a2a',
                 },
-            }}/>
+            }}/> : null
 
-            {/*}*/}
+            }
 
            {/*<Tab.Screen name="Quotes" component={QuotesBuyer} options={{*/}
                 {/*tabBarLabel: 'Quotes',*/}

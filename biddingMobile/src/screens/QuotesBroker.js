@@ -411,7 +411,7 @@ const QuotesBroker = () => {
                                                             }}><TextInput
                                                                 //value={name}
                                                                 onChangeText={text => setpriceET(text)}
-                                                                placeholder='Enter your price'
+                                                                placeholder='Enter Price'
                                                                 placeholderTextColor="#7f7f7f"
                                                                 keyboardType='numeric'
                                                                 style={{
