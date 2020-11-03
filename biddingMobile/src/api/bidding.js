@@ -2,7 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const instance = axios.create({
-    baseURL: 'https://dev1.okloapps.com/SmartAuction/api'
+    baseURL: 'https://smartauction.azurewebsites.net/api'
 });
 
 instance.interceptors.request.use(
