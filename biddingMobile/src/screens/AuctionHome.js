@@ -65,7 +65,7 @@ const AuctionHome = ({navigation}) => {
     }
 
     const connection = new signalR.HubConnectionBuilder()
-        .withUrl("https://dev1.okloapps.com/SmartAuction/hubs/auction",
+        .withUrl("https://smartauction.azurewebsites.net/hubs/auction",
             {accessTokenFactory: () => readData().then((result) => result)})
         .build();
 
