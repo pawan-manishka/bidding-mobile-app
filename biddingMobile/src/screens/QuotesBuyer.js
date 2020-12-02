@@ -155,7 +155,8 @@ const QuotesBuyer = () => {
                 setgo2(true);
             } else {
                 showT[index].ref.current.saveImage();
-                showT[index].ref2.current.saveImage();
+                // showT[index].ref3.current.saveImage();
+                // showT[index].ref4.current.saveImage();
                 setpriceIndex(index);
                 setItemID(id);
                 setgo2(true);
@@ -438,7 +439,7 @@ const QuotesBuyer = () => {
                                             style={{
                                                 color: '#fb4040',
                                                 fontWeight: 'bold',
-                                                fontSize: 18,
+                                                fontSize: 17,
                                             }}>{item.LotNumber}</Text>
                                         <Text style={{
                                             color: 'white',
@@ -460,7 +461,7 @@ const QuotesBuyer = () => {
                                                 fontWeight: 'bold',
                                             }}>{item.Units}</Text>
                                         <Text style={{fontSize: 13, color: 'green'}}>{item.PerUnitWeight + ' Kg'}</Text>
-                                        <Text style={{fontSize: 17, color: 'green'}}>{item.TotalWeight + ' Kg'}</Text>
+                                        <Text style={{fontSize: 16, color: 'green'}}>{item.TotalWeight + ' Kg'}</Text>
 
                                     </View>
 

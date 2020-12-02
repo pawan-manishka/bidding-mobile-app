@@ -32,7 +32,7 @@ import vision from '@react-native-firebase/ml-vision';
 import RNPickerSelect from 'react-native-picker-select';
 
 
-const Quotes2 = () => {
+const QuotesFix = () => {
 
         const {state: {CatalogList, ItemsByCatalog, PostBuyOutPriceStatus}, getPublishedCatalogs,
             getItemsByCatalog, updatePriceByID, clearupdatePriceByIDStatus} = useContext(CatalogContext);
@@ -45,11 +45,6 @@ const Quotes2 = () => {
 
         const [isEnabled, setIsEnabled] = useState(false);
         const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-
-        // const tessOptions = {
-        //     // whitelist: '^[0-9]*$',
-        //     blacklist: '\'!,."#$%&/()={}[]+*-_:;<>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
-        // };
 
         const tessOptions = {
             whitelist: "0123456789",
@@ -119,7 +114,7 @@ const Quotes2 = () => {
 
                 //console.log("index: " + index)<Text
                 const value = {
-                    idIndex: index, ref: React.createRef(), price: 0, val: true, Id: item.Id, ItemNumber: item.ItemNumber,
+                    idIndex: index, ref: React.createRef(), price: 0,ref2: React.createRef(), remarks: '', val: true, Id: item.Id, ItemNumber: item.ItemNumber,
                     BrandName: item.BrandName, ItemCode: item.ItemCode, ItemType: item.ItemType,
                     NetWeight: item.NetWeight, TotalWeight: item.TotalWeight, status: 0
                 }
@@ -132,27 +127,6 @@ const Quotes2 = () => {
             //console.log("value array: " + JSON.stringify(value))
         }
 
-        //console.log("showT array: " + JSON.stringify(showT))
-
-
-        // React.useEffect(() => {
-        //     // add or remove refs
-        //     setpriceRefs(priceRefs => (
-        //         Array(25).fill().map((_, i) => priceRefs[i] || React.createRef())
-        //     ));
-        // }, [25]);
-
-        // React.useEffect(() => {
-        //     // add or remove refs
-        //     // dispatch({type: "add", value: (showT => (
-        //     //         Array(arrLength).fill().map((_, i) => showT[i] || {val: true})
-        //     //     ))})
-        //
-        //     Array(25).fill().map((_, i) => {
-        //         showT[i] || dispatch({type: 'add', value: {price: 0, val: true, status: false}});
-        //     });
-        //
-        // }, [25]);
 
         function resetPrice(index) {
             //console.log("function call: "+priceRefs[index].current)
@@ -160,8 +134,10 @@ const Quotes2 = () => {
                 //setpriceET("");
             }else {
                 showT[index].ref.current.resetImage();
+                showT[index].ref2.current.resetImage();
             }
         }
+
 
         function savePrice(index, id) {
             console.log('id of correct: '+id)
@@ -200,15 +176,6 @@ const Quotes2 = () => {
             dispatch({type: 'change', value: items});
             clearupdatePriceByIDStatus();
         }
-        //console.log("show t status: "+showT[priceIndex].status)
-        // }else if (PostBuyOutPriceStatus === 400 || PostBuyOutPriceStatus === 404) {
-        //     clearupdatePriceByIDStatus();
-        //     let items = [...showT];
-        //     let item = {...showT[index]};
-        //     item.status = false;
-        //     items[index] = item;
-        //     dispatch({type: 'change', value: items});
-        // }
 
         function reDraw(index) {
             let items = [...showT];
@@ -303,6 +270,11 @@ const Quotes2 = () => {
             });
         }
 
+        function saveRemarks(result) {
+            console.log("remarks saved path:"+result.pathName)
+            console.log("remarks encoded:"+result.encoded)
+        }
+
         function onDraggedPrice(index) {
             console.log('price dragged on index: ' + index);
         }
@@ -368,11 +340,7 @@ const Quotes2 = () => {
                                 // }}
                                 useNativeAndroidPickerStyle={false}
                             />
-                            {/*<RNPickerSelect*/}
-                            {/*    onValueChange={(value) => onChangeHandler(value)}*/}
-                            {/*    useNativeAndroidPickerStyle*/}
-                            {/*    items={catalogs_array}*/}
-                            {/*/>*/}
+
                             <View style={{flexDirection: 'row', display: 'flex', paddingTop: '2%', paddingBottom: '2%'}}>
                                 <Text
                                     style={{
@@ -447,7 +415,7 @@ const Quotes2 = () => {
                                         <Text style={{
                                             color: 'white',
                                             // fontWeight: 'bold',
-                                            fontSize: 12
+                                            fontSize: 11
                                         }}>{item.BrandName}</Text>
                                         <Text style={{color: 'green', fontSize: 14}}>{item.ItemCode}</Text>
                                     </View>
@@ -464,10 +432,10 @@ const Quotes2 = () => {
                                                 fontWeight: 'bold'
                                             }}>{item.ItemType}</Text>
                                         <Text style={{fontSize: 13, color: 'green'}}>{item.NetWeight + " Kg"}</Text>
-                                        <Text style={{fontSize: 17, color: 'green'}}>{item.TotalWeight + " Kg"}</Text>
+                                        <Text style={{fontSize: 16, color: 'green'}}>{item.TotalWeight + " Kg"}</Text>
 
                                     </View>
-
+{/*price*/}
                                     <View style={{
                                         flexDirection: 'row', flex: 2, justifyContent: 'center',
                                         alignItems: 'center',
@@ -479,13 +447,13 @@ const Quotes2 = () => {
                                             <View style={isEnabled ? {
                                                 width: '100%',
                                                 height: 65,
-                                                backgroundColor: '#1a2332',
+                                                backgroundColor: '#1a2435',
                                                 borderRadius: 10,
                                                 margin: 1,
                                             } : {
                                                 width: '100%',
                                                 height: 100,
-                                                backgroundColor: '#1a2332',
+                                                backgroundColor: '#1a2435',
                                                 borderRadius: 10,
                                                 margin: 1,
                                             }}>
@@ -499,7 +467,7 @@ const Quotes2 = () => {
                                                         {isEnabled ? <View style={{justifyContent:'center',alignItems:'center',display:'flex',height:'100%'}}><TextInput
                                                                 //value={name}
                                                                 onChangeText={text => setpriceET(text)}
-                                                                placeholder='Enter your price'
+                                                                placeholder='price'
                                                                 placeholderTextColor = "#7f7f7f"
                                                                 keyboardType='numeric'
                                                                 style={{height: 65,color:'white',fontSize: 17,textAlign:'center'}}
@@ -571,6 +539,117 @@ const Quotes2 = () => {
                                         </View>
 
                                     </View>
+
+                                    {/*Remark*/}
+                                    <View style={{
+                                        flexDirection: 'row', flex: 2, justifyContent: 'center',
+                                        alignItems: 'center',marginLeft: 5,
+                                    }}>
+                                        <View style={{
+                                            flexDirection: 'column', flex: 1.2,
+                                        }}>
+                                            <Text style={{color: 'white', paddingLeft: 8, paddingTop: 2}}>Remark</Text>
+                                            <View style={isEnabled ? {
+                                                width: '100%',
+                                                height: 65,
+                                                backgroundColor: '#1a2435',
+                                                borderRadius: 10,
+                                                margin: 1,
+                                            } : {
+                                                width: '100%',
+                                                height: 100,
+                                                backgroundColor: '#1a2435',
+                                                borderRadius: 10,
+                                                margin: 1,
+                                            }}>
+                                                <View style={{
+                                                    flexDirection: 'row', alignItems: 'center',
+                                                }}>
+                                                    {/*{showT[index].success ? <Text style={{color:'green'}}>success</Text> : <Text style={{color:'red'}}>failed</Text>}*/}
+                                                </View>
+                                                {item.val ?
+                                                    <View>
+                                                        {isEnabled ? <View style={{justifyContent:'center',alignItems:'center',display:'flex',height:'100%'}}><TextInput
+                                                                //value={name}
+                                                                onChangeText={text => setpriceET(text)}
+                                                                placeholder='remark'
+                                                                placeholderTextColor = "#7f7f7f"
+                                                                keyboardType='numeric'
+                                                                style={{height: 65,color:'white',fontSize: 17,textAlign:'center'}}
+                                                            /></View> :
+                                                            <SignatureCapture
+                                                                style={{height: 96, margin: 2}}
+                                                                // ref={item.ref2}
+                                                                ref={item.ref2}
+                                                                //onSaveEvent={processDocument}
+                                                                onDragEvent={() => onDraggedPrice(index)}
+                                                                saveImageFileInExtStorage={true}
+                                                                showNativeButtons={false}
+                                                                showTitleLabel={false}
+                                                                SignatureCaptureviewMode={'portrait'}
+                                                                backgroundColor={'#1a2332'}
+                                                                strokeColor="white"
+                                                                maxStrokeWidth={1}
+                                                            />
+                                                        }
+
+                                                    </View>
+                                                    :
+                                                    <View style={isEnabled ? {
+                                                        flexDirection: 'row',
+                                                        height: 60,
+                                                        justifyContent: 'center',
+                                                        alignItems: 'center',
+                                                    }: {
+                                                        flexDirection: 'row',
+                                                        height: 100,
+                                                        justifyContent: 'center',
+                                                        alignItems: 'center',
+                                                    }}>
+                                                        <Text style={{
+                                                            color: 'white',
+                                                            textAlign: 'center',
+                                                            fontSize: 12 ,
+                                                            flex: 5
+                                                        }}>remark</Text>
+
+
+                                                        <View style={{
+                                                            flex: 3,
+                                                            height: 60,
+                                                            justifyContent: 'center',
+                                                            alignItems: 'center'
+                                                        }}>
+                                                            <TouchableOpacity
+                                                                onPress={() => {
+                                                                    reDraw(index);
+                                                                }}
+                                                                style={[
+                                                                    styles.button,
+                                                                    {
+                                                                        borderColor: 'white',
+                                                                        borderWidth: 1,
+                                                                        borderRadius: 50,
+                                                                        width: 25,
+                                                                        height: 25,
+                                                                        marginRight: 5,
+                                                                        justifyContent: 'center',
+                                                                        alignItems: 'center'
+                                                                    },
+                                                                ]}>
+                                                                <AntDesign name='edit' size={18}
+                                                                           color="white"/>
+                                                            </TouchableOpacity>
+                                                        </View>
+                                                    </View>
+                                                }
+                                            </View>
+                                        </View>
+
+                                    </View>
+
+
+
                                     <View style={{
                                         flexDirection: 'column', flex: 1, justifyContent: 'center',
                                         alignItems: 'center',
@@ -759,4 +838,4 @@ const pickerSelectStyles = StyleSheet.create({
     },
 });
 
-export default Quotes2;
+export default QuotesFix;

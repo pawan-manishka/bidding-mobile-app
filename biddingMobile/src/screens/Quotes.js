@@ -253,7 +253,7 @@ const Quotes = () => {
                                             <SignatureCapture
                                                 style={{height: 60, marginLeft: 5, marginRight: 5}}
                                                 ref={priceRefs[index]}
-                                                onSaveEvent={onSavePrice}
+                                                //onSaveEvent={onSavePrice}
                                                 onDragEvent={() => onDraggedPrice(index)}
                                                 saveImageFileInExtStorage={true}
                                                 showNativeButtons={false}

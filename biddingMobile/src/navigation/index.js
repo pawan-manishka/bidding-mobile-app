@@ -11,13 +11,14 @@ import SwiperComponent from '../screens/SwiperComponent';
 import AuctionHome from '../screens/AuctionHome';
 import AuctionView from '../screens/AuctionView';
 import QuotesBroker from '../screens/QuotesBroker';
-// import Quotes2 from '../screens/Quotes2';
+import QuotesFix from '../screens/QuotesFix';
 import QuotesBuyer from '../screens/QuotesBuyer';
 import {Provider as CatalogProvider} from '../context/CatalogContext';
 import {Provider as AuctionProvider} from '../context/AuctionContext';
 import AsyncStorage from '@react-native-community/async-storage';
 import {SafeAreaView,StatusBar,Alert} from "react-native";
 import SignalRTest from '../screens/SignalRTest';
+import QuotesFixBuyer from "../screens/QuotesFixBuyer";
 
 const Stack = createStackNavigator();
 const AuctionHomeScreen = createStackNavigator();
@@ -89,7 +90,7 @@ function _HomeWithTabs(){
                 },
             }}/>
 
-            {role==="Broker"?<Tab.Screen name="Quotes" component={QuotesBroker} options={{
+            {role==="Broker"?<Tab.Screen name="Quotes" component={QuotesFix} options={{
                 tabBarLabel: 'Quotes',
                 tabBarIcon: ({color, size}) => (
                     <Fontisto name="arrow-swap" color={color} size={20} style={{transform: [{rotate: '90deg'}]}}/>

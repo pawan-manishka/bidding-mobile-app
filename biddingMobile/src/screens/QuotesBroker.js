@@ -122,7 +122,7 @@ const QuotesBroker = () => {
                 //setpriceET("");
             } else {
                 showT[index].ref.current.resetImage();
-                showT[index].ref2.current.resetImage();
+c
             }
         }
 
@@ -490,7 +490,7 @@ const QuotesBroker = () => {
                                     </View>
 
                                     <View style={{
-                                        flexDirection: 'row', flex: 2.6, justifyContent: 'center',
+                                        flexDirection: 'row', flex: 2.4, justifyContent: 'center',
                                         alignItems: 'center', marginLeft: 5,
                                     }}>
                                         <View style={{
@@ -602,8 +602,13 @@ const QuotesBroker = () => {
 
                                     </View>
 
+
+
+
+
+
                                     <View style={{
-                                        flexDirection: 'column', flex: 1, justifyContent: 'center',
+                                        flexDirection: 'column', flex: 1.2, justifyContent: 'center',
                                         alignItems: 'center',
                                     }}>
 
